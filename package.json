@@ -1,0 +1,44 @@
+{
+  "name": "2048",
+  "version": "0.0.1",
+  "description": "2048 game",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "webpack",
+    "start": "webpack-dev-server --config webpack-development.config.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bionikspoon/2048.git"
+  },
+  "keywords": [
+    "2048",
+    "react",
+    "redux",
+    "typescript",
+    "manu",
+    "phatak"
+  ],
+  "author": "Manu Phatak <bionikspoon@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/bionikspoon/2048/issues"
+  },
+  "homepage": "https://github.com/bionikspoon/2048#readme",
+  "devDependencies": {
+    "css-loader": "^0.23.1",
+    "style-loader": "^0.13.0",
+    "ts-loader": "^0.8.0",
+    "tslint": "^3.3.0",
+    "typescript": "^1.7.5",
+    "typings": "^0.6.5",
+    "webpack": "^1.12.12",
+    "webpack-dev-server": "^1.14.1",
+    "webpack-merge": "^0.7.3"
+  },
+  "dependencies": {
+    "react": "^0.14.7",
+    "react-dom": "^0.14.7"
+  }
+}

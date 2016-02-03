@@ -1,0 +1,24 @@
+{
+  "compilerOptions": {
+    "module": "commonjs",
+    "target": "es5",
+    "moduleResolution": "node",
+    "declaration": false,
+    "noImplicitAny": false,
+    "removeComments": true,
+    "noLib": false,
+    "preserveConstEnums": true,
+    "outDir": "build",
+    "rootDir": ".",
+    "sourceMap": true,
+    "jsx": "react"
+  },
+  "exclude": [
+    "node_modules"
+  ],
+  "files": [
+    "app/index.tsx",
+    "app/interfaces.d.ts",
+    "typings/main.d.ts"
+  ]
+}
