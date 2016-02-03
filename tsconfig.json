@@ -18,5 +18,9 @@
     "app/index.tsx",
     "app/interfaces.d.ts",
     "typings/main.d.ts"
+  ],
+  "filesGlob": [
+    "app/**/*.tsx",
+    "app/**/*.ts"
   ]
 }

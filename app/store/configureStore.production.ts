@@ -3,6 +3,6 @@ import {createStore} from 'redux';
 import reducer from '../lib/reducer';
 
 
-export default function (initialState = Map()) {
+export default function configureStoreProduction(initialState = Map()) {
     return createStore(reducer, initialState);
 }

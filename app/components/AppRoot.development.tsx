@@ -1,9 +1,10 @@
 import * as React from 'react';
 import {Provider} from 'react-redux';
+
 import App from './App';
 import DevTools from './DevTools';
 
-export default class AppRoot extends React.Component<any, any> {
+export default class AppRootDevelopment extends React.Component<any, any> {
     public render() {
         const {store} = this.props;
         return (

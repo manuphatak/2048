@@ -5,7 +5,6 @@ import {persistState} from 'redux-devtools';
 import reducer from '../lib/reducer';
 import DevTools from '../components/DevTools';
 
-
 const enhancer = compose(
     DevTools.instrument(), persistState(getDebugSessionKey()),
     window.devToolsExtension ? window.devToolsExtension() : f => f
@@ -17,7 +16,7 @@ function getDebugSessionKey() {
     return (matches && matches.length > 0 ) ? matches[1] : null;
 }
 
-export default function (initialState = Map()) {
+export default function configureStoreDevelopment(initialState = Map()) {
     const store = createStore(reducer, initialState, enhancer);
 
     return store;
