@@ -1,11 +1,19 @@
-export function onIncrement(e?:Event) {
+import {ActionCreator} from 'redux';
+import {MapDispatchToPropsObject} from "react-redux";
+const onIncrement: ActionCreator = function (e?: Event) {
     return {
         type: 'INCREMENT'
     };
-}
+};
 
-export function onDecrement(e?:Event) {
+
+const onDecrement: ActionCreator = function (e?: Event) {
     return {
         type: 'DECREMENT'
     };
+};
+
+export default <MapDispatchToPropsObject>{
+    onIncrement,
+    onDecrement
 }

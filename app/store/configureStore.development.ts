@@ -19,5 +19,11 @@ function getDebugSessionKey() {
 export default function configureStoreDevelopment(initialState = Map()) {
     const store = createStore(reducer, initialState, enhancer);
 
+    if (module.hot) {
+        module.hot.accept('../lib/reducer', () => (
+            store.replaceReducer(require('../lib/reducer').default)
+        ));
+    }
+
     return store;
 }

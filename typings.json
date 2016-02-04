@@ -8,6 +8,7 @@
     "redux": "github:DefinitelyTyped/DefinitelyTyped/redux/redux.d.ts#d4f3ed0cc7f7aba3b47dc6dbc68ead8a97052fe4"
   },
   "ambientDevDependencies": {
+    "node": "github:DefinitelyTyped/DefinitelyTyped/node/node.d.ts#1c56e368e17bb28ca57577250624ca5bd561aa81",
     "redux-devtools": "github:DefinitelyTyped/DefinitelyTyped/redux-devtools/redux-devtools.d.ts#36e2ea37c5b57e0eaa7f2cddf52a1fa255a8b8f3",
     "redux-devtools-dock-monitor": "github:DefinitelyTyped/DefinitelyTyped/redux-devtools-dock-monitor/redux-devtools-dock-monitor.d.ts#a507ed9ef2955734b3cf362a0a74b21c7241cebc",
     "redux-devtools-log-monitor": "github:DefinitelyTyped/DefinitelyTyped/redux-devtools-log-monitor/redux-devtools-log-monitor.d.ts#a507ed9ef2955734b3cf362a0a74b21c7241cebc",
