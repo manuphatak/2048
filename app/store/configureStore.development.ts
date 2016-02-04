@@ -5,9 +5,9 @@ import {persistState} from 'redux-devtools';
 import reducer from '../lib/reducer';
 import DevTools from '../components/DevTools';
 
-const enhancer = compose(
-    DevTools.instrument(), persistState(getDebugSessionKey()),
-    window.devToolsExtension ? window.devToolsExtension() : f => f
+const devToolsExtension = window.devToolsExtension ? window.devToolsExtension() : f => f;
+const enhancer = compose(devToolsExtension
+    , DevTools.instrument(), persistState(getDebugSessionKey())
 );
 
 
