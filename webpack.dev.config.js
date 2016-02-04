@@ -1,22 +1,31 @@
 const webpack = require('webpack');
 const WebpackConfig = require('webpack-config');
 
-const PATHS = require('./webpack.utils').PATHS;
+const ForkCheckerPlugin = require('awesome-typescript-loader').ForkCheckerPlugin;
 
+const PATHS = require('./webpack.utils').PATHS;
 const commonConfig = new WebpackConfig().extend('webpack.common.config');
 
 const config = {
-  debug: true,
 
   entry: {
     app: [
       'webpack-dev-server/client?http://localhost:8080',
       'webpack/hot/only-dev-server'
-    ].concat(...(commonConfig.entry.app || []))
+    ]
   },
 
   output: {
-    filename: '[name].js'
+    filename: '[name].js',
+    sourceMapFilename: '[name].map?[hash]',
+    publicPath: 'assets/[hash]/'
+  },
+
+  resolve: {
+    extensions: [
+      '.dev.tsx',
+      '.dev.ts'
+    ]
   },
 
   devServer: {
@@ -31,7 +40,7 @@ const config = {
     port: process.env.PORT
   },
 
-  devTool: 'eval',
+  devTool: 'eval-source-map',
 
   watch: true,
 
@@ -41,7 +50,7 @@ const config = {
         test: /\.ts(x)?$/,
         loaders: [
           'react-hot',
-          'ts-loader?instance=jsx'
+          'awesome-typescript?instance=jsx'
         ],
         include: PATHS.app
       },
@@ -59,10 +68,16 @@ const config = {
   },
 
   plugins: [
-    new webpack.optimize.CommonsChunkPlugin('vendor', 'vendor.js'),
+    new ForkCheckerPlugin(),
+    new webpack.optimize.CommonsChunkPlugin({
+      names: [
+        'vendor',
+        'manifest'
+      ]
+    }),
     new webpack.HotModuleReplacementPlugin(),
     new webpack.NoErrorsPlugin()
   ]
 };
-commonConfig.entry.app = [];
+
 module.exports = commonConfig.merge(config);

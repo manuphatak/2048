@@ -2,14 +2,11 @@
   "compilerOptions": {
     "module": "commonjs",
     "target": "es5",
-    "moduleResolution": "node",
-    "noImplicitAny": false,
-    "removeComments": true,
     "preserveConstEnums": true,
-    "outDir": "build",
-    "rootDir": ".",
     "sourceMap": true,
-    "jsx": "react"
+    "jsx": "react",
+    "removeComments": false,
+    "noImplicitAny": false
   },
   "exclude": [
     "node_modules"
@@ -19,8 +16,7 @@
     "app/interfaces.d.ts",
     "typings/main.d.ts"
   ],
-  "filesGlob": [
-    "app/**/*.tsx",
-    "app/**/*.ts"
-  ]
+  "awesomeTypescriptLoaderOptions": {
+    "forkChecker": true
+  }
 }

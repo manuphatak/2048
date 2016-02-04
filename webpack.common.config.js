@@ -12,6 +12,8 @@ module.exports = {
   resolve: {
     extensions: [
       '',
+      '.webpack.js',
+      '.web.js',
       '.js',
       '.ts',
       '.tsx'
@@ -19,7 +21,8 @@ module.exports = {
   },
   output: {
     path: PATHS.build,
-    filename: '[name].js'
+    filename: '[name].js?[hash]',
+    sourceMapFilename: '[name].map?[hash]'
   },
   module: {
     preLoaders: [

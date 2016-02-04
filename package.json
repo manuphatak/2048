@@ -5,9 +5,9 @@
   "main": "app/index.tsx",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "webpack --config webpack.production.config.js",
-    "stats": "webpack --config webpack.production.config.js --profile --json > stats.json",
-    "start": "webpack-dev-server --config webpack.development.config.js",
+    "build": "webpack --config webpack.prod.config.js",
+    "stats": "webpack --config webpack.prod.config.js --profile --json > stats.json",
+    "start": "webpack-dev-server --config webpack.dev.config.js",
     "deploy": "gh-pages -d build"
   },
   "repository": {
@@ -30,6 +30,7 @@
   "homepage": "https://github.com/bionikspoon/2048#readme",
   "devDependencies": {
     "autoprefixer": "^6.3.1",
+    "awesome-typescript-loader": "^0.15.10",
     "babel-core": "^6.4.5",
     "babel-register": "^6.4.3",
     "clean-webpack-plugin": "^0.1.8",

@@ -17,13 +17,18 @@ const config = {
     chunkFilename: '[chunkhash].js'
   },
 
+  resolve: {
+    extensions: [
+      '.prod.tsx',
+      '.prod.ts'
+    ]
+  },
+
   module: {
     loaders: [
       {
         test: /\.ts(x)?$/,
-        loaders: [
-          'ts-loader'
-        ],
+        loader: 'awesome-typescript',
         include: PATHS.app
       },
       {
@@ -56,5 +61,6 @@ const config = {
     })
   ]
 };
+//commonConfig.resolve.extensions = [];
 
 module.exports = commonConfig.merge(config);
