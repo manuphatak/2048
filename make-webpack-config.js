@@ -33,7 +33,7 @@ var commonConfig = {
 
       {
         test: /\.tsx?$/,
-        loader: 'ts-loader',
+        loader: 'babel-loader!ts-loader',
         include: PATHS.app
       }
     ]
