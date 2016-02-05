@@ -8,7 +8,8 @@ export default task(function bundle() {
     const run = (err, stats) => {
       if (err) {
         reject(err);
-      } else {
+      }
+      else {
         console.log(stats.toString(config[0].stats));
         resolve();
       }

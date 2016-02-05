@@ -13,12 +13,14 @@ function getPages() {
     glob('**/*.js', { cwd: join(__dirname, '../pages') }, (err, files) => {
       if (err) {
         reject(err);
-      } else {
+      }
+      else {
         const result = files.map(file => {
           let path = '/' + file.substr(0, file.lastIndexOf('.'));
           if (path === '/index') {
             path = '/';
-          } else if (path.endsWith('/index')) {
+          }
+          else if (path.endsWith('/index')) {
             path = path.substr(0, path.lastIndexOf('/index'));
           }
           return {

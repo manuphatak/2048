@@ -50,7 +50,9 @@ const config = {
   plugins: [
     new webpack.optimize.OccurenceOrderPlugin(),
     new webpack.DefinePlugin({
-      'process.env.NODE_ENV': DEBUG ? '"development"' : '"production"',
+      'process.env.NODE_ENV': DEBUG
+        ? '"development"'
+        : '"production"',
       '__DEV__': DEBUG,
     }),
   ],
@@ -59,16 +61,20 @@ const config = {
       {
         test: /[\\\/]app\.js$/,
         loader: path.join(__dirname, './lib/routes-loader.js'),
-      }, {
+      },
+      {
         test: /\.json$/,
         loader: 'json-loader',
-      }, {
+      },
+      {
         test: /\.txt$/,
         loader: 'raw-loader',
-      }, {
+      },
+      {
         test: /\.(png|jpg|jpeg|gif|svg|woff|woff2)$/,
         loader: 'url-loader?limit=10000',
-      }, {
+      },
+      {
         test: /\.(eot|ttf|wav|mp3)$/,
         loader: 'file-loader',
       },
@@ -87,59 +93,81 @@ const config = {
   },
 };
 
+const productionPlugins = [
+  new webpack.optimize.DedupePlugin(),
+  new webpack.optimize.UglifyJsPlugin({
+    compress: {
+      warnings: VERBOSE,
+    },
+  }),
+  new webpack.optimize.AggressiveMergingPlugin(),
+];
+const watchPlugins = [
+  new webpack.HotModuleReplacementPlugin(),
+  new webpack.NoErrorsPlugin(),
+];
+
 // Configuration for the client-side bundle
+const watchLoaders = Object.assign({}, JS_LOADER, {
+  query: {
+    // Wraps all React components into arbitrary transforms
+    // https://github.com/gaearon/babel-plugin-react-transform
+    plugins: ['react-transform'],
+    extra: {
+      'react-transform': {
+        transforms: [
+          {
+            transform: 'react-transform-hmr',
+            imports: ['react'],
+            locals: ['module'],
+          },
+          {
+            transform: 'react-transform-catch-errors',
+            imports: [
+              'react',
+              'redbox-react',
+            ],
+          },
+        ],
+      },
+    },
+  },
+});
 const appConfig = merge({}, config, {
   entry: [
-    ...(WATCH ? ['webpack-hot-middleware/client'] : []),
+    ...(WATCH
+      ? ['webpack-hot-middleware/client']
+      : []),
     './app.js',
   ],
   output: {
     filename: 'app.js',
   },
-  devtool: DEBUG ? 'cheap-module-eval-source-map' : false,
+  devtool: DEBUG
+    ? 'cheap-module-eval-source-map'
+    : false,
   plugins: [
     ...config.plugins,
-    ...(DEBUG ? [] : [
-      new webpack.optimize.DedupePlugin(),
-      new webpack.optimize.UglifyJsPlugin({
-        compress: {
-          warnings: VERBOSE,
-        },
-      }),
-      new webpack.optimize.AggressiveMergingPlugin(),
-    ]),
-    ...(WATCH ? [
-      new webpack.HotModuleReplacementPlugin(),
-      new webpack.NoErrorsPlugin(),
-    ] : []),
+    ...(DEBUG
+      ? []
+      : productionPlugins),
+    ...(WATCH
+      ? watchPlugins
+      : []),
   ],
   module: {
     loaders: [
-      WATCH ? Object.assign({}, JS_LOADER, {
-        query: {
-          // Wraps all React components into arbitrary transforms
-          // https://github.com/gaearon/babel-plugin-react-transform
-          plugins: ['react-transform'],
-          extra: {
-            'react-transform': {
-              transforms: [
-                {
-                  transform: 'react-transform-hmr',
-                  imports: ['react'],
-                  locals: ['module'],
-                }, {
-                  transform: 'react-transform-catch-errors',
-                  imports: ['react', 'redbox-react'],
-                },
-              ],
-            },
-          },
-        },
-      }) : JS_LOADER,
+      WATCH
+        ? watchLoaders
+        : JS_LOADER,
       ...config.module.loaders,
       {
         test: /\.scss$/,
-        loaders: ['style-loader', 'css-loader', 'postcss-loader'],
+        loaders: [
+          'style-loader',
+          'css-loader',
+          'postcss-loader',
+        ],
       },
     ],
   },
@@ -171,10 +199,16 @@ const pagesConfig = merge({}, config, {
       ...config.module.loaders,
       {
         test: /\.scss$/,
-        loaders: ['css-loader', 'postcss-loader'],
+        loaders: [
+          'css-loader',
+          'postcss-loader',
+        ],
       },
     ],
   },
 });
 
-export default [appConfig, pagesConfig];
+export default [
+  appConfig,
+  pagesConfig,
+];

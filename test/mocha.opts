@@ -1,0 +1,5 @@
+--compilers js:babel/register
+--colors
+--watch-extensions jsx
+--require ./test/test_helper.js
+@(components|lib|pages|test|tools)/**/*.spec.@(js|jsx)

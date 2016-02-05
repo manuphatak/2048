@@ -28,7 +28,8 @@ if (canUseDOM) {
   // and page content is loaded
   if (window.addEventListener) {
     window.addEventListener('DOMContentLoaded', run);
-  } else {
+  }
+  else {
     window.attachEvent('onload', run);
   }
 }

@@ -7,7 +7,7 @@ function isLeftClickEvent(event) {
 }
 
 function isModifiedEvent(event) {
-  //noinspection OverlyComplexBooleanExpressionJS
+  // noinspection OverlyComplexBooleanExpressionJS
   return !!(event.metaKey || event.altKey || event.ctrlKey || event.shiftKey);
 }
 
@@ -40,9 +40,8 @@ class Link extends Component {
 
     if (allowTransition) {
       const link = event.currentTarget;
-      Location.pushState(
-        this.props && this.props.state || null, this.props && this.props.to || (link.pathname + link.search)
-      );
+      Location.pushState(this.props && this.props.state || null,
+        this.props && this.props.to || (link.pathname + link.search));
     }
   };
 

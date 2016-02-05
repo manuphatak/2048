@@ -46,6 +46,7 @@ export default function(source) {
       return callback(null, source.replace(' routes = {', ' routes = {\n' + lines.join('')));
     }
 
+    // noinspection JSClosureCompilerSyntax
     return callback(new Error('Cannot find any routes.'));
   });
 }
