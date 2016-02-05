@@ -1,17 +1,11 @@
-/**
- * React Static Boilerplate
- * https://github.com/koistya/react-static-boilerplate
- * Copyright (c) Konstantin Tarkus (@koistya) | MIT license
- */
-
 @import '../variables.scss';
 
 html, body {
-  margin: 0;
-  padding: 0;
+  margin:           0;
+  padding:          0;
   background-color: $body-bg;
-  color: $text-color;
-  font-family: $font-family-base;
+  color:            $text-color;
+  font-family:      $font-family-base;
 }
 
 .Layout {

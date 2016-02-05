@@ -1,9 +1,3 @@
-/**
- * React Static Boilerplate
- * https://github.com/koistya/react-static-boilerplate
- * Copyright (c) Konstantin Tarkus (@koistya) | MIT license
- */
-
 import path from 'path';
 import webpack from 'webpack';
 import merge from 'lodash.merge';
@@ -32,7 +26,6 @@ const JS_LOADER = {
   ],
   loader: 'babel-loader',
 };
-
 
 // Base configuration
 const config = {
@@ -88,7 +81,7 @@ const config = {
       }),
       require('precss')(),
       require('autoprefixer')({
-        browsers: AUTOPREFIXER_BROWSERS
+        browsers: AUTOPREFIXER_BROWSERS,
       }),
     ];
   },
@@ -103,7 +96,6 @@ const appConfig = merge({}, config, {
   output: {
     filename: 'app.js',
   },
-  // http://webpack.github.io/docs/configuration.html#devtool
   devtool: DEBUG ? 'cheap-module-eval-source-map' : false,
   plugins: [
     ...config.plugins,
@@ -111,8 +103,8 @@ const appConfig = merge({}, config, {
       new webpack.optimize.DedupePlugin(),
       new webpack.optimize.UglifyJsPlugin({
         compress: {
-          warnings: VERBOSE
-        }
+          warnings: VERBOSE,
+        },
       }),
       new webpack.optimize.AggressiveMergingPlugin(),
     ]),

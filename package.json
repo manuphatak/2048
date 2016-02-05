@@ -48,5 +48,30 @@
     "build": "babel-node --eval \"require('./tools/build')().catch(err => console.log(err.stack))\"",
     "start": "babel-node --eval \"require('./tools/start')().catch(err => console.log(err.stack))\"",
     "deploy": "babel-node --eval \"require('./tools/deploy')().catch(err => console.log(err.stack))\""
-  }
+  },
+  "name": "2048",
+  "description": "> A static website powered by [React.js](http://facebook.github.io/react/) > and [Webpack](http://webpack.github.io/).",
+  "version": "0.0.1",
+  "main": "app.js",
+  "directories": {
+    "test": "test"
+  },
+  "dependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bionikspoon/2048.git"
+  },
+  "keywords": [
+    "2048",
+    "react",
+    "redux",
+    "manu",
+    "phatak"
+  ],
+  "author": "Manu Phatak <bionikspoon@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/bionikspoon/2048/issues"
+  },
+  "homepage": "https://github.com/bionikspoon/2048#readme"
 }

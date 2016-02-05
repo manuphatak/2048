@@ -1,9 +1,3 @@
-/**
- * React Static Boilerplate
- * https://github.com/koistya/react-static-boilerplate
- * Copyright (c) Konstantin Tarkus (@koistya) | MIT license
- */
-
 import glob from 'glob';
 import { join, dirname } from 'path';
 import React from 'react';
@@ -27,7 +21,10 @@ function getPages() {
           } else if (path.endsWith('/index')) {
             path = path.substr(0, path.lastIndexOf('/index'));
           }
-          return { path, file };
+          return {
+            path,
+            file,
+          };
         });
         resolve(result);
       }

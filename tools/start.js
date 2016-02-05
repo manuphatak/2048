@@ -1,9 +1,3 @@
-/**
- * React Static Boilerplate
- * https://github.com/koistya/react-static-boilerplate
- * Copyright (c) Konstantin Tarkus (@koistya) | MIT license
- */
-
 import browserSync from 'browser-sync';
 import webpack from 'webpack';
 import hygienistMiddleware from 'hygienist-middleware';
@@ -14,7 +8,7 @@ global.watch = true;
 const webpackConfig = require('./config')[0];
 const bundler = webpack(webpackConfig);
 
-export default async () => {
+export default async() => {
   await require('./build')();
 
   browserSync({
@@ -44,8 +38,7 @@ export default async () => {
     // no need to watch '*.js' here, webpack will take care of it for us,
     // including full page reloads if HMR won't work
     files: [
-      'build/**/*.css',
-      'build/**/*.html',
+      'build/**/*.css', 'build/**/*.html',
     ],
   });
 };

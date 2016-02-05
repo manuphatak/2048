@@ -1,18 +1,13 @@
-/**
- * React Static Boilerplate
- * https://github.com/koistya/react-static-boilerplate
- * Copyright (c) Konstantin Tarkus (@koistya) | MIT license
- */
-
 import React, { Component, PropTypes } from 'react';
-import './Link.scss';
 import Location from '../../lib/Location';
+import './Link.scss';
 
 function isLeftClickEvent(event) {
   return event.button === 0;
 }
 
 function isModifiedEvent(event) {
+  //noinspection OverlyComplexBooleanExpressionJS
   return !!(event.metaKey || event.altKey || event.ctrlKey || event.shiftKey);
 }
 
@@ -46,8 +41,8 @@ class Link extends Component {
     if (allowTransition) {
       const link = event.currentTarget;
       Location.pushState(
-        this.props && this.props.state || null,
-        this.props && this.props.to || (link.pathname + link.search));
+        this.props && this.props.state || null, this.props && this.props.to || (link.pathname + link.search)
+      );
     }
   };
 
