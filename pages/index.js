@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import Game from '../components/Game';
 
 export default class extends Component {
 
@@ -6,7 +7,7 @@ export default class extends Component {
     return (
       <div>
         <h1>Home Page</h1>
-        <p>Coming soon.</p>
+        <Game />
       </div>
     );
   }

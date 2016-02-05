@@ -10,6 +10,18 @@
       2, "stroustrup", {
         "allowSingleLine": true
       }
-    ]
+    ],
+    "indent": [
+      2, 2, {
+        "SwitchCase": 1
+      }
+    ],
+
+    "id-length": [
+      2, {
+        "exceptions": [ "e" ]
+      }
+    ],
+    "new-cap": 0
   }
 }

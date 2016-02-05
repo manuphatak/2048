@@ -21,6 +21,7 @@ const JS_LOADER = {
     path.resolve(__dirname, '../components'),
     path.resolve(__dirname, '../lib'),
     path.resolve(__dirname, '../pages'),
+    path.resolve(__dirname, '../app'),
     path.resolve(__dirname, '../app.js'),
     path.resolve(__dirname, '../config.js'),
   ],

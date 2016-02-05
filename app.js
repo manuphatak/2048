@@ -2,15 +2,18 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { canUseDOM } from 'fbjs/lib/ExecutionEnvironment';
 import Location from './lib/Location';
-import Layout from './components/Layout';
+import App from './components/App';
+import makeStore from './app/stores';
 import 'babel/polyfill';
+
+const store = makeStore();
 
 const routes = {}; // Auto-generated on build. See tools/lib/routes-loader.js
 
 const route = async(path, callback) => {
   const handler = routes[path] || routes['/404'];
   const component = await handler();
-  await callback(<Layout>{React.createElement(component)}</Layout>);
+  await callback(<App store={store}>{React.createElement(component)}</App>);
 };
 
 function run() {
