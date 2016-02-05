@@ -27,7 +27,7 @@ module.exports = {
   module: {
     preLoaders: [
       {
-        test: /\.ts(x)?$/,
+        test: /\.tsx?$/,
         loader: 'tslint',
         include: PATHS.app
       }

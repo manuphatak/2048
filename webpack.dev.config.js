@@ -50,7 +50,7 @@ const config = {
         test: /\.ts(x)?$/,
         loaders: [
           'react-hot',
-          'awesome-typescript?instance=jsx'
+          'awesome-typescript?instance=jsx&forkChecker=true'
         ],
         include: PATHS.app
       },

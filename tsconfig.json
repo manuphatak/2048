@@ -17,6 +17,5 @@
     "typings/main.d.ts"
   ],
   "awesomeTypescriptLoaderOptions": {
-    "forkChecker": true
   }
 }
