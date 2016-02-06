@@ -1,6 +1,8 @@
 import React, { Component, PropTypes } from 'react';
 import './Game.scss';
 import * as actionCreators from '../../app/actionCreators';
+import GameGrid from './GameGrid.jsx';
+import GameTiles from './GameTiles.jsx';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 
@@ -15,34 +17,6 @@ export class Game extends Component {
     const { onShiftLeft, onShiftRight, onShiftUp, onShiftDown } = this.props.actions;
     const { value } = this.props;
 
-    const gridContainer = (
-      <div className="grid-container">
-        <div className="grid-row">
-          <div className="grid-cell"></div>
-          <div className="grid-cell"></div>
-          <div className="grid-cell"></div>
-          <div className="grid-cell"></div>
-        </div>
-        <div className="grid-row">
-          <div className="grid-cell"></div>
-          <div className="grid-cell"></div>
-          <div className="grid-cell"></div>
-          <div className="grid-cell"></div>
-        </div>
-        <div className="grid-row">
-          <div className="grid-cell"></div>
-          <div className="grid-cell"></div>
-          <div className="grid-cell"></div>
-          <div className="grid-cell"></div>
-        </div>
-        <div className="grid-row">
-          <div className="grid-cell"></div>
-          <div className="grid-cell"></div>
-          <div className="grid-cell"></div>
-          <div className="grid-cell"></div>
-        </div>
-      </div>
-    );
     return (
       <div>
         <button onClick={onShiftLeft}>Left</button>
@@ -57,16 +31,10 @@ export class Game extends Component {
 
         <br />
         <div className="game">
-          {gridContainer}
+          <GameGrid />
 
-          <div className="tile-container">
-            <div className="tile tile-2 tile-col-4 tile-row-2">
-              <div className="tile-inner">2</div>
-            </div>
-            <div className="tile tile-2 tile-col-3 tile-row-3">
-              <div className="tile-inner">2</div>
-            </div>
-          </div>
+          <GameTiles />
+
         </div>
       </div>
     );

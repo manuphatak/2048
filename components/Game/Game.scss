@@ -49,35 +49,45 @@
         font-size:   55px;
         color:       rgba(0, 0, 0, .50);
       }
-      &.tile-2 {
-        background-color: coral;
+      &.tile- {
+        &2 {
+          background-color: lightcoral;
+        }
+        &4 {
+          background-color: coral;
+        }
       }
     }
-    .tile-col-1 {
-      left: 0;
+    .tile-col- {
+      &0 {
+        left: 0;
+      }
+      &1 {
+        left: 121px;
+      }
+      &2 {
+        left: 242px;
+      }
+      &3 {
+        left: 363px;
+      }
     }
-    .tile-col-2 {
-      left: 121px;
-    }
-    .tile-col-3 {
-      left: 242px;
 
+    .tile-row- {
+      &0 {
+        top: 0
+      }
+      &1 {
+        top: 121px;
+      }
+      &2 {
+        top: 242px;
+      }
+      &3 {
+        top: 363px;
+      }
     }
-    .tile-col-4 {
-      left: 363px;
-    }
-    .tile-row-1 {
-      top: 0
-    }
-    .tile-row-2 {
-      top: 121px;
-    }
-    .tile-row-3 {
-      top: 242px;
-    }
-    .tile-row-4 {
-      top: 363px;
-    }
+
   }
 
 }

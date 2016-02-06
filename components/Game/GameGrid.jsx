@@ -1,5 +1,32 @@
-import React, { Component, PropTypes } from 'react';
+import React from 'react';
 
-export default class GameGrid extends Component {
-
-}
+export default () => {
+  return (
+    <div className="grid-container">
+      <div className="grid-row">
+        <div className="grid-cell"></div>
+        <div className="grid-cell"></div>
+        <div className="grid-cell"></div>
+        <div className="grid-cell"></div>
+      </div>
+      <div className="grid-row">
+        <div className="grid-cell"></div>
+        <div className="grid-cell"></div>
+        <div className="grid-cell"></div>
+        <div className="grid-cell"></div>
+      </div>
+      <div className="grid-row">
+        <div className="grid-cell"></div>
+        <div className="grid-cell"></div>
+        <div className="grid-cell"></div>
+        <div className="grid-cell"></div>
+      </div>
+      <div className="grid-row">
+        <div className="grid-cell"></div>
+        <div className="grid-cell"></div>
+        <div className="grid-cell"></div>
+        <div className="grid-cell"></div>
+      </div>
+    </div>
+  );
+};

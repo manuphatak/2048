@@ -62,8 +62,7 @@ const config = {
     publicPath: '/',
     sourcePrefix: '  ',
   },
-  cache: false,
-  debug: DEBUG,
+  cache: DEBUG,
 
   stats: {
     colors: true,
