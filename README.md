@@ -30,7 +30,7 @@
 │   ├── /404.jsx                 # Not Found page
 │   ├── /500.jsx                 # Error page
 │   ├── /about.jsx               # About Us page
-│   └── /index.js               # Home page
+│   └── /index.jsx               # Home page
 ├── /static/                    # Static files such as favicon.ico etc.
 ├── /test/                      # Unit and integration tests
 ├── /tools/                     # Build automation scripts and utilities

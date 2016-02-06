@@ -11,6 +11,9 @@ const store = makeStore();
 const routes = {}; // Auto-generated on build. See tools/lib/routes-loader.js
 
 const route = async(path, callback) => {
+  if (path !== '/' && path.endsWith('/')) {
+    path = path.slice(0, -1); // eslint-disable-line no-param-reassign
+  }
   const handler = routes[path] || routes['/404'];
   const component = await handler();
   await callback(<App store={store}>{React.createElement(component)}</App>);
