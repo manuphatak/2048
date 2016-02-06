@@ -1,4 +1,4 @@
 {
   "name": "Navigation",
-  "main": "./Navigation.js"
+  "main": "./Navigation.jsx"
 }

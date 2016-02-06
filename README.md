@@ -27,9 +27,9 @@
 ├── /lib/                       # Libraries and utilities
 ├── /pages/                     # React.js-based web pages
 │   ├── /blog/                  # Blog post entries example
-│   ├── /404.js                 # Not Found page
-│   ├── /500.js                 # Error page
-│   ├── /about.js               # About Us page
+│   ├── /404.jsx                 # Not Found page
+│   ├── /500.jsx                 # Error page
+│   ├── /about.jsx               # About Us page
 │   └── /index.js               # Home page
 ├── /static/                    # Static files such as favicon.ico etc.
 ├── /test/                      # Unit and integration tests

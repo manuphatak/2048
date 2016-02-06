@@ -1,4 +1,4 @@
 {
   "name": "GoogleAnalytics",
-  "main": "./GoogleAnalytics.js"
+  "main": "./GoogleAnalytics.jsx"
 }
