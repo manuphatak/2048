@@ -15,27 +15,45 @@ const AUTOPREFIXER_BROWSERS = [
   'Opera >= 12',
   'Safari >= 7.1',
 ];
-const ALIAS = new Map([  // :off
-  ['components', path.resolve(__dirname, '../components')],
-  ['lib', path.resolve(__dirname, '../lib')],
-  ['pages', path.resolve(__dirname, '../pages')],
-  ['app', path.resolve(__dirname, '../app')],
-  ['app.js', path.resolve(__dirname, '../app.js')],
-  ['config.js', path.resolve(__dirname, '../config.js')],
-]);  // :on
+
 const JS_LOADER = {
   test: /\.jsx?$/,
-  include: [...ALIAS.values()],
+  include: [
+    path.resolve(__dirname, '../components'),
+    path.resolve(__dirname, '../lib'),
+    path.resolve(__dirname, '../pages'),
+    path.resolve(__dirname, '../app'),
+    path.resolve(__dirname, '../app.js'),
+    path.resolve(__dirname, '../config.js'),
+  ],
   loader: 'babel-loader',
 };
 
-function mapToObject(map) {
-  const obj = Object.create(null);
-  for (const [key, value] of (map)) {
-    obj[key] = value;
-  }
-  return obj;
-}
+const JS_LOADER_DEV = Object.assign({}, JS_LOADER, {
+  query: {
+    // Wraps all React components into arbitrary transforms
+    // https://github.com/gaearon/babel-plugin-react-transform
+    plugins: ['react-transform'],
+    extra: {
+      'react-transform': {
+        transforms: [
+          {
+            transform: 'react-transform-hmr',
+            imports: ['react'],
+            locals: ['module'],
+          },
+          {
+            transform: 'react-transform-catch-errors',
+            imports: [
+              'react',
+              'redbox-react',
+            ],
+          },
+        ],
+      },
+    },
+  },
+});
 
 // Base configuration
 const config = {
@@ -46,9 +64,6 @@ const config = {
   },
   cache: false,
   debug: DEBUG,
-  resolve: {
-    alias: mapToObject(ALIAS),
-  },
 
   stats: {
     colors: true,
@@ -119,37 +134,8 @@ const productionPlugins = [
   }),
   new webpack.optimize.AggressiveMergingPlugin(),
 ];
-const watchPlugins = [
-  new webpack.HotModuleReplacementPlugin(),
-  new webpack.NoErrorsPlugin(),
-];
 
 // Configuration for the client-side bundle
-const watchLoaders = Object.assign({}, JS_LOADER, {
-  query: {
-    // Wraps all React components into arbitrary transforms
-    // https://github.com/gaearon/babel-plugin-react-transform
-    plugins: ['react-transform'],
-    extra: {
-      'react-transform': {
-        transforms: [
-          {
-            transform: 'react-transform-hmr',
-            imports: ['react'],
-            locals: ['module'],
-          },
-          {
-            transform: 'react-transform-catch-errors',
-            imports: [
-              'react',
-              'redbox-react',
-            ],
-          },
-        ],
-      },
-    },
-  },
-});
 const appConfig = merge({}, config, {
   entry: [
     ...(WATCH
@@ -169,14 +155,17 @@ const appConfig = merge({}, config, {
     ...(DEBUG
       ? []
       : productionPlugins),
-    ...(WATCH
-      ? watchPlugins
-      : []),
+    ...(!WATCH
+      ? []
+      : [  // :off
+        new webpack.HotModuleReplacementPlugin(),
+        new webpack.NoErrorsPlugin(),
+      ]),  // :on
   ],
   module: {
     loaders: [
       WATCH
-        ? watchLoaders
+        ? JS_LOADER_DEV
         : JS_LOADER,
       ...config.module.loaders,
       {
