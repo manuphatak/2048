@@ -1,20 +1,83 @@
 @import '../variables.scss';
 
-.Game {
-  margin: 0 auto;
-}
+.game {
+  padding:          15px;
+  background-color: burlywood;
+  width:            500px;
+  height:           500px;
+  border-radius:    6px;
+  box-sizing:       border-box;
 
-@media (min-width: $screen-sm-min) {
-  .Game {
-  }
-}
+  .grid-container {
+    position: absolute;
+    z-index:  1;
 
-@media (min-width: $screen-md-min) {
-  .Game {
+    .grid-row {
+      height:        106.25px;
+      margin-bottom: 15px;
+      &:last-child {
+        margin-bottom: 0;
+      }
+    }
+    .grid-cell {
+      float:            left;
+      width:            106.25px;
+      height:           106.25px;
+      background-color: antiquewhite;
+      border-radius:    3px;
+      margin-right:     15px;
+      &:last-child {
+        margin-right: 0;
+      }
+    }
   }
-}
 
-@media (min-width: $screen-lg-min) {
-  .Game {
+  .tile-container {
+    position: absolute;
+    z-index:  2;
+
+    .tile {
+      height:        107px;
+      width:         107px;
+      line-height:   107px;
+      position:      absolute;
+      border-radius: 3px;
+
+      .tile-inner {
+        text-align:  center;
+        font-weight: bold;
+        font-size:   55px;
+        color:       rgba(0, 0, 0, .50);
+      }
+      &.tile-2 {
+        background-color: coral;
+      }
+    }
+    .tile-col-1 {
+      left: 0;
+    }
+    .tile-col-2 {
+      left: 121px;
+    }
+    .tile-col-3 {
+      left: 242px;
+
+    }
+    .tile-col-4 {
+      left: 363px;
+    }
+    .tile-row-1 {
+      top: 0
+    }
+    .tile-row-2 {
+      top: 121px;
+    }
+    .tile-row-3 {
+      top: 242px;
+    }
+    .tile-row-4 {
+      top: 363px;
+    }
   }
+
 }

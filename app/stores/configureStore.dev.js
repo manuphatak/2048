@@ -1,13 +1,13 @@
 import { createStore, compose } from 'redux';
 import reducer from '../reducers';
 import { Map } from 'immutable';
-
-const devTools = window.devToolsExtension
-  ? window.devToolsExtension()
-  : e => e;
-const enhancer = compose(devTools);
+import { canUseDOM } from 'fbjs/lib/ExecutionEnvironment';
 
 export default function makeStore(initialState = Map()) {
+  const activateDevTools = canUseDOM && window.devToolsExtension
+    ? window.devToolsExtension()
+    : e => e;
+  const enhancer = compose(activateDevTools);
   const store = createStore(reducer, initialState, enhancer);
 
   if (module.hot) {

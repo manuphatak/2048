@@ -15,18 +15,27 @@ const AUTOPREFIXER_BROWSERS = [
   'Opera >= 12',
   'Safari >= 7.1',
 ];
+const ALIAS = new Map([  // :off
+  ['components', path.resolve(__dirname, '../components')],
+  ['lib', path.resolve(__dirname, '../lib')],
+  ['pages', path.resolve(__dirname, '../pages')],
+  ['app', path.resolve(__dirname, '../app')],
+  ['app.js', path.resolve(__dirname, '../app.js')],
+  ['config.js', path.resolve(__dirname, '../config.js')],
+]);  // :on
 const JS_LOADER = {
   test: /\.jsx?$/,
-  include: [
-    path.resolve(__dirname, '../components'),
-    path.resolve(__dirname, '../lib'),
-    path.resolve(__dirname, '../pages'),
-    path.resolve(__dirname, '../app'),
-    path.resolve(__dirname, '../app.js'),
-    path.resolve(__dirname, '../config.js'),
-  ],
+  include: [...ALIAS.values()],
   loader: 'babel-loader',
 };
+
+function mapToObject(map) {
+  const obj = Object.create(null);
+  for (const [key, value] of (map)) {
+    obj[key] = value;
+  }
+  return obj;
+}
 
 // Base configuration
 const config = {
@@ -37,6 +46,10 @@ const config = {
   },
   cache: false,
   debug: DEBUG,
+  resolve: {
+    alias: mapToObject(ALIAS),
+  },
+
   stats: {
     colors: true,
     reasons: DEBUG,
@@ -95,6 +108,9 @@ const config = {
 };
 
 const productionPlugins = [
+  new webpack.DefinePlugin({
+    'process.env.NODE_ENV': JSON.stringify('production'),
+  }),
   new webpack.optimize.DedupePlugin(),
   new webpack.optimize.UglifyJsPlugin({
     compress: {
@@ -144,6 +160,7 @@ const appConfig = merge({}, config, {
   output: {
     filename: 'app.js',
   },
+
   devtool: DEBUG
     ? 'cheap-module-eval-source-map'
     : false,

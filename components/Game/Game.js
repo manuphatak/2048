@@ -14,15 +14,60 @@ export class Game extends Component {
   render() {
     const { onShiftLeft, onShiftRight, onShiftUp, onShiftDown } = this.props.actions;
     const { value } = this.props;
+
+    const gridContainer = (
+      <div className="grid-container">
+        <div className="grid-row">
+          <div className="grid-cell"></div>
+          <div className="grid-cell"></div>
+          <div className="grid-cell"></div>
+          <div className="grid-cell"></div>
+        </div>
+        <div className="grid-row">
+          <div className="grid-cell"></div>
+          <div className="grid-cell"></div>
+          <div className="grid-cell"></div>
+          <div className="grid-cell"></div>
+        </div>
+        <div className="grid-row">
+          <div className="grid-cell"></div>
+          <div className="grid-cell"></div>
+          <div className="grid-cell"></div>
+          <div className="grid-cell"></div>
+        </div>
+        <div className="grid-row">
+          <div className="grid-cell"></div>
+          <div className="grid-cell"></div>
+          <div className="grid-cell"></div>
+          <div className="grid-cell"></div>
+        </div>
+      </div>
+    );
     return (
       <div>
         <button onClick={onShiftLeft}>Left</button>
         <button onClick={onShiftRight}>Right</button>
         <button onClick={onShiftDown}>Down</button>
         <button onClick={onShiftUp}>Up</button>
-        <br /> You have clicked {value} {value === 1
+        <br />
+
+        You have clicked {value} {value === 1
         ? 'button'
         : 'buttons'}.
+
+        <br />
+        <div className="game">
+          {gridContainer}
+
+          <div className="tile-container">
+            <div className="tile tile-2 tile-col-4 tile-row-2">
+              <div className="tile-inner">2</div>
+            </div>
+            <div className="tile tile-2 tile-col-3 tile-row-3">
+              <div className="tile-inner">2</div>
+            </div>
+          </div>
+        </div>
       </div>
     );
   }
