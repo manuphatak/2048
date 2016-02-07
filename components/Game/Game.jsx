@@ -1,5 +1,5 @@
 import React, { Component, PropTypes } from 'react';
-import './Game.scss';
+
 import * as actionCreators from '../../app/actionCreators';
 import GameGrid from './GameGrid.jsx';
 import GameTiles from './GameTiles.jsx';

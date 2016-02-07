@@ -1,8 +1,9 @@
 /* global describe, it */
 import { expect } from 'chai';
+import routesLoader from './routes-loader';
 
 describe('routes-loader', () => {
-  it('Should load a list of routes', done => {
+  it('Should load a list of routes', function test(done) {
     this.cacheable = () => ({});
     this.async = () => (err, result) => {
       expect(err).to.be.null; // eslint-disable-line no-unused-expressions
@@ -10,6 +11,6 @@ describe('routes-loader', () => {
       done();
     };
 
-    require('./routes-loader').call(this);
+    routesLoader.call(this, 'const routes = {};');
   });
 });

@@ -1,4 +1,4 @@
 {
   "name": "Game",
-  "main": "./Game.jsx"
+  "main": "./index.js"
 }

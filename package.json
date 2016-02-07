@@ -9,6 +9,7 @@
     "deploy": "babel-node --eval \"require('./tools/deploy').default().catch(err => console.log(err.stack))\""
   },
   "devDependencies": {
+    "arrow-mocha": "^1.0.1",
     "autoprefixer": "^6.0.3",
     "babel": "^6.3.26",
     "babel-cli": "^6.4.5",

@@ -1,0 +1,28 @@
+root: true
+extends: airbnb
+globals:
+  __DEV__: true
+parser: babel-eslint
+rules:
+  react/jsx-quotes: 0
+  jsx-quotes:
+    - 2
+    - prefer-double
+  brace-style:
+    - 2
+    - stroustrup
+    - allowSingleLine: true
+  indent:
+    - 2
+    - 2
+    - SwitchCase: 1
+  id-length:
+    - 2
+    - exceptions: [e]
+  new-cap: 0
+  max-len:
+    - 2
+    - 120
+  no-use-before-define:
+    - 2
+    - nofunc
