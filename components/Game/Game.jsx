@@ -41,7 +41,6 @@ class Game extends Component {
       </div>
     );
   }
-
 }
 
 function mapStateToProps(state) {
