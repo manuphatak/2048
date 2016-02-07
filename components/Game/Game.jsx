@@ -9,6 +9,8 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { List } from 'immutable';
 
+import { getTiles } from '../../app/core';
+
 class Game extends PureComponent {
 
   static propTypes = {
@@ -54,11 +56,8 @@ class Game extends PureComponent {
 
 function mapStateToProps(state) {
   return {
-    value: state.get('value', 0),
-    tiles: state.getIn([
-      'game',
-      'tiles',
-    ], List()),
+    value: state.get('value', 0),  // :off
+    tiles: getTiles(state.getIn(['game','status',]), List()),  // :on
   };
 }
 
