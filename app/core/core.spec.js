@@ -1,4 +1,4 @@
-/* global describe, it, before */
+/* global describe, it */
 import { List, fromJS } from 'immutable';
 import { shift, transpose, shiftLeft, shiftUp, shiftRight, shiftDown, getTiles, tileFactory } from './index';
 import { expect } from 'chai';
