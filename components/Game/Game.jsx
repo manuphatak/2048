@@ -1,21 +1,30 @@
-import React, { Component, PropTypes } from 'react';
+import React, { PropTypes } from 'react';
+import PureComponent from '../../lib/PureComponent.jsx';
+import ImmutablePropTypes from 'react-immutable-proptypes';
 
 import * as actionCreators from '../../app/actionCreators';
 import GameGrid from './GameGrid.jsx';
 import GameTiles from './GameTiles.jsx';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
+import { List } from 'immutable';
 
-class Game extends Component {
+class Game extends PureComponent {
 
   static propTypes = {
-    actions: PropTypes.object,
+    actions: PropTypes.shape({
+      onShiftLeft: PropTypes.func.isRequired,
+      onShiftRight: PropTypes.func.isRequired,
+      onShiftDown: PropTypes.func.isRequired,
+      onShiftUp: PropTypes.func.isRequired,
+    }),
     value: PropTypes.number.isRequired,
+    tiles: ImmutablePropTypes.listOf(ImmutablePropTypes.map).isRequired,
   };
 
   render() {
     const { onShiftLeft, onShiftRight, onShiftUp, onShiftDown } = this.props.actions;
-    const { value } = this.props;
+    const { value, tiles } = this.props;
 
     return (
       <div>
@@ -35,7 +44,7 @@ class Game extends Component {
         <div className="game">
           <GameGrid />
 
-          <GameTiles />
+          <GameTiles tiles={tiles} />
 
         </div>
       </div>
@@ -44,7 +53,13 @@ class Game extends Component {
 }
 
 function mapStateToProps(state) {
-  return { value: state.get('value', 0) };
+  return {
+    value: state.get('value', 0),
+    tiles: state.getIn([
+      'game',
+      'tiles',
+    ], List()),
+  };
 }
 
 function mapDispatchToProps(dispatch) {

@@ -1,9 +1,8 @@
 import * as ACTION from '../actions';
-import { Map } from 'immutable';
+import { INITIAL_STATE } from '../core';
 
-export default function appReducer(state = Map(), action) {
-  console.log('action', action);
-  console.log('state', state);
+export default function appReducer(state = INITIAL_STATE, action) {
+   console.log('action', action);
 
   switch (action.type) {
     case ACTION.NEW_GAME:

@@ -18,7 +18,7 @@ rules:
     - SwitchCase: 1
   id-length:
     - 2
-    - exceptions: [e]
+    - exceptions: [e, x, y]
   new-cap: 0
   max-len:
     - 2

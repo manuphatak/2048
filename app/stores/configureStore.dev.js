@@ -1,9 +1,9 @@
 import { createStore, compose } from 'redux';
 import reducer from '../reducers';
-import { Map } from 'immutable';
 import { canUseDOM } from 'fbjs/lib/ExecutionEnvironment';
+import { INITIAL_STATE } from '../core';
 
-export default function makeStore(initialState = Map()) {
+export default function makeStore(initialState = INITIAL_STATE) {
   const activateDevTools = canUseDOM && window.devToolsExtension
     ? window.devToolsExtension()
     : e => e;
@@ -13,7 +13,7 @@ export default function makeStore(initialState = Map()) {
   if (module.hot) {
     // Enable Webpack hot module replacement for reducers
     module.hot.accept('../reducers', () => {
-      const nextReducer = require('../reducers');
+      const nextReducer = require('../reducers').default;
       store.replaceReducer(nextReducer);
     });
   }

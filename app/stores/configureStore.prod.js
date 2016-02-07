@@ -1,7 +1,6 @@
-import {createStore} from 'redux';
+import { createStore } from 'redux';
 import reducer from '../reducers';
-import { Map } from 'immutable';
-
-export default function makeStore(initialState = Map()) {
+import { INITIAL_STATE } from '../core';
+export default function makeStore(initialState = INITIAL_STATE) {
   return createStore(reducer, initialState);
 }

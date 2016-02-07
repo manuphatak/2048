@@ -2,6 +2,7 @@
 import React from 'react';
 import { renderIntoDocument, scryRenderedDOMComponentsWithTag } from 'react-addons-test-utils';
 import { expect } from 'chai';
+import { List } from 'immutable';
 import { Game } from './Game.jsx';
 
 describe('Game', () => {
@@ -25,5 +26,6 @@ function defaultProps() {
       onShiftDown: () => undefined,
     },
     value: 2,
+    tiles: List(),
   };
 }
