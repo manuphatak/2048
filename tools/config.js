@@ -26,32 +26,14 @@ const JS_LOADER = {
     path.resolve(__dirname, '../app.js'),
     path.resolve(__dirname, '../config.js'),
   ],
-  loader: 'babel-loader',
+  loader: 'babel',
 };
 
 const JS_LOADER_DEV = Object.assign({}, JS_LOADER, {
   query: {
     // Wraps all React components into arbitrary transforms
     // https://github.com/gaearon/babel-plugin-react-transform
-    plugins: ['react-transform'],
-    extra: {
-      'react-transform': {
-        transforms: [
-          {
-            transform: 'react-transform-hmr',
-            imports: ['react'],
-            locals: ['module'],
-          },
-          {
-            transform: 'react-transform-catch-errors',
-            imports: [
-              'react',
-              'redbox-react',
-            ],
-          },
-        ],
-      },
-    },
+    presets: ['react-hmre'],
   },
 });
 
@@ -81,7 +63,7 @@ const config = {
       'process.env.NODE_ENV': DEBUG
         ? '"development"'
         : '"production"',
-      '__DEV__': DEBUG,
+      __DEV__: DEBUG,
     }),
   ],
   module: {
@@ -92,19 +74,19 @@ const config = {
       },
       {
         test: /\.json$/,
-        loader: 'json-loader',
+        loader: 'json',
       },
       {
         test: /\.txt$/,
-        loader: 'raw-loader',
+        loader: 'raw',
       },
       {
         test: /\.(png|jpg|jpeg|gif|svg|woff|woff2)$/,
-        loader: 'url-loader?limit=10000',
+        loader: 'url?limit=10000',
       },
       {
         test: /\.(eot|ttf|wav|mp3)$/,
-        loader: 'file-loader',
+        loader: 'file',
       },
     ],
   },
@@ -122,9 +104,6 @@ const config = {
 };
 
 const productionPlugins = [
-  new webpack.DefinePlugin({
-    'process.env.NODE_ENV': JSON.stringify('production'),
-  }),
   new webpack.optimize.DedupePlugin(),
   new webpack.optimize.UglifyJsPlugin({
     compress: {
@@ -137,6 +116,7 @@ const productionPlugins = [
 // Configuration for the client-side bundle
 const appConfig = merge({}, config, {
   entry: [
+    'babel-polyfill',
     ...(WATCH
       ? ['webpack-hot-middleware/client']
       : []),
@@ -170,9 +150,9 @@ const appConfig = merge({}, config, {
       {
         test: /\.scss$/,
         loaders: [
-          'style-loader',
-          'css-loader',
-          'postcss-loader',
+          'style',
+          'css',
+          'postcss',
         ],
       },
     ],
@@ -181,7 +161,10 @@ const appConfig = merge({}, config, {
 
 // Configuration for server-side pre-rendering bundle
 const pagesConfig = merge({}, config, {
-  entry: './app.js',
+  entry: [
+    'babel-polyfill',
+    './app.js',
+  ],
   output: {
     filename: 'app.node.js',
     libraryTarget: 'commonjs2',
@@ -206,8 +189,8 @@ const pagesConfig = merge({}, config, {
       {
         test: /\.scss$/,
         loaders: [
-          'css-loader',
-          'postcss-loader',
+          'css',
+          'postcss',
         ],
       },
     ],

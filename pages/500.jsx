@@ -1,14 +1,13 @@
 import React, { Component, PropTypes } from 'react';
 
-export default class extends Component {
-
+class Page extends Component {
   static propTypes = {
     error: PropTypes.instanceOf(Error),
   };
 
   render() {
     const errorMessage = this.props.error
-      ? this.props.error.message + '\n\n' + this.props.error.stack
+      ? `${this.props.error.message}\n\n${this.props.error.stack}`
       : 'A critical error occurred.';
 
     return (
@@ -20,3 +19,5 @@ export default class extends Component {
   }
 
 }
+
+export default Page;

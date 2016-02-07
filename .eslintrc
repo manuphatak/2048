@@ -3,6 +3,7 @@
   "globals": {
     "__DEV__": true
   },
+  "parser": "babel-eslint",
   "rules": {
     "react/jsx-quotes": 0,
     "jsx-quotes": [ 2, "prefer-double" ],
@@ -22,6 +23,7 @@
         "exceptions": [ "e" ]
       }
     ],
-    "new-cap": 0
+    "new-cap": 0,
+    "max-len": [ 2, 120 ]
   }
 }

@@ -11,8 +11,6 @@ const trackingCode = {
 };
 
 class GoogleAnalytics extends Component {
-
-  // noinspection JSMethodCanBeStatic
   render() {
     return <script dangerouslySetInnerHTML={trackingCode} />;
   }

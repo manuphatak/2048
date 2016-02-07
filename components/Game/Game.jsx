@@ -6,7 +6,7 @@ import GameTiles from './GameTiles.jsx';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 
-export class Game extends Component {
+class Game extends Component {
 
   static propTypes = {
     actions: PropTypes.object,
@@ -19,17 +19,19 @@ export class Game extends Component {
 
     return (
       <div>
-        <button onClick={onShiftLeft}>Left</button>
-        <button onClick={onShiftRight}>Right</button>
-        <button onClick={onShiftDown}>Down</button>
-        <button onClick={onShiftUp}>Up</button>
-        <br />
+        <p className="buttons">
+          <button onClick={onShiftLeft}>Left</button>
+          <button onClick={onShiftRight}>Right</button>
+          <button onClick={onShiftDown}>Down</button>
+          <button onClick={onShiftUp}>Up</button>
+        </p>
 
-        You have clicked {value} {value === 1
-        ? 'button'
-        : 'buttons'}.
+        <p className="message">
+          You have clicked {value} {value === 1
+          ? 'button'
+          : 'buttons'}.
+        </p>
 
-        <br />
         <div className="game">
           <GameGrid />
 
@@ -50,4 +52,5 @@ function mapDispatchToProps(dispatch) {
   return { actions: bindActionCreators(actionCreators, dispatch) };
 }
 
+export { Game };
 export default connect(mapStateToProps, mapDispatchToProps)(Game);

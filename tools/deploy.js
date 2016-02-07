@@ -27,10 +27,10 @@ export default task(async function deploy() {
   // Build the project in RELEASE mode which
   // generates optimized and minimized bundles
   process.argv.push('release');
-  await require('./build')();
+  await require('./build').default();
 
   // Push the contents of the build folder to the remote server via Git
   await repo.add('--all .');
-  await repo.commit('Update ' + new Date().toISOString());
-  await repo.push(remote.name, 'master:' + remote.branch);
+  await repo.commit(`Update ${new Date().toISOString()}`);
+  await repo.push(remote.name, `master:${remote.branch}`);
 });

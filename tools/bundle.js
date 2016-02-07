@@ -2,7 +2,7 @@ import webpack from 'webpack';
 import task from './lib/task';
 import config from './config';
 
-export default task(function bundle() {
+function bundle() {
   return new Promise((resolve, reject) => {
     const bundler = webpack(config);
     const run = (err, stats) => {
@@ -16,4 +16,6 @@ export default task(function bundle() {
     };
     bundler.run(run);
   });
-});
+}
+
+export default task(bundle);

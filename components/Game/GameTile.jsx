@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import classNames from 'classnames';
 
-export default class GameTile extends Component {
+class GameTile extends Component {
   static propTypes = {
     col: PropTypes.number.isRequired,
     row: PropTypes.number.isRequired,
@@ -18,3 +18,5 @@ export default class GameTile extends Component {
     );
   }
 }
+
+export default GameTile;

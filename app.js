@@ -4,7 +4,6 @@ import { canUseDOM } from 'fbjs/lib/ExecutionEnvironment';
 import Location from './lib/Location';
 import App from './components/App';
 import makeStore from './app/stores';
-import 'babel/polyfill';
 
 const store = makeStore();
 
@@ -15,7 +14,11 @@ const route = async(path, callback) => {
     path = path.slice(0, -1); // eslint-disable-line no-param-reassign
   }
   const handler = routes[path] || routes['/404'];
-  const component = await handler();
+  const componentHandler = await handler();
+  const component = typeof componentHandler === 'function'
+    ? componentHandler
+    : componentHandler.default;
+
   await callback(<App store={store}>{React.createElement(component)}</App>);
 };
 
@@ -24,6 +27,7 @@ function run() {
   Location.listen(location => {
     route(location.pathname, async(component) => ReactDOM.render(component, container, () => {
       // Track the page view event via Google Analytics
+      // noinspection JSUnresolvedFunction
       window.ga('send', 'pageview');
     }));
   });
