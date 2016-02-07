@@ -5,11 +5,11 @@ const U = undefined; // eslint-disable-line id-length
 export const INITIAL_STATE = fromJS({
   game: {
     status: fromJS([  // :off
-      [U, U, U, U],
-      [U, U, U, 2],
-      [U, U, 4, U],
-      [U, U, U, U],
-    ]),  // :on
+          [U, U, U, U],
+          [U, U, U, 2],
+          [U, U, 4, U],
+          [U, U, U, U],
+    ]), // :on
   },
 });
 
@@ -43,6 +43,18 @@ export function getTiles(state) {
     }))
     .flatten(true)
     .filter(x => x !== undefined);
+}
+
+export function createTile(state, tile) {
+  const path = [
+    tile.get('row'),
+    tile.get('col'),
+  ];
+  return state.updateIn(path,
+    undefined,
+    x => x === undefined
+      ? tile.get('value')
+      : x);
 }
 
 export function transpose(state) {

@@ -1,7 +1,7 @@
 import * as ACTION from '../actions';
 import { List } from 'immutable';
 import { INITIAL_STATE } from '../core';
-import { shiftDown, shiftLeft, shiftRight, shiftUp } from '../core';
+import { shiftDown, shiftLeft, shiftRight, shiftUp, createTile } from '../core';
 
 export default function appReducer(state = INITIAL_STATE, action) {
   switch (action.type) {
@@ -15,6 +15,9 @@ export default function appReducer(state = INITIAL_STATE, action) {
       return state.updateIn(['game', 'status'], List(), value => shiftUp(value));  // :on
     case ACTION.SHIFT_DOWN:// :off
       return state.updateIn(['game', 'status'], List(), value => shiftDown(value));  // :on
+    case ACTION.CREATE_TILE:// :off
+      return state.updateIn(['game', 'status'], List(), value => createTile(value, action.payload));  // :on
+
     default:
       return state;
   }

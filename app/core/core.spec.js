@@ -1,6 +1,8 @@
 /* global describe, it */
 import { List, fromJS } from 'immutable';
-import { shift, transpose, shiftLeft, shiftUp, shiftRight, shiftDown, getTiles, tileFactory } from './index';
+import {
+  shift, transpose, shiftLeft, shiftUp, shiftRight, shiftDown, getTiles, tileFactory, createTile,
+} from './index';
 import { expect } from 'chai';
 
 const U = undefined; // eslint-disable-line id-length
@@ -339,6 +341,52 @@ describe('app core logic', () => {
       const nextState = getTiles(state);
 
       expect(nextState).to.equal(List());
+    });
+  });
+
+  describe('createTile', () => {
+    it('creates a tile at coordinates', () => {
+      const state = fromJS([  // :off
+        [U, U, U, U],
+        [U, U, U, 2],
+        [U, U, 4, U],
+        [U, U, U, U],
+      ]);  // :on
+      const tile = fromJS({
+        value: 2,
+        col: 0,
+        row: 0,
+      });
+      const nextState = createTile(state, tile);
+
+      expect(nextState).to.equal(fromJS([  // :off
+        [2, U, U, U],
+        [U, U, U, 2],
+        [U, U, 4, U],
+        [U, U, U, U],
+      ]));  // :on
+    });
+
+    it('does not override existing tiles', () => {
+      const state = fromJS([  // :off
+        [4, U, U, U],
+        [U, U, U, 2],
+        [U, U, 4, U],
+        [U, U, U, U],
+      ]);  // :on
+      const tile = fromJS({
+        value: 2,
+        col: 0,
+        row: 0,
+      });
+      const nextState = createTile(state, tile);
+
+      expect(nextState).to.equal(fromJS([  // :off
+        [4, U, U, U],
+        [U, U, U, 2],
+        [U, U, 4, U],
+        [U, U, U, U],
+      ]));  // :on
     });
   });
 });

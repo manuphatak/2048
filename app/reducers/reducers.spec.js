@@ -1,7 +1,7 @@
 /* global describe, it */
 import { expect } from 'chai';
 import { fromJS } from 'immutable';
-import { onShiftDown, onShiftLeft, onShiftUp, onShiftRight } from '../actionCreators';
+import { onShiftDown, onShiftLeft, onShiftUp, onShiftRight, onCreateTile } from '../actionCreators';
 import reducer from './index';
 
 const U = undefined; // eslint-disable-line id-length
@@ -108,6 +108,33 @@ describe('reducer', () => {
             [U, U, 4, 2],
             [U, U, U, U],
             [U, U, U, U],
+            [U, U, U, U],
+          ], // :on
+        },
+      }));
+    });
+  });
+
+  describe('CREATE_TILE', () => {
+    it('handles CREATE_TILE', () => {
+      const initialState = fromJS({
+        game: {
+          status: [  // :off
+            [U, U, U, U],
+            [U, U, U, 2],
+            [U, U, 4, U],
+            [U, U, U, U],
+          ],  // :on
+        },
+      });
+      const nextState = reducer(initialState, onCreateTile(2, 0, 0));
+
+      expect(nextState).to.equal(fromJS({
+        game: {
+          status: [  // :off
+            [2, U, U, U],
+            [U, U, U, 2],
+            [U, U, 4, U],
             [U, U, U, U],
           ], // :on
         },

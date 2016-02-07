@@ -6,7 +6,6 @@ import App from './components/App';
 import makeStore from './app/stores';
 
 const store = makeStore();
-
 const routes = {}; // Auto-generated on build. See tools/lib/routes-loader.js
 
 const route = async(path, callback) => {

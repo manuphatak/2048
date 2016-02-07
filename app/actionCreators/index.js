@@ -1,4 +1,5 @@
 import * as ACTION from '../actions';
+import { tileFactory } from '../core';
 
 export function onNewGame() {
   return { type: ACTION.NEW_GAME };
@@ -18,4 +19,11 @@ export function onShiftDown() {
 
 export function onShiftUp() {
   return { type: ACTION.SHIFT_UP };
+}
+
+export function onCreateTile(value, col, row) {
+  return {
+    type: ACTION.CREATE_TILE,
+    payload: tileFactory(value, col, row),
+  };
 }
