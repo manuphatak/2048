@@ -1,4 +1,4 @@
-import { List, fromJS } from 'immutable';
+import { fromJS, Stack } from 'immutable';
 import { placeholderFactory } from './utils';
 
 const [U, A, B] = [
@@ -22,32 +22,37 @@ export function shiftLeft(state) {
   return state
     .asMutable()
     .update(value => value.map(col => shift(col)))
-    .asMutable();
+    .asImmutable();
 }
 
 export function shiftUp(state) {
   return state
     .asMutable()
     .update(value => transpose(shiftLeft(transpose(value))))
-    .asMutable();
+    .asImmutable();
 }
 
 export function shiftRight(state) {
   return state
     .asMutable()
     .update(value => value.map(col => shift(col.reverse()).reverse()))
-    .asMutable();
+    .asImmutable();
 }
 
 export function shiftDown(state) {
   return state
     .asMutable()
     .update(value => transpose(shiftRight(transpose(value))))
-    .asMutable();
+    .asImmutable();
 }
 
 export function shift(state) {
-  return List(_shift(...state.values())).setSize(state.size);
+  return state
+    .asMutable()
+    .update(value => _shift(undefined, value.asImmutable().toStack()))
+    .toList()
+    .setSize(state.size)
+    .asImmutable();
 }
 
 export function createTile(state, tile) {
@@ -62,34 +67,39 @@ export function createTile(state, tile) {
 }
 
 export function transpose(state) {
-  return state.map((col, index) => state.map(row => row.get(index)));
+  return state
+    .asMutable()
+    .update(value => value.map((col, index) => state.map(row => row.get(index))))
+    .asImmutable();
 }
 
-function _shift(x, ...xs) {
+function _shift(x, xs) {
   // Guard last item.
-  if (!xs.length) {
-    return [x];
+  if (!xs.size) {
+    return xs.withMutations(stack => stack.unshift(x));
   }
 
   // Guard shift undefined
   if (x === undefined) {
-    return _shift(...xs);
+    return _shift(xs.first(), xs.shift());
+  }
+
+  // Guard next is undefined
+  if (xs.first() === undefined) {
+    return _shift(x, xs.shift());
   }
 
   // next
-  const [y, ...ys] = xs.filter(z => z !== undefined);
+  const y = xs.first();
+  const ys = xs.shift();
 
   // combine blocks
-  if (y !== undefined && x.get('value') === y.get('value')) {
-    return [
-      y.update('value', v => v * 2),
-      ..._shift(...ys),
-    ];
+  if (x.get('value') === y.get('value')) {
+    return _shift(ys.first(), ys.shift())
+      .withMutations(stack => stack.unshift(y.update('value', v => v * 2)));
   }
 
   // concat blocks
-  return [
-    x,
-    ..._shift(y, ...ys),
-  ];
+  return _shift(y, ys)
+    .withMutations(stack => stack.unshift(x));
 }
