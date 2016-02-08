@@ -15,7 +15,12 @@ class GameTile extends PureComponent {
 
   render() {
     const { value, row, col } = this.props.tile.toObject();
-    const tileClass = classNames('tile', `tile-${value}`, `tile-col-${col}`, `tile-row-${row}`);
+    const tileClass = classNames('tile',
+      `tile-${value <= 2048
+        ? value
+        : 'super'}`,
+      `tile-col-${col}`,
+      `tile-row-${row}`);
     return (
       <div className={tileClass}>
         <div className="tile-inner">{value}</div>

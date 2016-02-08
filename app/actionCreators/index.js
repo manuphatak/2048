@@ -1,5 +1,5 @@
 import * as ACTION from '../actions';
-import { tileFactory } from '../core';
+import { tileFactory } from '../core/utils';
 
 export function onNewGame() {
   return { type: ACTION.NEW_GAME };

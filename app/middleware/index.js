@@ -11,7 +11,11 @@ export const createTileMiddleware = store => next => action => {
   if (watchActions.includes(action)) {
     return next(action);
   }
-  next(action);
-  const result = next(onCreateTile(2, 0, 0));
-  return result;
-}
+  const state = store.getState();
+  const handle = next(action);
+  const nextState = store.getState();
+  if (state.equals(nextState)) {
+    return handle;
+  }
+  return next(onCreateTile(2, 0, 0));
+};

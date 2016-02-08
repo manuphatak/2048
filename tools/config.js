@@ -92,9 +92,7 @@ const config = {
   },
   postcss: function plugins() {
     return [
-      require('postcss-import')({
-        onImport: files => files.forEach(this.addDependency),
-      }),
+
       require('precss')(),
       require('autoprefixer')({
         browsers: AUTOPREFIXER_BROWSERS,
@@ -153,6 +151,7 @@ const appConfig = merge({}, config, {
           'style',
           'css',
           'postcss',
+          'sass',
         ],
       },
     ],
@@ -191,6 +190,7 @@ const pagesConfig = merge({}, config, {
         loaders: [
           'css',
           'postcss',
+          'sass',
         ],
       },
     ],

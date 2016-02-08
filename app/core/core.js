@@ -14,7 +14,7 @@ export const INITIAL_STATE = fromJS({
 });
 
 export function shiftLeft(state) {
-  return state.map(col => shift(col));
+  return state.update(value => value.map(col => shift(col)));
 }
 
 export function shiftUp(state) {
@@ -33,18 +33,6 @@ export function shift(state) {
   return List(_shift(...state.values())).setSize(state.size);
 }
 
-export function getTiles(state) {
-  return state
-    .map((row, rowIndex) => row.map((value, colIndex) => {
-      if (value === undefined) {
-        return value;
-      }
-      return tileFactory(value, colIndex, rowIndex);
-    }))
-    .flatten(true)
-    .filter(x => x !== undefined);
-}
-
 export function createTile(state, tile) {
   const path = [
     tile.get('row'),
@@ -59,10 +47,6 @@ export function createTile(state, tile) {
 
 export function transpose(state) {
   return state.map((col, index) => state.map(row => row.get(index)));
-}
-
-export function tileFactory(value, col, row) {  // :off
-  return fromJS({ value, col, row });  // :on
 }
 
 function _shift(x, ...xs) {

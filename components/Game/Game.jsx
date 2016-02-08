@@ -9,9 +9,19 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { List } from 'immutable';
 
-import { getTiles } from '../../app/core';
+import { getTiles } from '../../app/core/utils';
 
 class Game extends PureComponent {
+  constructor(props) {
+    super(props);
+    this.onKeyDown = this.onKeyDown.bind(this);
+    this.keymap = {
+      37: e => this.props.actions.onShiftLeft(e),
+      38: e => this.props.actions.onShiftUp(e),
+      39: e => this.props.actions.onShiftRight(e),
+      40: e => this.props.actions.onShiftDown(e),
+    };
+  }
 
   static propTypes = {
     actions: PropTypes.shape({
@@ -21,12 +31,12 @@ class Game extends PureComponent {
       onShiftUp: PropTypes.func.isRequired,
     }),
     value: PropTypes.number.isRequired,
-    tiles: ImmutablePropTypes.listOf(ImmutablePropTypes.map).isRequired,
+    tiles: ImmutablePropTypes.setOf(ImmutablePropTypes.map).isRequired,
   };
 
   render() {
     const { onShiftLeft, onShiftRight, onShiftUp, onShiftDown } = this.props.actions;
-    const { value, tiles } = this.props;
+    const { tiles } = this.props;
 
     return (
       <div>
@@ -35,12 +45,6 @@ class Game extends PureComponent {
           <button onClick={onShiftRight}>Right</button>
           <button onClick={onShiftDown}>Down</button>
           <button onClick={onShiftUp}>Up</button>
-        </p>
-
-        <p className="message">
-          You have clicked {value} {value === 1
-          ? 'button'
-          : 'buttons'}.
         </p>
 
         <div className="game">
@@ -52,12 +56,29 @@ class Game extends PureComponent {
       </div>
     );
   }
+
+  componentDidMount() {
+    window.addEventListener('keydown', this.onKeyDown, false);
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener('keydown', this.onKeyDown, false);
+  }
+
+  onKeyDown(event) {
+    const handler = this.keymap[event.keyCode];
+
+    if (handler !== undefined) {
+      event.preventDefault();
+      handler(event);
+    }
+  }
 }
 
 function mapStateToProps(state) {
   return {
     value: state.get('value', 0),  // :off
-    tiles: getTiles(state.getIn(['game','status',]), List()),  // :on
+    tiles: getTiles(state.getIn(['game', 'status']), List()),  // :on
   };
 }
 

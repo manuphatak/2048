@@ -1,8 +1,59 @@
 @import '../variables.scss';
 
+@mixin tile-inner($chars) {
+  @if $chars >= 2 {
+    .tile-inner {
+      color: rgba(256, 256, 256, .80);
+    }
+  } @else {
+    .tile-inner {
+      color: rgba(0, 0, 0, .50);
+    }
+
+  }
+  @if $chars <= 2 {
+    .tile-inner {
+      font-size: 55px;
+      @media screen and (max-width: $screen-sm-min) {
+        font-size: 35px;
+      }
+    }
+  }
+  @if $chars == 3 {
+    .tile-inner {
+      font-size: 45px;
+      @media screen and (max-width: $screen-sm-min) {
+        font-size: 25px;
+      }
+    }
+  }
+  @if $chars == 4 {
+    .tile-inner {
+      font-size: 35px;
+      @media screen and (max-width: $screen-sm-min) {
+        font-size: 15px;
+      }
+    }
+  }
+  @if $chars == 5 {
+    .tile-inner {
+      font-size: 30px;
+      @media screen and (max-width: $screen-sm-min) {
+        font-size: 10px;
+      }
+    }
+  }
+}
+
+@mixin tile-shadow($a, $b) {
+  .tile-inner {
+    box-shadow: 0 0 30px 10px rgba(243, 215, 116, $a), inset 0 0 0 1px rgba(255, 255, 255, $b);
+  }
+}
+
 .game {
   padding:          15px;
-  background-color: burlywood;
+  background-color: hsl(28, 16%, 68%);
   width:            500px;
   height:           500px;
   border-radius:    6px;
@@ -23,7 +74,7 @@
       float:            left;
       width:            106.25px;
       height:           106.25px;
-      background-color: antiquewhite;
+      background-color: hsla(0, 0%, 100%, 0.20);
       border-radius:    3px;
       margin-right:     15px;
       &:last-child {
@@ -47,14 +98,61 @@
         text-align:  center;
         font-weight: bold;
         font-size:   55px;
-        color:       rgba(0, 0, 0, .50);
       }
       &.tile- {
+
         &2 {
-          background-color: lightcoral;
+          @include tile-inner(1);
+          background-color: hsl(27, 37%, 89%);
         }
         &4 {
-          background-color: coral;
+          @include tile-inner(1);
+          background-color: hsl(27, 50%, 85%);
+        }
+        &8 {
+          @include tile-inner(2);
+          background-color: hsl(27, 89%, 66%);
+        }
+        &16 {
+          @include tile-inner(2);
+          background-color: hsl(20, 89%, 66%);
+        }
+        &32 {
+          @include tile-inner(2);
+          background-color: hsl(11, 89%, 66%);
+        }
+        &64 {
+          @include tile-inner(2);
+          background-color: hsl(11, 91%, 59%);
+        }
+        &128 {
+          @include tile-shadow(.24, .14);
+          @include tile-inner(3);
+          background-color: hsl(45, 75%, 70%);
+        }
+        &256 {
+          @include tile-shadow(.32, .19);
+          @include tile-inner(3);
+          background-color: hsl(45, 80%, 65%);
+        }
+        &512 {
+          @include tile-shadow(.40, .23);
+          @include tile-inner(3);
+          background-color: hsl(45, 85%, 60%);
+        }
+        &1024 {
+          @include tile-shadow(.48, .29);
+          @include tile-inner(4);
+          background-color: hsl(45, 90%, 55%);
+        }
+        &2048 {
+          @include tile-shadow(.56, .33);
+          @include tile-inner(4);
+          background-color: hsl(40, 90%, 55%);
+        }
+        &super {
+          @include tile-inner(5);
+          background-color: hsl(45, 9%, 21%);
         }
       }
     }
