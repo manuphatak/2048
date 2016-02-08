@@ -2,7 +2,7 @@
 import { expect } from 'chai';
 import { fromJS } from 'immutable';
 import { onShiftDown, onShiftLeft, onShiftUp, onShiftRight, onCreateTile } from '../actionCreators';
-import reducer from './index';
+import reducer from './reducers';
 
 const U = undefined; // eslint-disable-line id-length
 

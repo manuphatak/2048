@@ -1,5 +1,7 @@
 import * as ACTION from '../actions';
 import { onCreateTile } from '../actionCreators';
+import { getEmpty } from '../core/utils';
+import { List } from 'immutable';
 
 const watchActions = [
   ACTION.SHIFT_DOWN,
@@ -7,6 +9,7 @@ const watchActions = [
   ACTION.SHIFT_UP,
   ACTION.SHIFT_RIGHT,
 ];
+
 export const createTileMiddleware = store => next => action => {
   if (watchActions.includes(action)) {
     return next(action);
@@ -17,5 +20,21 @@ export const createTileMiddleware = store => next => action => {
   if (state.equals(nextState)) {
     return handle;
   }
-  return next(onCreateTile(2, 0, 0));
+
+  // :off
+  const emptyTiles = getEmpty(nextState.getIn(['game', 'status'], List()));  // :on
+
+  if (!emptyTiles.size) {
+    console.error(emptyTiles);
+    return undefined;
+  }
+
+  const nextTile = randomChoice(emptyTiles.toList());
+
+  return next(onCreateTile(2, nextTile.get('col'), nextTile.get('row')));
 };
+
+function randomChoice(obj) {
+  const index = Math.floor(Math.random() * obj.size);
+  return obj.get(index);
+}

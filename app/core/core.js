@@ -14,19 +14,31 @@ export const INITIAL_STATE = fromJS({
 });
 
 export function shiftLeft(state) {
-  return state.update(value => value.map(col => shift(col)));
+  return state
+    .asMutable()
+    .update(value => value.map(col => shift(col)))
+    .asMutable();
 }
 
 export function shiftUp(state) {
-  return transpose(shiftLeft(transpose(state)));
+  return state
+    .asMutable()
+    .update(value => transpose(shiftLeft(transpose(value))))
+    .asMutable();
 }
 
 export function shiftRight(state) {
-  return state.map(col => shift(col.reverse()).reverse());
+  return state
+    .asMutable()
+    .update(value => value.map(col => shift(col.reverse()).reverse()))
+    .asMutable();
 }
 
 export function shiftDown(state) {
-  return transpose(shiftRight(transpose(state)));
+  return state
+    .asMutable()
+    .update(value => transpose(shiftRight(transpose(value))))
+    .asMutable();
 }
 
 export function shift(state) {

@@ -4,7 +4,6 @@ import { canUseDOM } from 'fbjs/lib/ExecutionEnvironment';
 import Location from './lib/Location';
 import App from './components/App';
 import makeStore from './app/stores';
-
 const store = makeStore();
 const routes = {}; // Auto-generated on build. See tools/lib/routes-loader.js
 
