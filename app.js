@@ -1,3 +1,4 @@
+/// <reference path="./typings/main.d.ts" />
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { canUseDOM } from 'fbjs/lib/ExecutionEnvironment';

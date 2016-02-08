@@ -10,11 +10,12 @@ class GameTile extends PureComponent {
       value: PropTypes.number.isRequired,
       row: PropTypes.number.isRequired,
       col: PropTypes.number.isRequired,
+      id: PropTypes.string.isRequired,
     }),
   };
 
   render() {
-    const { value, row, col } = this.props.tile.toObject();
+    const { value, row, col, id } = this.props.tile.toObject();
     const tileClass = classNames('tile',
       `tile-${value <= 2048
         ? value
@@ -22,7 +23,10 @@ class GameTile extends PureComponent {
       `tile-col-${col}`,
       `tile-row-${row}`);
     return (
-      <div className={tileClass}>
+      <div
+        key={id}
+        className={tileClass}
+      >
         <div className="tile-inner">{value}</div>
       </div>
     );

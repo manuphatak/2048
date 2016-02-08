@@ -21,9 +21,10 @@ export function onShiftUp() {
   return { type: ACTION.SHIFT_UP };
 }
 
-export function onCreateTile(value, col, row) {
+export function onCreateTile(value, col, row, id = undefined) {
+
   return {
     type: ACTION.CREATE_TILE,
-    payload: tileFactory(value, col, row),
+    payload: tileFactory(value, col, row, id),
   };
 }

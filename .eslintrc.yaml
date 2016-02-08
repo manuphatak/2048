@@ -18,7 +18,7 @@ rules:
     - SwitchCase: 1
   id-length:
     - 2
-    - exceptions: [e, x, xs, y, ys, z, zs]
+    - min: 1
   new-cap: 0
   max-len:
     - 2
@@ -26,3 +26,5 @@ rules:
   no-use-before-define:
     - 2
     - nofunc
+  spaced-comment:
+    - 0

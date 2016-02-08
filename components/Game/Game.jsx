@@ -1,13 +1,14 @@
 import React, { PropTypes } from 'react';
-import PureComponent from '../../lib/PureComponent.jsx';
 import ImmutablePropTypes from 'react-immutable-proptypes';
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
+import { Set } from 'immutable';
 
+
+import PureComponent from '../../lib/PureComponent.jsx';
 import * as actionCreators from '../../app/actionCreators';
 import GameGrid from './GameGrid.jsx';
 import GameTiles from './GameTiles.jsx';
-import { bindActionCreators } from 'redux';
-import { connect } from 'react-redux';
-import { List } from 'immutable';
 
 import { getTiles } from '../../app/core/utils';
 
@@ -78,7 +79,7 @@ class Game extends PureComponent {
 function mapStateToProps(state) {
   return {
     value: state.get('value', 0),  // :off
-    tiles: getTiles(state.getIn(['game', 'status']), List()),  // :on
+    tiles: getTiles(state.getIn(['game', 'status']), Set()),  // :on
   };
 }
 

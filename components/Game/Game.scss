@@ -189,3 +189,22 @@
   }
 
 }
+
+.example {
+  &-enter {
+    opacity: 0.01;
+    &-active {
+      opacity:    1;
+      transition: opacity 500ms ease-in;
+    }
+  }
+
+  &-leave {
+    opacity: 1;
+    &-active {
+      opacity:    0.01;
+      transition: opacity 300ms ease-in;
+    }
+  }
+
+}

@@ -1,13 +1,18 @@
 import { List, fromJS } from 'immutable';
+import { placeholderFactory } from './utils';
 
-const U = undefined; // eslint-disable-line id-length
+const [U, A, B] = [
+  undefined,
+  placeholderFactory(2),
+  placeholderFactory(4),
+];
 
 export const INITIAL_STATE = fromJS({
   game: {
     status: fromJS([  // :off
           [U, U, U, U],
-          [U, U, U, 2],
-          [U, U, 4, U],
+          [U, U, U, A],
+          [U, U, B, U],
           [U, U, U, U],
     ]), // :on
   },
@@ -46,15 +51,14 @@ export function shift(state) {
 }
 
 export function createTile(state, tile) {
-  const path = [
+  return state.updateIn([  // :off
     tile.get('row'),
     tile.get('col'),
-  ];
-  return state.updateIn(path,
+  ],  // :on
     undefined,
-    x => x === undefined
-      ? tile.get('value')
-      : x);
+    v => v === undefined
+      ? placeholderFactory(tile.get('value'), tile.get('id', undefined))
+      : v);
 }
 
 export function transpose(state) {
@@ -76,10 +80,16 @@ function _shift(x, ...xs) {
   const [y, ...ys] = xs.filter(z => z !== undefined);
 
   // combine blocks
-  if (x === y) {  // :off
-    return [x + y, ..._shift(...ys)];
+  if (y !== undefined && x.get('value') === y.get('value')) {
+    return [
+      y.update('value', v => v * 2),
+      ..._shift(...ys),
+    ];
   }
 
   // concat blocks
-  return [x, ..._shift(y, ...ys)];  // :on
+  return [
+    x,
+    ..._shift(y, ...ys),
+  ];
 }
