@@ -1,4 +1,5 @@
 import React from 'react';
+
 import PureComponent from '../../lib/PureComponent.jsx';
 import GameTile from './GameTile.jsx';
 
