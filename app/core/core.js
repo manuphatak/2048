@@ -14,8 +14,8 @@ export const INITIAL_STATE = fromJS({
           [U, U, U, U],
     ],  // :on
     tiles: Map([  // :off
-      [A.get('id'), A.updateGrid(3, 1)],
-      [B.get('id'), B.updateGrid(2, 2)],
+      [A.get('id'), A.updateGrid(3, 1).set('isNew', true)],
+      [B.get('id'), B.updateGrid(2, 2).set('isNew', true)],
     ]),  // :on
   },
 });

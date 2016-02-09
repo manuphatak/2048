@@ -4,9 +4,7 @@ import ImmutablePropTypes from 'react-immutable-proptypes';
 import classNames from 'classnames';
 
 import PureComponent from '../../lib/PureComponent.jsx';
-import { CELL, tileSpringConfig } from './constants';
-
-const SIZE = 107;
+import { CELL_SPACE, tileSlideConfig, tileNewConfig } from './constants';
 
 class GameTile extends PureComponent {
   static propTypes = {
@@ -20,34 +18,41 @@ class GameTile extends PureComponent {
   };
 
   render() {
-    const { row, col } = this.props.tile.toJS();
+    const { row, col, value, id, from } = this.props.tile.toObject();
+    const fromValue = from === undefined ? value : from.get('value');
+    const defaultStyle = {
+      left: CELL_SPACE * col, top: CELL_SPACE * row, scale: 0,
+    };
+
     const style = {  // :off
-      left: spring(CELL * col, tileSpringConfig),
-      top: spring(CELL * row, tileSpringConfig),
-      opacity: spring(1, tileSpringConfig),
+      left: spring(CELL_SPACE * col, tileSlideConfig),
+      top: spring(CELL_SPACE * row, tileSlideConfig),
+      scale: spring(1, tileNewConfig),
     };  // :on
+    const tileClass = classNames(  // :off
+      'tile',
+      `tile-value-${this.getValueText(value)}`
+    );  // :on
+
     return (
-      <Motion style={style}>
-        {this.renderTile.bind(this)}
+      <Motion
+        defaultStyle={defaultStyle}
+        style={style}
+      >
+        {this.renderTile.bind(this, { tileClass, value, fromValue, id })}
       </Motion>
     );
   }
 
-  renderTile(style) {
-    const { value, id, isNew } = this.props.tile.toJS();
-    const tileClass = classNames(  // :off
-      'tile',
-      `tile-value-${this.getValueText(value)}`,
-      { 'tile-new': isNew }
-    );  // :on
+  renderTile({ tileClass, value, fromValue, id }, style) {
     return (
       <div
         key={id}
         className={tileClass}
-        style={style}
+        style={{ transform: `scale(${style.scale})`, ...style }}
       >
         <div className="tile-inner">
-          {value}</div>
+          {style.scale >= 1 ? value : fromValue}</div>
       </div>
     );
   }

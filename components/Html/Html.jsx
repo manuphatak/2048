@@ -40,6 +40,10 @@ class Html extends Component {
           rel="stylesheet"
           href="https://fonts.googleapis.com/css?family=Roboto"
         />
+        <link
+          rel="stylesheet"
+          href={`/app.css?${new Date().getTime()}`}
+        />
         <script src={`/app.js?${new Date().getTime()}`}></script>
       </head>
       <body>

@@ -1,6 +1,13 @@
 @import '../variables.scss';
 
 @mixin tile-inner($chars) {
+  transition-property: background-color;
+  transition-duration: 50ms;
+  .tile-inner {
+    transition-property: color, font-size;
+    transition-duration: 25ms, 50ms;
+    transition-delay:    25ms, 0s;
+  }
   @if $chars >= 2 {
     .tile-inner {
       color: rgba(256, 256, 256, .80);
@@ -58,139 +65,117 @@
   height:           500px;
   border-radius:    6px;
   box-sizing:       border-box;
+}
 
-  .grid-container {
-    position: absolute;
-    z-index:  1;
+.grid-container {
+  position: absolute;
+  z-index:  1;
+}
 
-    .grid-row {
-      height:        106.25px;
-      margin-bottom: 15px;
-      &:last-child {
-        margin-bottom: 0;
-      }
-    }
-    .grid-cell {
-      float:            left;
-      width:            106.25px;
-      height:           106.25px;
-      background-color: hsla(0, 0%, 100%, 0.20);
-      border-radius:    3px;
-      margin-right:     15px;
-      &:last-child {
-        margin-right: 0;
-      }
-    }
+.grid-row {
+  height:        106.25px;
+  margin-bottom: 15px;
+  &:last-child {
+    margin-bottom: 0;
   }
+}
 
-  .tile-container {
-    position: absolute;
-    z-index:  2;
-
-    .tile {
-      height:        107px;
-      width:         107px;
-      line-height:   107px;
-      position:      absolute;
-      border-radius: 3px;
-      &.tile-new {
-        border: 3px solid red;
-      }
-      .tile-inner {
-        text-align:  center;
-        font-weight: bold;
-        font-size:   55px;
-      }
-
-      &.tile-value- {
-
-        &2 {
-          @include tile-inner(1);
-          background-color: hsl(27, 37%, 89%);
-          content:          "2";
-        }
-        &4 {
-          @include tile-inner(1);
-          background-color: hsl(27, 50%, 85%);
-        }
-        &8 {
-          @include tile-inner(2);
-          background-color: hsl(27, 89%, 66%);
-        }
-        &16 {
-          @include tile-inner(2);
-          background-color: hsl(20, 89%, 66%);
-        }
-        &32 {
-          @include tile-inner(2);
-          background-color: hsl(11, 89%, 66%);
-        }
-        &64 {
-          @include tile-inner(2);
-          background-color: hsl(11, 91%, 59%);
-        }
-        &128 {
-          @include tile-shadow(.24, .14);
-          @include tile-inner(3);
-          background-color: hsl(45, 75%, 70%);
-        }
-        &256 {
-          @include tile-shadow(.32, .19);
-          @include tile-inner(3);
-          background-color: hsl(45, 80%, 65%);
-        }
-        &512 {
-          @include tile-shadow(.40, .23);
-          @include tile-inner(3);
-          background-color: hsl(45, 85%, 60%);
-        }
-        &1024 {
-          @include tile-shadow(.48, .29);
-          @include tile-inner(4);
-          background-color: hsl(45, 90%, 55%);
-        }
-        &2048 {
-          @include tile-shadow(.56, .33);
-          @include tile-inner(4);
-          background-color: hsl(40, 90%, 55%);
-        }
-        &super {
-          @include tile-inner(5);
-          background-color: hsl(45, 9%, 21%);
-        }
-      }
-
-      &.tile-col- {
-        &0 {
-          left: 0;
-        }
-        &1 {
-          left: 121px;
-        }
-        &2 {
-          left: 242px;
-        }
-        &3 {
-          left: 363px;
-        }
-      }
-
-      &.tile-row- {
-        &0 {
-          top: 0;
-        }
-        &1 {
-          top: 121px;
-        }
-        &2 {
-          top: 242px;
-        }
-        &3 {
-          top: 363px;
-        }
-      }
-    }
+.grid-cell {
+  float:            left;
+  width:            106.25px;
+  height:           106.25px;
+  background-color: hsla(0, 0%, 100%, 0.20);
+  border-radius:    3px;
+  margin-right:     15px;
+  &:last-child {
+    margin-right: 0;
   }
+}
+
+.tile-container {
+  position: absolute;
+  z-index:  2;
+}
+
+.tile {
+  height:        107px;
+  width:         107px;
+  line-height:   107px;
+  position:      absolute;
+  border-radius: 3px;
+  &.tile-new {
+    border: 3px solid red;
+  }
+  .tile-inner {
+    text-align:  center;
+    font-weight: bold;
+    font-size:   55px;
+  }
+}
+
+.tile-value-2 {
+  @include tile-inner(1);
+  background-color: hsl(27, 37%, 89%);
+}
+
+.tile-value-4 {
+  @include tile-inner(1);
+  background-color: hsl(27, 50%, 85%);
+}
+
+.tile-value-8 {
+  @include tile-inner(2);
+  background-color: hsl(27, 89%, 66%);
+}
+
+.tile-value-16 {
+  @include tile-inner(2);
+  background-color: hsl(20, 89%, 66%);
+}
+
+.tile-value-32 {
+  @include tile-inner(2);
+  background-color: hsl(11, 89%, 66%);
+}
+
+.tile-value-64 {
+  @include tile-inner(2);
+  background-color: hsl(11, 91%, 59%);
+}
+
+.tile-value-128 {
+  @include tile-shadow(.24, .14);
+  @include tile-inner(3);
+  background-color: hsl(45, 75%, 70%);
+}
+
+.tile-value-256 {
+  @include tile-shadow(.32, .19);
+  @include tile-inner(3);
+  background-color: hsl(45, 80%, 65%);
+}
+
+.tile-value-512 {
+  @include tile-shadow(.40, .23);
+  @include tile-inner(3);
+  background-color: hsl(45, 85%, 60%);
+}
+
+.tile-value-1024 {
+  @include tile-shadow(.48, .29);
+  @include tile-inner(4);
+  background-color: hsl(45, 90%, 55%);
+}
+
+.tile-value-2048 {
+  @include tile-shadow(.56, .33);
+  @include tile-inner(4);
+  background-color: hsl(40, 90%, 55%);
+}
+
+.tile-value-super {
+  @include tile-inner(5);
+  background-color: hsl(45, 9%, 21%);
 }
 
 .example {

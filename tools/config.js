@@ -1,6 +1,7 @@
 import path from 'path';
 import webpack from 'webpack';
 import merge from 'lodash.merge';
+import ExtractTextPlugin from 'extract-text-webpack-plugin';
 
 const DEBUG = !process.argv.includes('release');
 const VERBOSE = process.argv.includes('verbose');
@@ -36,6 +37,26 @@ const JS_LOADER_DEV = Object.assign({}, JS_LOADER, {
     presets: ['react-hmre'],
   },
 });
+
+const SCSS_LOADER = {
+  test: /\.scss$/,
+  loaders: [
+    'style',
+    'css?minimize',
+    'postcss',
+    'sass',
+  ],
+};
+
+const SCSS_LOADER_DEV = {
+  test: /\.scss$/,
+  loaders: [
+    'style?sourceMap',
+    'css',
+    'postcss?sourceMap',
+    'sass?sourceMap',
+  ],
+};
 
 // Base configuration
 const config = {
@@ -92,7 +113,6 @@ const config = {
   },
   postcss: function plugins() {
     return [
-
       require('precss')(),
       require('autoprefixer')({
         browsers: AUTOPREFIXER_BROWSERS,
@@ -145,15 +165,7 @@ const appConfig = merge({}, config, {
         ? JS_LOADER_DEV
         : JS_LOADER,
       ...config.module.loaders,
-      {
-        test: /\.scss$/,
-        loaders: [
-          'style',
-          'css',
-          'postcss',
-          'sass',
-        ],
-      },
+      DEBUG ? SCSS_LOADER_DEV : SCSS_LOADER,
     ],
   },
 });
@@ -180,6 +192,7 @@ const pagesConfig = merge({}, config, {
   externals: /^[a-z][a-z\.\-\/0-9]*$/i,
   plugins: config.plugins.concat([
     new webpack.optimize.LimitChunkCountPlugin({ maxChunks: 1 }),
+    new ExtractTextPlugin('app.css', { allChunks: true }),
   ]),
   module: {
     loaders: [
@@ -187,11 +200,14 @@ const pagesConfig = merge({}, config, {
       ...config.module.loaders,
       {
         test: /\.scss$/,
-        loaders: [
-          'css',
-          'postcss',
-          'sass',
-        ],
+        loader: ExtractTextPlugin.extract(
+          'css'
+          + '?modules'
+          + '&importLoaders=1'
+          + `${DEBUG ? '' : '&minify'}`
+          + '!postcss'
+          + '!sass'
+        ),
       },
     ],
   },
