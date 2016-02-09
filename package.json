@@ -75,7 +75,8 @@
     "react-immutable-proptypes": "^1.5.1",
     "react-motion": "^0.4.2",
     "react-redux": "^4.3.0",
-    "redux": "^3.2.1"
+    "redux": "^3.2.1",
+    "redux-immutable": "^3.0.3"
   },
   "name": "2048",
   "description": "> A static website powered by [React.js](http://facebook.github.io/react/) > and [Webpack](http://webpack.github.io/).",
