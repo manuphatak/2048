@@ -4,10 +4,7 @@ import { getEmpty } from '../core/utils';
 import { List } from 'immutable';
 
 const watchActions = [
-  ACTION.SHIFT_DOWN,
-  ACTION.SHIFT_LEFT,
-  ACTION.SHIFT_UP,
-  ACTION.SHIFT_RIGHT,
+  ACTION.SHIFT_DOWN, ACTION.SHIFT_LEFT, ACTION.SHIFT_UP, ACTION.SHIFT_RIGHT,
 ];
 
 export const createTileMiddleware = store => next => action => {
@@ -21,11 +18,10 @@ export const createTileMiddleware = store => next => action => {
     return handle;
   }
 
-  // :off
-  const emptyTiles = getEmpty(nextState.getIn(['game', 'status'], List()));  // :on
+  const emptyTiles = getEmpty(nextState.getIn(['game', 'status'], List()));
 
   if (!emptyTiles.size) {
-    console.error(emptyTiles);
+    console.error('no empty tiles', 'emptyTiles.toJS()', emptyTiles.toJS());
     return undefined;
   }
 

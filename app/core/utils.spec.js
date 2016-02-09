@@ -1,6 +1,6 @@
 /* global describe, it */
 import { List, fromJS, Set } from 'immutable';
-import { getTiles, tileFactory, getEmpty, emptyFactory, placeholderFactory } from './utils';
+import { getTiles, getEmpty, emptyFactory, placeholderFactory } from './utils';
 import { expect } from 'chai';
 
 const U = undefined; // eslint-disable-line id-length
@@ -8,10 +8,7 @@ const U = undefined; // eslint-disable-line id-length
 describe('app utilities', () => {
   describe('getTiles', () => {
     it('gets tiles from state', () => {
-      const [a, b] = [
-        placeholderFactory(2),
-        placeholderFactory(4),
-      ];
+      const [a, b] = [placeholderFactory(2), placeholderFactory(4)];
       const state = fromJS([  // :off
         [U, U, U, U],
         [U, U, U, a],
@@ -22,28 +19,19 @@ describe('app utilities', () => {
       const nextState = getTiles(state);
 
       expect(nextState).to.equal(Set([
-        tileFactory(a.get('value'), 3, 1, a.get('id')),
-        tileFactory(b.get('value'), 2, 2, b.get('id')),
+        a.updateGrid(3, 1), b.updateGrid(2, 2),
       ]));
     });
 
     it('gets tiles from state', () => {
       const [a, b, c, d, e, f, g, h, i, j, k, l] = [
-        placeholderFactory(2),
-        placeholderFactory(4),
-        placeholderFactory(4),
+        placeholderFactory(2), placeholderFactory(4), placeholderFactory(4),
 
-        placeholderFactory(8),
-        placeholderFactory(8),
+        placeholderFactory(8), placeholderFactory(8),
 
-        placeholderFactory(4),
-        placeholderFactory(4),
-        placeholderFactory(2),
+        placeholderFactory(4), placeholderFactory(4), placeholderFactory(2),
 
-        placeholderFactory(4),
-        placeholderFactory(4),
-        placeholderFactory(4),
-        placeholderFactory(4),
+        placeholderFactory(4), placeholderFactory(4), placeholderFactory(4), placeholderFactory(4),
       ];
       const state = fromJS([  // :off
         [a, b, c, U],
@@ -55,24 +43,23 @@ describe('app utilities', () => {
       const nextState = getTiles(state);
 
       expect(nextState).to.equal(Set([
-        tileFactory(a.get('value'), 0, 0, a.get('id')),
-        tileFactory(b.get('value'), 1, 0, b.get('id')),
-        tileFactory(c.get('value'), 2, 0, c.get('id')),
-        tileFactory(d.get('value'), 2, 1, d.get('id')),
-        tileFactory(e.get('value'), 3, 1, e.get('id')),
-        tileFactory(f.get('value'), 1, 2, f.get('id')),
-        tileFactory(g.get('value'), 2, 2, g.get('id')),
-        tileFactory(h.get('value'), 3, 2, h.get('id')),
-        tileFactory(i.get('value'), 0, 3, i.get('id')),
-        tileFactory(j.get('value'), 1, 3, j.get('id')),
-        tileFactory(k.get('value'), 2, 3, k.get('id')),
-        tileFactory(l.get('value'), 3, 3, l.get('id')),
+        a.updateGrid(0, 0),
+        b.updateGrid(1, 0),
+        c.updateGrid(2, 0),
+        d.updateGrid(2, 1),
+        e.updateGrid(3, 1),
+        f.updateGrid(1, 2),
+        g.updateGrid(2, 2),
+        h.updateGrid(3, 2),
+        i.updateGrid(0, 3),
+        j.updateGrid(1, 3),
+        k.updateGrid(2, 3),
+        l.updateGrid(3, 3),
       ]));
     });
 
     it('gets no tiles from empty state', () => {
       const state = List();
-
       const nextState = getTiles(state);
 
       expect(nextState).to.equal(Set());
@@ -94,10 +81,7 @@ describe('app utilities', () => {
 
   describe('getEmpty', () => {
     it('creates a list of empty tiles', () => {
-      const [a, b] = [
-        placeholderFactory(2),
-        placeholderFactory(4),
-      ];
+      const [a, b] = [placeholderFactory(2), placeholderFactory(4)];
       const state = fromJS([  // :off
         [U, U, U, U],
         [U, U, U, a],

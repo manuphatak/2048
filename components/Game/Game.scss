@@ -93,13 +93,16 @@
       line-height:   107px;
       position:      absolute;
       border-radius: 3px;
-
+      &.tile-new {
+        border: 3px solid red;
+      }
       .tile-inner {
         text-align:  center;
         font-weight: bold;
         font-size:   55px;
       }
-      &.tile- {
+
+      &.tile-value- {
 
         &2 {
           @include tile-inner(1);
@@ -156,35 +159,35 @@
           background-color: hsl(45, 9%, 21%);
         }
       }
-    }
 
-    .tile-col- {
-      &0 {
-        left: 0;
+      &.tile-col- {
+        &0 {
+          left: 0;
+        }
+        &1 {
+          left: 121px;
+        }
+        &2 {
+          left: 242px;
+        }
+        &3 {
+          left: 363px;
+        }
       }
-      &1 {
-        left: 121px;
-      }
-      &2 {
-        left: 242px;
-      }
-      &3 {
-        left: 363px;
-      }
-    }
 
-    .tile-row- {
-      &0 {
-        top: 0;
-      }
-      &1 {
-        top: 121px;
-      }
-      &2 {
-        top: 242px;
-      }
-      &3 {
-        top: 363px;
+      &.tile-row- {
+        &0 {
+          top: 0;
+        }
+        &1 {
+          top: 121px;
+        }
+        &2 {
+          top: 242px;
+        }
+        &3 {
+          top: 363px;
+        }
       }
     }
   }

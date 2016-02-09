@@ -1,16 +1,17 @@
 import { Map, fromJS } from 'immutable';
 import uuid from 'node-uuid';
 
+Map.prototype.updateGrid = function updateGrid(col, row) { // eslint-disable-line no-extend-native
+  return this.merge({ col, row });
+};
+
 export function getTiles(state) {
   return state
     .map((row, rowIndex) => row.map((value, colIndex) => {
       if (value === undefined) {
         return value;
       }
-      return value.merge({
-        row: rowIndex,
-        col: colIndex,
-      });
+      return value.updateGrid(colIndex, rowIndex);
     }))
     .flatten(true)
     .toSet()
@@ -27,8 +28,8 @@ export function getEmpty(state) {
     .filter(x => x !== undefined);
 }
 
-export function tileFactory(value, col, row, id) {  // :off
-  return placeholderFactory(value, id).merge({ col, row });  // :on
+export function tileFactory(value, col, row, id) {
+  return placeholderFactory(value, id).updateGrid(col, row);
 }
 
 export function placeholderFactory(value, id = undefined) {
@@ -36,8 +37,7 @@ export function placeholderFactory(value, id = undefined) {
     id = uuid.v4();  // eslint-disable-line no-param-reassign
   }
   return fromJS({
-    value,
-    id,
+    value, id,
   });
 }
 

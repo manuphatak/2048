@@ -15,13 +15,20 @@ class GameTile extends PureComponent {
   };
 
   render() {
-    const { value, row, col, id } = this.props.tile.toObject();
+    const { value, row, col, id, from, isNew } = this.props.tile.toJS();
+    const fromClass = from === undefined  // :off
+      ? []
+      : [
+        `tile-from-col-${from.col}`,
+        `tile-from-row-${from.row}`,
+        `tile-from-value-${this.getValueText(from.value)}`,
+      ];  // :on
     const tileClass = classNames('tile',
-      `tile-${value <= 2048
-        ? value
-        : 'super'}`,
+      `tile-value-${this.getValueText(value)}`,
       `tile-col-${col}`,
-      `tile-row-${row}`);
+      `tile-row-${row}`,
+      ...fromClass,
+      { 'tile-new': isNew });
     return (
       <div
         key={id}
@@ -30,6 +37,12 @@ class GameTile extends PureComponent {
         <div className="tile-inner">{value}</div>
       </div>
     );
+  }
+
+  getValueText(value) {
+    return value <= 2048
+      ? value
+      : 'super';
   }
 }
 

@@ -1,20 +1,22 @@
-import { fromJS } from 'immutable';
+import { fromJS, Map, List, Set } from 'immutable';
 import { placeholderFactory } from './utils';
 
 const [U, A, B] = [
-  undefined,
-  placeholderFactory(2),
-  placeholderFactory(4),
+  undefined, placeholderFactory(2), placeholderFactory(4),
 ];
 
 export const INITIAL_STATE = fromJS({
   game: {
-    status: fromJS([  // :off
+    status: [    // :off
           [U, U, U, U],
           [U, U, U, A],
           [U, U, B, U],
           [U, U, U, U],
-    ]), // :on
+    ],  // :on
+    tiles: Map([  // :off
+      [A.get('id'), A.updateGrid(3, 1)],
+      [B.get('id'), B.updateGrid(2, 2)],
+    ]),  // :on
   },
 });
 
@@ -55,24 +57,6 @@ export function shift(state) {
     .asImmutable();
 }
 
-export function createTile(state, tile) {
-  return state.updateIn([  // :off
-    tile.get('row'),
-    tile.get('col'),
-  ],  // :on
-    undefined,
-    v => v === undefined
-      ? placeholderFactory(tile.get('value'), tile.get('id', undefined))
-      : v);
-}
-
-export function transpose(state) {
-  return state
-    .asMutable()
-    .update(value => value.map((col, index) => state.map(row => row.get(index))))
-    .asImmutable();
-}
-
 function _shift(x, xs) {
   // Guard last item.
   if (!xs.size) {
@@ -102,4 +86,52 @@ function _shift(x, xs) {
   // concat blocks
   return _shift(y, ys)
     .withMutations(stack => stack.unshift(x));
+}
+
+export function createTile(state, tile) {
+  return state.updateIn([  // :off
+    tile.get('row'),
+    tile.get('col'),
+  ],  // :on
+    undefined,
+    v => v === undefined
+      ? placeholderFactory(tile.get('value'), tile.get('id', undefined))
+      : v);
+}
+export function updateGameTiles(game) {
+  return game.update('tiles', Set(), tiles => updateTiles(tiles, game.get('status')));
+}
+
+function updateTiles(tiles, status) {
+  return Map(status
+    .map((row, rowIndex) => row.map((tile, colIndex) => {
+      if (tile === undefined) {
+        return undefined;
+      }
+      return List.of(tile.get('id'), tile.updateGrid(colIndex, rowIndex)
+                                         .set('isNew', false));
+    }))
+    .flatten(true))
+    .map((nextTile, key) => {
+      const oldTile = tiles.get(key, undefined);
+      if (oldTile === undefined) {
+        return nextTile.delete('from');
+      }
+
+      return nextTile.update('from', () => oldTile);
+    });
+}
+
+export function addGameTile(payload, game) {
+  const newTile = game.getIn(['status', payload.get('row'), payload.get('col')])
+                      .updateGrid(payload.get('col'), payload.get('row'))
+                      .set('isNew', true);
+  return game.update('tiles', Set(), tiles => tiles.set(newTile.get('id'), newTile));
+}
+
+export function transpose(state) {
+  return state
+    .asMutable()
+    .update(value => value.map((col, index) => state.map(row => row.get(index))))
+    .asImmutable();
 }

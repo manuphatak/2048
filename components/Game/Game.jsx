@@ -2,15 +2,12 @@ import React, { PropTypes } from 'react';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { Set } from 'immutable';
-
+import { Map } from 'immutable';
 
 import PureComponent from '../../lib/PureComponent.jsx';
 import * as actionCreators from '../../app/actionCreators';
 import GameGrid from './GameGrid.jsx';
 import GameTiles from './GameTiles.jsx';
-
-import { getTiles } from '../../app/core/utils';
 
 class Game extends PureComponent {
   constructor(props) {
@@ -30,9 +27,7 @@ class Game extends PureComponent {
       onShiftRight: PropTypes.func.isRequired,
       onShiftDown: PropTypes.func.isRequired,
       onShiftUp: PropTypes.func.isRequired,
-    }),
-    value: PropTypes.number.isRequired,
-    tiles: ImmutablePropTypes.setOf(ImmutablePropTypes.map).isRequired,
+    }), value: PropTypes.number.isRequired, tiles: ImmutablePropTypes.setOf(ImmutablePropTypes.map).isRequired,
   };
 
   render() {
@@ -79,7 +74,7 @@ class Game extends PureComponent {
 function mapStateToProps(state) {
   return {
     value: state.get('value', 0),  // :off
-    tiles: getTiles(state.getIn(['game', 'status']), Set()),  // :on
+    tiles: state.getIn(['game', 'tiles'], Map()).toSet(),  // :on
   };
 }
 
