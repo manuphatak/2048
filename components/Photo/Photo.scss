@@ -1,0 +1,16 @@
+.Photo {
+  display:     flex;
+  align-items: center;
+  height:      700px;
+  position:    relative;
+  &-inner {
+    overflow: hidden;
+    position: relative;
+    margin:   auto;
+  }
+  &-photo {
+    position:         absolute;
+    background-color: lightgray;
+  }
+}
+

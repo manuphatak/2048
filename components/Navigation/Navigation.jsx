@@ -26,6 +26,14 @@ class Navigation extends Component {
           >About
           </a>
         </li>
+        <li className="Navigation-item">
+          <a
+            className="Navigation-link"
+            href="/photo"
+            onClick={Link.handleClick}
+          >PhotoGallery
+          </a>
+        </li>
       </ul>
     );
   }

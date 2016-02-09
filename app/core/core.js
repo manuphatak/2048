@@ -1,4 +1,4 @@
-import { fromJS, Stack } from 'immutable';
+import { fromJS } from 'immutable';
 import { placeholderFactory } from './utils';
 
 const [U, A, B] = [

@@ -104,6 +104,7 @@
         &2 {
           @include tile-inner(1);
           background-color: hsl(27, 37%, 89%);
+          content:          "2";
         }
         &4 {
           @include tile-inner(1);
@@ -156,6 +157,7 @@
         }
       }
     }
+
     .tile-col- {
       &0 {
         left: 0;
@@ -173,7 +175,7 @@
 
     .tile-row- {
       &0 {
-        top: 0
+        top: 0;
       }
       &1 {
         top: 121px;
@@ -185,25 +187,25 @@
         top: 363px;
       }
     }
-
   }
-
 }
 
 .example {
   &-enter {
     opacity: 0.01;
     &-active {
-      opacity:    1;
-      transition: opacity 500ms ease-in;
+      opacity:          1;
+      transition:       opacity 500ms ease-in;
+      transition-delay: 3s;
     }
   }
 
   &-leave {
     opacity: 1;
     &-active {
-      opacity:    0.01;
-      transition: opacity 300ms ease-in;
+      opacity:          0.01;
+      transition:       opacity 300ms ease-in;
+      transition-delay: 3s;
     }
   }
 
