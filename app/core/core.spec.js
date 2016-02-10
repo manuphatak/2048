@@ -1,7 +1,8 @@
-/* global describe, it */
-import { List, fromJS, Set, Map } from 'immutable';
+/* eslint-env mocha */
+/* eslint no-unused-expressions: 0 */
+import { List, fromJS, Map } from 'immutable';
 import {
-  shift, transpose, shiftLeft, shiftUp, shiftRight, shiftDown, createTiles, addGameTiles, refreshGameTiles
+  shift, transpose, shiftLeft, shiftUp, shiftRight, shiftDown, createTiles, addGameTiles, refreshGameTiles,
 } from './core';
 import { expect } from 'chai';
 import { placeholderFactory } from './utils';

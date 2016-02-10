@@ -1,4 +1,5 @@
-/* global describe, it */
+/* eslint-env mocha */
+/* eslint no-unused-expressions: 0 */
 import { expect } from 'chai';
 import { fromJS, Map } from 'immutable';
 
@@ -6,7 +7,7 @@ import { onShiftDown, onShiftLeft, onShiftUp, onShiftRight, onCreateTile } from 
 import reducer from './gameReducer';
 import { placeholderFactory } from '../core/utils';
 
-const U = undefined; // eslint-disable-line id-length
+const U = undefined;
 
 describe('gameReducer', () => {
   const [a, b] = [placeholderFactory(2), placeholderFactory(4)];

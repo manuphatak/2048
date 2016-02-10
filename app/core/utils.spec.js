@@ -1,9 +1,10 @@
-/* global describe, it */
+/* eslint-env mocha */
+/* eslint no-unused-expressions: 0 */
 import { List, fromJS, Set } from 'immutable';
 import { getTiles, getEmpty, emptyFactory, placeholderFactory } from './utils';
 import { expect } from 'chai';
 
-const U = undefined; // eslint-disable-line id-length
+const U = undefined;
 
 describe('app utilities', () => {
   describe('getTiles', () => {
