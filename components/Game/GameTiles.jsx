@@ -1,7 +1,7 @@
 import React from 'react';
 
-import PureComponent from '../../lib/PureComponent.jsx';
-import GameTile from './GameTile.jsx';
+import PureComponent from '../../lib/PureComponent';
+import GameTile from './GameTile';
 
 class GameTiles extends PureComponent {
   render() {

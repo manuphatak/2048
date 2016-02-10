@@ -3,7 +3,7 @@ import { Motion, spring } from 'react-motion';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 import classNames from 'classnames';
 
-import PureComponent from '../../lib/PureComponent.jsx';
+import PureComponent from '../../lib/PureComponent';
 import { CELL_SPACE, tileSlideConfig, tileNewConfig } from './constants';
 
 class GameTile extends PureComponent {

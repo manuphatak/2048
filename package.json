@@ -38,7 +38,7 @@
     "history": "^2.0.0",
     "hygienist-middleware": "^0.1.0",
     "jsdom": "^8.0.2",
-    "lodash.merge": "^4.0.4",
+    "lodash.merge": "^4.1.0",
     "mkdirp": "^0.5.1",
     "mocha": "^2.3.3",
     "ncp": "^2.0.0",

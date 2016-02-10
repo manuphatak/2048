@@ -30,8 +30,6 @@ const JS_LOADER = { test: /\.jsx?$/, include: INCLUDE_PATHS, loader: 'babel' };
 
 const JS_LOADER_DEV = Object.assign({}, JS_LOADER, {
   query: {
-    // Wraps all React components into arbitrary transforms
-    // https://github.com/gaearon/babel-plugin-react-transform
     presets: ['react-hmre'],
   },
 });
@@ -53,6 +51,10 @@ const config = {
   },  // :on
 
   cache: DEBUG,
+
+  resolve: {
+    extensions: ['', '.webpack.js', '.web.js', '.js', '.jsx'],
+  },
 
   stats: {
     colors: true,

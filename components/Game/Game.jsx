@@ -4,10 +4,10 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { Map } from 'immutable';
 
-import PureComponent from '../../lib/PureComponent.jsx';
+import PureComponent from '../../lib/PureComponent';
 import * as actionCreators from '../../app/actionCreators';
-import GameGrid from './GameGrid.jsx';
-import GameTiles from './GameTiles.jsx';
+import GameGrid from './GameGrid';
+import GameTiles from './GameTiles';
 
 class Game extends PureComponent {
   constructor(props) {
