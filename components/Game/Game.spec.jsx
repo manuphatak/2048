@@ -1,6 +1,6 @@
 /* global describe, it */
 import React from 'react';
-import { renderIntoDocument, scryRenderedDOMComponentsWithTag, Simulate } from 'react-addons-test-utils';
+import { renderIntoDocument, scryRenderedDOMComponentsWithTag } from 'react-addons-test-utils';
 import { expect } from 'chai';
 import { Set } from 'immutable';
 import { Game } from './Game';
@@ -59,6 +59,15 @@ describe('Game', () => {
 
       renderIntoDocument(<Game {...props} />);
       keyPress(KEY.DOWN);
+
+      expect(success).to.be.ok; // eslint-disable-line no-unused-expressions
+    });
+    it('fires a newgame event on mounting', () => {
+      let success = null;
+      const props = defaultProps();
+      props.actions.onNewGame = () => {success = true;};
+
+      renderIntoDocument(<Game {...props} />);
 
       expect(success).to.be.ok; // eslint-disable-line no-unused-expressions
     });

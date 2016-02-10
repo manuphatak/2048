@@ -30,10 +30,6 @@ class Game extends PureComponent {
     }), value: PropTypes.number.isRequired, tiles: ImmutablePropTypes.setOf(ImmutablePropTypes.map).isRequired,
   };
 
-  componentWillMount() {
-    this.props.actions.onNewGame();
-  }
-
   render() {
     const { onShiftLeft, onShiftRight, onShiftUp, onShiftDown } = this.props.actions;
     const { tiles } = this.props;
@@ -59,6 +55,10 @@ class Game extends PureComponent {
 
   componentDidMount() {
     window.addEventListener('keydown', this.onKeyDown, false);
+  }
+
+  componentWillMount() {
+    this.props.actions.onNewGame();
   }
 
   componentWillUnmount() {
