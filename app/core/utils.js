@@ -1,4 +1,4 @@
-import { Map, fromJS } from 'immutable';
+import { List, Map, fromJS } from 'immutable';
 import uuid from 'node-uuid';
 
 Map.prototype.updateGrid = function updateGrid(col, row) { // eslint-disable-line no-extend-native
@@ -18,7 +18,7 @@ export function getTiles(state) {
     .filter(x => x !== undefined);
 }
 
-export function getEmpty(state) {
+export function getEmpty(state = List()) {
   return state
     .map((row, rowIndex) => row.map((value, colIndex) => value === undefined
       ? emptyFactory(colIndex, rowIndex)

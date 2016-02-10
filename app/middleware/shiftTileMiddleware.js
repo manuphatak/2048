@@ -17,7 +17,8 @@ export default store => next => action => {
     return handle;
   }
 
-  const nextTile = createRandomTileAction(nextState);
+  const nextTile = createRandomTileAction(nextState, 1);
+
   if (nextTile === undefined) {
     console.error('no empty tiles', 'nextTile', nextTile);
     return handle;

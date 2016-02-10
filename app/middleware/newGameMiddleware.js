@@ -1,4 +1,4 @@
-import { createRandomTileAction } from './utils';
+import { randomTileQuantity, createRandomTileAction } from './utils';
 import * as ACTION from '../actions';
 
 export default store => next => action => {
@@ -8,10 +8,10 @@ export default store => next => action => {
   const handle = next(action);
   const nextState = store.getState();
 
-  const nextTile = createRandomTileAction(nextState);
-  if (nextTile === undefined) {
-    console.error('no empty tiles', 'nextTile', nextTile);
+  const nextTiles = createRandomTileAction(nextState, randomTileQuantity());
+  if (nextTiles === undefined) {
+    console.error('no empty tiles', 'nextTiles', nextTiles);
     return handle;
   }
-  return next(nextTile);
+  return next(nextTiles);
 };

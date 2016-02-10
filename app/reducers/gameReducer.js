@@ -8,7 +8,6 @@ import * as ACTION from '../actions';
 export default function gameReducer(state = INITIAL_STATE, action) {
   switch (action.type) {
     case ACTION.NEW_GAME:
-      console.log('action.type', action.type);
       return state;
     case ACTION.SHIFT_LEFT:
       return state.update('status', List(), value => shiftLeft(value))

@@ -3,39 +3,29 @@ import { placeholderFactory } from './utils';
 
 export function shiftLeft(state) {
   return state
-    .asMutable()
-    .update(value => value.map(col => shift(col)))
-    .asImmutable();
+    .update(value => value.map(col => shift(col)));
 }
 
 export function shiftUp(state) {
   return state
-    .asMutable()
-    .update(value => transpose(shiftLeft(transpose(value))))
-    .asImmutable();
+    .update(value => transpose(shiftLeft(transpose(value))));
 }
 
 export function shiftRight(state) {
   return state
-    .asMutable()
-    .update(value => value.map(col => shift(col.reverse()).reverse()))
-    .asImmutable();
+    .update(value => value.map(col => shift(col.reverse()).reverse()));
 }
 
 export function shiftDown(state) {
   return state
-    .asMutable()
-    .update(value => transpose(shiftRight(transpose(value))))
-    .asImmutable();
+    .update(value => transpose(shiftRight(transpose(value))));
 }
 
 export function shift(state) {
   return state
-    .asMutable()
     .update(value => _shift(undefined, value.asImmutable().toStack()))
     .toList()
-    .setSize(state.size)
-    .asImmutable();
+    .setSize(state.size);
 }
 
 function _shift(x, xs) {
