@@ -1,6 +1,6 @@
 /* global describe, it */
 import { expect } from 'chai';
-import { fromJS, Map, List } from 'immutable';
+import { fromJS, Map } from 'immutable';
 
 import { onShiftDown, onShiftLeft, onShiftUp, onShiftRight, onCreateTile } from '../actionCreators';
 import reducer from './gameReducer';
@@ -34,9 +34,9 @@ describe('gameReducer', () => {
           [U, U, U, U],
         ], // :on
         tiles: Map([
-          [a.get('id'), a.updateGrid(0, 1).set('isNew', false).set('from', A)],
+          [a.get('id'), a.updateGrid(0, 1).set('isNew', false)],
 
-          [b.get('id'), b.updateGrid(0, 2).set('isNew', false).set('from', B)],
+          [b.get('id'), b.updateGrid(0, 2).set('isNew', false)],
         ]),
       });
       expect(nextState.toJS()).to.deep.equal(expected.toJS());
@@ -66,9 +66,9 @@ describe('gameReducer', () => {
           [U, U, U, U],
         ], // :on
         tiles: Map([
-          [a.get('id'), a.updateGrid(3, 1).set('isNew', false).set('from', A)],
+          [a.get('id'), a.updateGrid(3, 1).set('isNew', false)],
 
-          [b.get('id'), b.updateGrid(3, 2).set('isNew', false).set('from', B)],
+          [b.get('id'), b.updateGrid(3, 2).set('isNew', false)],
         ]),
       });
       expect(nextState.toJS()).to.deep.equal(expected.toJS());
@@ -99,9 +99,9 @@ describe('gameReducer', () => {
           [U, U, b, a],
         ], // :on
         tiles: Map([
-          [a.get('id'), a.updateGrid(3, 3).set('isNew', false).set('from', A)],
+          [a.get('id'), a.updateGrid(3, 3).set('isNew', false)],
 
-          [b.get('id'), b.updateGrid(2, 3).set('isNew', false).set('from', B)],
+          [b.get('id'), b.updateGrid(2, 3).set('isNew', false)],
         ]),
       });
       expect(nextState.toJS()).to.deep.equal(expected.toJS());
@@ -132,9 +132,9 @@ describe('gameReducer', () => {
           [U, U, U, U],
         ], // :on
         tiles: Map([
-          [a.get('id'), a.updateGrid(3, 0).set('isNew', false).set('from', A)],
+          [a.get('id'), a.updateGrid(3, 0).set('isNew', false)],
 
-          [b.get('id'), b.updateGrid(2, 0).set('isNew', false).set('from', B)],
+          [b.get('id'), b.updateGrid(2, 0).set('isNew', false)],
         ]),
       });
       expect(nextState.toJS()).to.deep.equal(expected.toJS());
@@ -143,10 +143,9 @@ describe('gameReducer', () => {
   });
 
   describe('CREATE_TILE', () => {
-    // TODO test multiple
     it('handles CREATE_TILE', () => {
       const c = placeholderFactory(2);
-      const tile = c.updateGrid(0, 0).toJS();
+      const C = c.updateGrid(0, 0);
       const initialState = fromJS({
         status: [  // :off
           [U, U, U, U],
@@ -158,7 +157,7 @@ describe('gameReducer', () => {
           [a.get('id'), A], [b.get('id'), B],
         ]),
       });
-      const nextState = reducer(initialState, onCreateTile([tile]));
+      const nextState = reducer(initialState, onCreateTile([C.toJS()]));
 
       const expected = fromJS({
         status: [  // :off
@@ -168,11 +167,48 @@ describe('gameReducer', () => {
           [U, U, U, U],
         ], // :on
         tiles: Map([
-          [a.get('id'), a.updateGrid(3, 1)],
+          [a.get('id'), A],
 
-          [b.get('id'), b.updateGrid(2, 2)],
+          [b.get('id'), B],
 
-          [c.get('id'), c.updateGrid(0, 0).set('isNew', true)],
+          [c.get('id'), C.set('isNew', true)],
+        ]),
+      });
+      expect(nextState.toJS()).to.deep.equal(expected.toJS());
+      expect(nextState).to.equal(expected);
+    });
+
+    it('handles CREATE_TILE with multiple tiles', () => {
+      const [c, d] = [placeholderFactory(2), placeholderFactory(4)];
+      const [C, D] = [c.updateGrid(0, 0), d.updateGrid(1, 0)];
+      const initialState = fromJS({
+        status: [  // :off
+          [U, U, U, U],
+          [U, U, U, a],
+          [U, U, b, U],
+          [U, U, U, U],
+        ], // :on
+        tiles: Map([
+          [a.get('id'), A], [b.get('id'), B],
+        ]),
+      });
+      const nextState = reducer(initialState, onCreateTile([C.toJS(), D.toJS()]));
+
+      const expected = fromJS({
+        status: [  // :off
+          [c, d, U, U],
+          [U, U, U, a],
+          [U, U, b, U],
+          [U, U, U, U],
+        ], // :on
+        tiles: Map([
+          [a.get('id'), A],
+
+          [b.get('id'), B],
+
+          [c.get('id'), C.set('isNew', true)],
+
+          [d.get('id'), D.set('isNew', true)],
         ]),
       });
       expect(nextState.toJS()).to.deep.equal(expected.toJS());

@@ -68,26 +68,27 @@ function _shift(x, xs) {
   return _shift(y, ys)
     .withMutations(stack => stack.unshift(x));
 }
-// TODO create many
+
+const createTile = state => tile => {
+  const keyPath = [tile.get('row'), tile.get('col')];
+
+  if (state.getIn(keyPath, undefined) !== undefined) { return undefined; }
+
+  state.setIn(keyPath, placeholderFactory(tile.get('value'), tile.get('id')));
+};
+
 export function createTiles(state, tiles) {
-  return createTile(state, tiles.get(0));
+  return state.withMutations(updater => {
+    tiles.forEach(createTile(updater));
+    return updater;
+  });
 }
 
-function createTile(state, tile) {
-  return state.updateIn([  // :off
-    tile.get('row'),
-    tile.get('col'),
-  ],
-    undefined,
-    v => v === undefined
-      ? placeholderFactory(tile.get('value'), tile.get('id'))
-      : v); // :on
-}
-export function updateGameTiles(game) {
-  return game.update('tiles', Set(), tiles => updateTiles(tiles, game.get('status')));
+export function refreshGameTiles(game) {
+  return game.update('tiles', Set(), tiles => refreshTiles(tiles, game.get('status')));
 }
 
-function updateTiles(tiles, status) {
+function refreshTiles(tiles, status) {
   return Map(status
     .map((row, rowIndex) => row.map((tile, colIndex) => {
       if (tile === undefined) {
@@ -103,17 +104,22 @@ function updateTiles(tiles, status) {
         return nextTile.delete('from');
       }
 
-      return nextTile.update('from', () => oldTile);
+      return nextTile/*.update('from', () => oldTile)*/;
     });
 }
+const updateNewTile = game => tile => (
+  game.getIn(['status', tile.get('row'), tile.get('col')])
+      .updateGrid(tile.get('col'), tile.get('row'))
+      .set('isNew', true)
+);
 
-// TODO add many tiles
-export function addGameTiles(payload, game) {
-  const newTile = game.getIn(['status', payload.get('row'), payload.get('col')])
-                      .updateGrid(payload.get('col'), payload.get('row'))
-                      .set('isNew', true);
-  return game.update('tiles', Set(), tiles => tiles.set(newTile.get('id'), newTile));
-}
+export const addGameTiles = tiles => game => (
+  game.update('tiles', Map(), updater => updater.withMutations(mutator => {
+    tiles.map(updateNewTile(game))
+         .forEach(tile => mutator.set(tile.get('id'), tile));
+    return mutator;
+  }))
+);
 
 export function transpose(state) {
   return state
