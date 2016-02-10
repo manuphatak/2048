@@ -7,14 +7,13 @@ const watchActions = [
 ];
 
 export default store => next => action => {
-  console.log('action', action);
-  if (!watchActions.includes(action)) {
+  if (!watchActions.includes(action.type)) {
     return next(action);
   }
   const state = store.getState();
   const handle = next(action);
   const nextState = store.getState();
-  if (state.equals(nextState)) {
+  if (state.getIn(['game', 'status']).equals(nextState.getIn(['game', 'status']))) {
     return handle;
   }
 
@@ -23,7 +22,6 @@ export default store => next => action => {
     console.error('no empty tiles', 'nextTile', nextTile);
     return handle;
   }
-  console.log('nextTile', nextTile);
 
   return next(nextTile);
 };

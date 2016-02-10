@@ -6,14 +6,14 @@ import middleware from '../middleware';
 
 export default function makeStore(initialState = INITIAL_STATE) {
   const activateDevTools = canUseDOM && window.devToolsExtension ? window.devToolsExtension() : e => e;
-  const enhancer = compose(middleware, activateDevTools);
+  const enhancer = compose(middleware(), activateDevTools);
   const store = createStore(reducer, initialState, enhancer);
 
   if (module.hot) {
     // Enable Webpack hot module replacement for reducers
     module.hot.accept('../reducers', () => {
       const nextReducer = require('../reducers').default;
-      store.replaceReducer(nextReducer);
+      store.replaceReducer(nextReducer());
     });
   }
 
