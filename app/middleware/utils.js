@@ -8,7 +8,11 @@ export function createRandomTileAction(state) {
   if (nextTile === undefined) {
     return undefined;
   }
-  return onCreateTile(2, nextTile.get('col'), nextTile.get('row'));
+  return onCreateTile([
+    {
+      value: 2, col: nextTile.get('col'), row: nextTile.get('row'),
+    },
+  ]);
 }
 
 function getRandomEmptyTile(state) {

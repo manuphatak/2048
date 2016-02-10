@@ -46,7 +46,6 @@ async function renderPage(page, component) {
 export default task(async function render() {
   const pages = await getPages();
   const { route } = require('../build/app.node').default;
-  console.log('route', route);
   for (const page of pages) {
     await route(page.path, renderPage.bind(undefined, page));
   }
