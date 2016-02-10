@@ -1,24 +1,5 @@
-import { fromJS, Map, List, Set } from 'immutable';
+import { Map, List, Set } from 'immutable';
 import { placeholderFactory } from './utils';
-
-const [U, A, B] = [
-  undefined, placeholderFactory(2), placeholderFactory(4),
-];
-
-export const INITIAL_STATE = fromJS({
-  game: {
-    status: [    // :off
-          [U, U, U, U],
-          [U, U, U, A],
-          [U, U, B, U],
-          [U, U, U, U],
-    ],  // :on
-    tiles: Map([  // :off
-      [A.get('id'), A.updateGrid(3, 1).set('isNew', true)],
-      [B.get('id'), B.updateGrid(2, 2).set('isNew', true)],
-    ]),  // :on
-  },
-});
 
 export function shiftLeft(state) {
   return state
@@ -87,16 +68,20 @@ function _shift(x, xs) {
   return _shift(y, ys)
     .withMutations(stack => stack.unshift(x));
 }
+// TODO create many
+export function createTiles(state, tiles) {
+  return createTile(state, tiles.get(0));
+}
 
-export function createTile(state, tile) {
+function createTile(state, tile) {
   return state.updateIn([  // :off
     tile.get('row'),
     tile.get('col'),
-  ],  // :on
+  ],
     undefined,
     v => v === undefined
-      ? placeholderFactory(tile.get('value'), tile.get('id', undefined))
-      : v);
+      ? placeholderFactory(tile.get('value'), tile.get('id'))
+      : v); // :on
 }
 export function updateGameTiles(game) {
   return game.update('tiles', Set(), tiles => updateTiles(tiles, game.get('status')));
@@ -122,7 +107,8 @@ function updateTiles(tiles, status) {
     });
 }
 
-export function addGameTile(payload, game) {
+// TODO add many tiles
+export function addGameTiles(payload, game) {
   const newTile = game.getIn(['status', payload.get('row'), payload.get('col')])
                       .updateGrid(payload.get('col'), payload.get('row'))
                       .set('isNew', true);

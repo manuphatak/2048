@@ -18,6 +18,7 @@ class Html extends Component {
         lang=""
       >
       <head>
+        <title>2048</title>
         <meta charSet="utf-8" />
         <meta
           httpEquiv="X-UA-Compatible"

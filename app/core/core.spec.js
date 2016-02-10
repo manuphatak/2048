@@ -1,6 +1,6 @@
 /* global describe, it */
 import { List, fromJS } from 'immutable';
-import { shift, transpose, shiftLeft, shiftUp, shiftRight, shiftDown, createTile } from './core';
+import { shift, transpose, shiftLeft, shiftUp, shiftRight, shiftDown, createTiles } from './core';
 import { expect } from 'chai';
 import { placeholderFactory } from './utils';
 
@@ -162,12 +162,14 @@ describe('app core logic', () => {
 
       const nextState = shiftLeft(state);
 
-      expect(nextState).to.equal(fromJS([  // :off
+      const expected = fromJS([  // :off
         [U, U, U, U],
         [a, U, U, U],
         [b, U, U, U],
         [U, U, U, U],
-      ]));  // :on
+      ]);  // :on
+      expect(nextState.toJS()).to.deep.equal(expected.toJS());
+      expect(nextState).to.equal(expected);
     });
 
     it('shifts values left', () => {
@@ -192,12 +194,14 @@ describe('app core logic', () => {
 
       const nextState = shiftLeft(state);
 
-      expect(nextState).to.equal(fromJS([  // :off
+      const expected = fromJS([  // :off
         [a, C, U, U],
         [E, U, U, U],
         [G, h, U, U],
         [J, L, U, U],
-      ]));  // :on
+      ]);  // :on
+      expect(nextState.toJS()).to.deep.equal(expected.toJS());
+      expect(nextState).to.equal(expected);
     });
   });
 
@@ -213,12 +217,14 @@ describe('app core logic', () => {
 
       const nextState = shiftUp(state);
 
-      expect(nextState).to.equal(fromJS([  // :off
+      const expected = fromJS([  // :off
         [U, U, b, a],
         [U, U, U, U],
         [U, U, U, U],
         [U, U, U, U],
-      ]));  // :on
+      ]);  // :on
+      expect(nextState.toJS()).to.deep.equal(expected.toJS());
+      expect(nextState).to.equal(expected);
     });
 
     it('shifts values up', () => {
@@ -240,13 +246,14 @@ describe('app core logic', () => {
       ]);  // :on
 
       const nextState = shiftUp(state);
-
-      expect(nextState).to.equal(fromJS([  // :off
+      const expected = fromJS([  // :off
         [a, F, c, e],
         [i, j, d, h],
         [U, U, K, l],
         [U, U, U, U],
-      ]));  // :on
+      ]);  // :on
+      expect(nextState.toJS()).to.deep.equal(expected.toJS());
+      expect(nextState).to.equal(expected);
     });
   });
 
@@ -262,12 +269,15 @@ describe('app core logic', () => {
 
       const nextState = shiftRight(state);
 
-      expect(nextState).to.equal(fromJS([  // :off
+      const expected = fromJS([  // :off
         [U, U, U, U],
         [U, U, U, a],
         [U, U, U, b],
         [U, U, U, U],
-      ]));  // :on
+      ]);  // :on
+
+      expect(nextState.toJS()).to.deep.equal(expected.toJS());
+      expect(nextState).to.equal(expected);
     });
 
     it('shifts values right', () => {
@@ -292,12 +302,14 @@ describe('app core logic', () => {
 
       const nextState = shiftRight(state);
 
-      expect(nextState).to.equal(fromJS([  // :off
+      const expected = fromJS([  // :off
         [U, U, a, B],
         [U, U, U, D],
         [U, U, F, h],
         [U, U, I, K],
-      ]));  // :on
+      ]);  // :on
+      expect(nextState.toJS()).to.deep.equal(expected.toJS());
+      expect(nextState).to.equal(expected);
     });
   });
 
@@ -313,12 +325,14 @@ describe('app core logic', () => {
 
       const nextState = shiftDown(state);
 
-      expect(nextState).to.equal(fromJS([  // :off
+      const expected = fromJS([  // :off
         [U, U, U, U],
         [U, U, U, U],
         [U, U, U, U],
         [U, U, b, a],
-      ]));  // :on
+      ]);  // :on
+      expect(nextState.toJS()).to.deep.equal(expected.toJS());
+      expect(nextState).to.equal(expected);
     });
 
     it('shifts values down', () => {
@@ -340,16 +354,18 @@ describe('app core logic', () => {
       ]);  // :on
       const nextState = shiftDown(state);
 
-      expect(nextState).to.equal(fromJS([  // :off
+      const expected = fromJS([  // :off
         [U, U, U, U],
         [U, U, c, e],
         [a, b, d, h],
         [i, F, G, l],
-      ]));  // :on
+      ]);  // :on
+      expect(nextState.toJS()).to.deep.equal(expected.toJS());
+      expect(nextState).to.equal(expected);
     });
   });
 
-  describe('createTile', () => {
+  describe('createTiles', () => {
     it('creates a tile at coordinates', () => {
       const [a, b] = [placeholderFactory(2), placeholderFactory(4)];
       const state = fromJS([  // :off
@@ -360,14 +376,16 @@ describe('app core logic', () => {
       ]);  // :on
       const c = placeholderFactory(2);
       const tile = c.updateGrid(0, 0);
-      const nextState = createTile(state, tile);
+      const nextState = createTiles(state, List.of(tile));
 
-      expect(nextState).to.equal(fromJS([  // :off
+      const expected = fromJS([  // :off
         [c, U, U, U],
         [U, U, U, a],
         [U, U, b, U],
         [U, U, U, U],
-      ]));  // :on
+      ]);  // :on
+      expect(nextState.toJS()).to.deep.equal(expected.toJS());
+      expect(nextState).to.equal(expected);
     });
 
     it('does not override existing tiles', () => {
@@ -380,14 +398,16 @@ describe('app core logic', () => {
       ]);  // :on
       const d = placeholderFactory(2);
       const tile = d.updateGrid(0, 0);
-      const nextState = createTile(state, tile);
-
-      expect(nextState).to.equal(fromJS([  // :off
+      const nextState = createTiles(state, List.of(tile));
+      const expected = fromJS([  // :off
         [c, U, U, U],
         [U, U, U, a],
         [U, U, b, U],
         [U, U, U, U],
-      ]));  // :on
+      ]);  // :on
+
+      expect(nextState.toJS()).to.deep.equal(expected.toJS());
+      expect(nextState).to.equal(expected);
     });
   });
 });

@@ -24,6 +24,7 @@ function defaultProps() {
       onShiftRight: () => undefined,
       onShiftUp: () => undefined,
       onShiftDown: () => undefined,
+      onNewGame: () => undefined,
     }, value: 2, tiles: List(),
   };
 }

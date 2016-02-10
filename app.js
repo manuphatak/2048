@@ -4,8 +4,7 @@ import ReactDOM from 'react-dom';
 import { canUseDOM } from 'fbjs/lib/ExecutionEnvironment';
 import Location from './lib/Location';
 import App from './components/App';
-import makeStore from './app/stores';
-const store = makeStore();
+
 const routes = {}; // Auto-generated on build. See tools/lib/routes-loader.js
 
 const route = async(path, callback) => {
@@ -14,11 +13,11 @@ const route = async(path, callback) => {
   }
   const handler = routes[path] || routes['/404'];
   const componentHandler = await handler();
-  const component = typeof componentHandler === 'function'
+  const component = typeof componentHandler === 'function'  // :off
     ? componentHandler
-    : componentHandler.default;
+    : componentHandler.default;  // :on
 
-  await callback(<App store={store}>{React.createElement(component)}</App>);
+  await callback(<App>{React.createElement(component)}</App>);
 };
 
 function run() {
@@ -44,6 +43,5 @@ if (canUseDOM) {
 }
 
 export default {
-  route,
-  routes,
+  route, routes,
 };

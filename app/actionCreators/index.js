@@ -1,6 +1,6 @@
 import * as ACTION from '../actions';
 import { tileFactory } from '../core/utils';
-
+import { fromJS } from 'immutable';
 export function onNewGame() {
   return { type: ACTION.NEW_GAME };
 }
@@ -21,10 +21,10 @@ export function onShiftUp() {
   return { type: ACTION.SHIFT_UP };
 }
 
-export function onCreateTile(value, col, row, id = undefined) {
-
+export function onCreateTile(tiles) {
   return {
     type: ACTION.CREATE_TILE,
-    payload: tileFactory(value, col, row, id),
+
+    payload: fromJS(tiles.map(({ value, col, row, id }) => tileFactory(value, col, row, id))),
   };
 }

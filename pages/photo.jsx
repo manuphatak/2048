@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import Photo from '../components/Photo';
 
 class Page extends Component {
-
   render() {
     return (
       <div>
@@ -12,7 +11,6 @@ class Page extends Component {
       </div>
     );
   }
-
 }
 
 export default Page;

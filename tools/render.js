@@ -23,10 +23,7 @@ function getPages() {
           else if (path.endsWith('/index')) {
             path = path.substr(0, path.lastIndexOf('/index'));
           }
-          return {
-            path,
-            file,
-          };
+          return { path, file };
         });
         resolve(result);
       }
@@ -49,6 +46,7 @@ async function renderPage(page, component) {
 export default task(async function render() {
   const pages = await getPages();
   const { route } = require('../build/app.node').default;
+  console.log('route', route);
   for (const page of pages) {
     await route(page.path, renderPage.bind(undefined, page));
   }

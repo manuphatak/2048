@@ -1,12 +1,14 @@
 import { List } from 'immutable';
 import {
-  INITIAL_STATE, shiftDown, shiftLeft, shiftRight, shiftUp, createTile, updateGameTiles, addGameTile,
+  shiftDown, shiftLeft, shiftRight, shiftUp, createTiles, updateGameTiles, addGameTiles,
 } from '../core';
+import { INITIAL_STATE } from '../core/constants';
 import * as ACTION from '../actions';
 
 export default function gameReducer(state = INITIAL_STATE, action) {
   switch (action.type) {
     case ACTION.NEW_GAME:
+      console.log('action.type', action.type);
       return state;
     case ACTION.SHIFT_LEFT:
       return state.update('status', List(), value => shiftLeft(value))
@@ -21,8 +23,9 @@ export default function gameReducer(state = INITIAL_STATE, action) {
       return state.update('status', List(), value => shiftDown(value))
                   .update(updateGameTiles);
     case ACTION.CREATE_TILE:
-      return state.update('status', List(), value => createTile(value, action.payload))
-                  .update(addGameTile.bind(null, action.payload));
+      // TODO fix
+      return state.update('status', List(), value => createTiles(value, action.payload))
+                  .update(addGameTiles.bind(null, action.payload.get(0)));
     default:
       return state;
   }

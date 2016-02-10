@@ -1,6 +1,6 @@
 /* global describe, it */
 import { expect } from 'chai';
-import { fromJS, Map } from 'immutable';
+import { fromJS, Map, List } from 'immutable';
 
 import { onShiftDown, onShiftLeft, onShiftUp, onShiftRight, onCreateTile } from '../actionCreators';
 import reducer from './gameReducer';
@@ -8,7 +8,7 @@ import { placeholderFactory } from '../core/utils';
 
 const U = undefined; // eslint-disable-line id-length
 
-describe('reducer', () => {
+describe('gameReducer', () => {
   const [a, b] = [placeholderFactory(2), placeholderFactory(4)];
   const [A, B] = [a.updateGrid(3, 1), b.updateGrid(2, 2)];
   describe('SHIFT_LEFT', () => {
@@ -143,6 +143,7 @@ describe('reducer', () => {
   });
 
   describe('CREATE_TILE', () => {
+    // TODO test multiple
     it('handles CREATE_TILE', () => {
       const c = placeholderFactory(2);
       const tile = c.updateGrid(0, 0).toJS();
@@ -157,7 +158,7 @@ describe('reducer', () => {
           [a.get('id'), A], [b.get('id'), B],
         ]),
       });
-      const nextState = reducer(initialState, onCreateTile(tile.value, tile.col, tile.row, tile.id));
+      const nextState = reducer(initialState, onCreateTile([tile]));
 
       const expected = fromJS({
         status: [  // :off
