@@ -2,11 +2,11 @@ import GitRepo from 'git-repository';
 import task from './lib/task';
 
 // TODO: Update deployment URL
-const remote = {
+const remote = {  // :off
   name: 'github',
   url: 'https://github.com/{user}/{repo}.git',
   branch: 'gh-pages',
-};
+};  // :on
 
 /**
  * Deploy the contents of the `/build` folder to GitHub Pages.

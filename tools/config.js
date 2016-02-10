@@ -158,10 +158,10 @@ const pagesConfig = merge({}, config, {
   ]),  // :on
 
   module: {
-    loaders: [
+    loaders: [// :off
       JS_LOADER,
       ...config.module.loaders,
-      {  // :off
+      {
         test: /\.scss$/,
         loader: ExtractTextPlugin.extract(
           'css'
@@ -171,8 +171,8 @@ const pagesConfig = merge({}, config, {
           + '!postcss'
           + '!sass'
         ),
-      },  // :on
-    ],
+      },
+    ], // :on
   },
 });
 

@@ -1,4 +1,4 @@
 {
-  "name": "reducers",
+  "name": "actionCreators",
   "main": "./__init__.js"
 }

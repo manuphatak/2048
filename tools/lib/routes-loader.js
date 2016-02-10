@@ -19,10 +19,10 @@ module.exports = function routesLoader(source) {
       let path = `/${file}`;
 
       // noinspection IfStatementWithTooManyBranchesJS
-      if (path === '/reducers.js' || path === '/index.jsx') {
+      if (path === '/index.js' || path === '/index.jsx') {
         path = '/';
       }
-      else if (path.endsWith('/reducers.js')) {
+      else if (path.endsWith('/index.js')) {
         path = path.substr(0, path.length - 9);
       }
       else if (path.endsWith('/index.jsx')) {
