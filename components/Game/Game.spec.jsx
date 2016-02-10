@@ -1,8 +1,11 @@
-/* global describe, it */
+/* eslint-env mocha */
+/* eslint no-unused-expressions: 0 */
 import React from 'react';
 import { renderIntoDocument, scryRenderedDOMComponentsWithTag } from 'react-addons-test-utils';
 import { expect } from 'chai';
 import { Set } from 'immutable';
+import { spy } from 'sinon';
+
 import { Game } from './Game';
 
 const KEY = { LEFT: 37, UP: 38, RIGHT: 39, DOWN: 40 };
@@ -21,76 +24,80 @@ describe('Game', () => {
   });
 
   describe('props', () => {
-    it('handles left keypress', () => {
-      let success = null;
+    it('trigger onShiftLeft on keydown', () => {
+      // setup
+      const keyCode = KEY.LEFT;
       const props = defaultProps();
-      props.actions.onShiftLeft = () => {success = true;};
+      const event = new window.KeyboardEvent('keydown', { bubbles: true, cancelable: true, keyCode });
 
+      // simulate
       renderIntoDocument(<Game {...props} />);
-      const event = new window.KeyboardEvent('keydown', { bubbles: true, cancelable: true, keyCode: KEY.LEFT });
       window.dispatchEvent(event);
 
-      expect(success).to.be.ok; // eslint-disable-line no-unused-expressions
+      expect(props.actions.onShiftLeft).to.have.been.calledOnce;
+      expect(props.actions.onShiftLeft).to.have.been.calledWith(event);
     });
-    it('handles up keypress', () => {
-      let success = null;
+    it('trigger onShiftUp on keydown', () => {
+      // setup
+      const keyCode = KEY.UP;
       const props = defaultProps();
-      props.actions.onShiftUp = () => {success = true;};
+      const event = new window.KeyboardEvent('keydown', { bubbles: true, cancelable: true, keyCode });
 
+      // simulate
       renderIntoDocument(<Game {...props} />);
-      keyPress(KEY.UP);
+      window.dispatchEvent(event);
 
-      expect(success).to.be.ok; // eslint-disable-line no-unused-expressions
+      expect(props.actions.onShiftUp).to.have.been.calledOnce;
+      expect(props.actions.onShiftUp).to.have.been.calledWith(event);
     });
-    it('handles right keypress', () => {
-      let success = null;
+    it('trigger onShiftRight on keydown', () => {
+      // setup
+      const keyCode = KEY.RIGHT;
       const props = defaultProps();
-      props.actions.onShiftRight = () => {success = true;};
+      const event = new window.KeyboardEvent('keydown', { bubbles: true, cancelable: true, keyCode });
 
+      // simulate
       renderIntoDocument(<Game {...props} />);
-      keyPress(KEY.RIGHT);
+      window.dispatchEvent(event);
 
-      expect(success).to.be.ok; // eslint-disable-line no-unused-expressions
+      expect(props.actions.onShiftRight).to.have.been.calledOnce;
+      expect(props.actions.onShiftRight).to.have.been.calledWith(event);
     });
-    it('handles down keypress', () => {
-      let success = null;
+    it('trigger onShiftDown on keydown', () => {
+      // setup
+      const keyCode = KEY.DOWN;
       const props = defaultProps();
-      props.actions.onShiftDown = () => {success = true;};
+      const event = new window.KeyboardEvent('keydown', { bubbles: true, cancelable: true, keyCode });
 
+      // simulate
       renderIntoDocument(<Game {...props} />);
-      keyPress(KEY.DOWN);
+      window.dispatchEvent(event);
 
-      expect(success).to.be.ok; // eslint-disable-line no-unused-expressions
+      expect(props.actions.onShiftDown).to.have.been.calledOnce;
+      expect(props.actions.onShiftDown).to.have.been.calledWith(event);
     });
-    it('fires a newgame event on mounting', () => {
-      let success = null;
+    it('fires a onNewGame event on mounting', () => {
       const props = defaultProps();
-      props.actions.onNewGame = () => {success = true;};
-
       renderIntoDocument(<Game {...props} />);
 
-      expect(success).to.be.ok; // eslint-disable-line no-unused-expressions
+      expect(props.actions.onNewGame).to.have.been.calledOnce;
+      expect(props.actions.onNewGame).to.have.been.calledWith();
     });
   });
 });
 
 function defaultProps() {
   return {
-    actions: {
-      onShiftLeft: () => undefined,
-      onShiftRight: () => undefined,
-      onShiftUp: () => undefined,
-      onShiftDown: () => undefined,
-      onNewGame: () => undefined,
-    },
+    actions: {  // :off
+      onShiftLeft: spy(),
+      onShiftRight: spy(),
+      onShiftUp: spy(),
+      onShiftDown: spy(),
+      onNewGame: spy(),
+    },  // :on
 
     value: 2,
 
     tiles: Set(),
   };
-}
-
-function keyPress(keyCode) {
-  const event = new window.KeyboardEvent('keydown', { bubbles: true, cancelable: true, keyCode });
-  window.dispatchEvent(event);
 }
