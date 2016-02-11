@@ -57,7 +57,7 @@ class Demo extends Component {
             key: item.key,
             style: { width: item.size, height: item.size },
           }))}
-          defaultStyle={{width: 0, height: 0}}
+          defaultStyle={{ width: 0, height: 0 }}
         >
           {styles => (
             <div>

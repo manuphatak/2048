@@ -2,7 +2,8 @@ import glob from 'glob';
 import { join, dirname } from 'path';
 import React from 'react';
 import ReactDOM from 'react-dom/server';
-import Html from '../components/Html/Html';
+
+import Html from '../src/components/Html/Html';
 import task from './lib/task';
 import fs from './lib/fs';
 
@@ -10,7 +11,7 @@ const DEBUG = !process.argv.includes('release');
 
 function getPages() {
   return new Promise((resolve, reject) => {
-    glob('**/*.{js,jsx}', { cwd: join(__dirname, '../pages') }, (err, files) => {
+    glob('**/*.{js,jsx}', { cwd: join(__dirname, '../src/pages') }, (err, files) => {
       if (err) {
         reject(err);
       }

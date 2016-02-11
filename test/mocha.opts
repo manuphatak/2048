@@ -2,4 +2,4 @@
 --colors
 --watch-extensions jsx
 --require ./test/test_helper.js
-@(app|components|lib|pages|test|tools)/**/*.spec.@(js|jsx)
+@(src|test|tools)/**/*.@(spec|helper).@(js|jsx)

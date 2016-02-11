@@ -10,7 +10,7 @@ module.exports = function routesLoader(source) {
     source = source.replace('import \'babel/polyfill\';', ''); // eslint-disable-line no-param-reassign
   }
 
-  glob('**/*.{js,jsx}', { cwd: join(__dirname, '../../pages') }, (err, files) => {
+  glob('**/*.{js,jsx}', { cwd: join(__dirname, '../../src/pages') }, (err, files) => {
     if (err) {
       return callback(err);
     }

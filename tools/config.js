@@ -18,12 +18,9 @@ const AUTOPREFIXER_BROWSERS = [
 ];
 
 const INCLUDE_PATHS = [
-  path.resolve(__dirname, '../components'),
-  path.resolve(__dirname, '../lib'),
-  path.resolve(__dirname, '../pages'),
-  path.resolve(__dirname, '../app'),
-  path.resolve(__dirname, '../app.js'),
-  path.resolve(__dirname, '../config.js'),
+  path.resolve(__dirname, '../src'),
+  path.resolve(__dirname, '../src/app.js'),
+  path.resolve(__dirname, '../src/config.js'),
 ];
 
 const JS_LOADER = { test: /\.jsx?$/, include: INCLUDE_PATHS, loader: 'babel' };
@@ -34,13 +31,17 @@ const JS_LOADER_DEV = Object.assign({}, JS_LOADER, {
   },
 });
 
-const SCSS_LOADER = {
-  test: /\.scss$/, loaders: ['style', 'css?minimize', 'postcss', 'sass'], include: INCLUDE_PATHS,
-};
+const SCSS_LOADER = { // :off
+  test: /\.scss$/,
+  loaders: ['style', 'css?minimize', 'postcss', 'sass'],
+  include: INCLUDE_PATHS,
+}; // :on
 
-const SCSS_LOADER_DEV = {
-  test: /\.scss$/, loaders: ['style?sourceMap', 'css', 'postcss?sourceMap', 'sass?sourceMap'], include: INCLUDE_PATHS,
-};
+const SCSS_LOADER_DEV = { // :off
+  test: /\.scss$/,
+  loaders: ['style?sourceMap', 'css', 'postcss?sourceMap', 'sass?sourceMap'],
+  include: INCLUDE_PATHS,
+}; // :on
 
 // Base configuration
 const config = {
@@ -111,7 +112,7 @@ const appConfig = merge({}, config, {
   entry: [ // :off
     'babel-polyfill',
     ...(WATCH ? ['webpack-hot-middleware/client'] : []),
-    './app.js',
+    './src/app.js',
   ],  // :on
 
   output: { filename: 'app.js' },
@@ -137,7 +138,7 @@ const appConfig = merge({}, config, {
 
 // Configuration for server-side pre-rendering bundle
 const pagesConfig = merge({}, config, {
-  entry: ['babel-polyfill', './app.js'],
+  entry: ['babel-polyfill', './src/app.js'],
 
   output: { filename: 'app.node.js', libraryTarget: 'commonjs2' },
 
