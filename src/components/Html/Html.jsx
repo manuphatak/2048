@@ -45,6 +45,8 @@ class Html extends Component {
           rel="stylesheet"
           href={`/app.css?${new Date().getTime()}`}
         />
+        <script src={`/manifest.js?${new Date().getTime()}`}></script>
+        <script src={`/vendor.js?${new Date().getTime()}`}></script>
         <script src={`/app.js?${new Date().getTime()}`}></script>
       </head>
       <body>

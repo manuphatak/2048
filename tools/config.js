@@ -2,6 +2,17 @@ import path from 'path';
 import webpack from 'webpack';
 import merge from 'lodash.merge';
 import ExtractTextPlugin from 'extract-text-webpack-plugin';
+import NpmInstallPlugin from 'npm-install-webpack-plugin';
+
+const dependencies = require('../package.json').dependencies;
+
+const PATHS = {
+  src: path.join(__dirname, '../src'),
+  build: path.join(__dirname, '../build'),
+  main: path.join(__dirname, '../src/app.js'),
+  config: path.join(__dirname, '../src/config.js'),
+  tools: path.join(__dirname, '../tools'),
+};
 
 const DEBUG = !process.argv.includes('release');
 const VERBOSE = process.argv.includes('verbose');
@@ -17,11 +28,11 @@ const AUTOPREFIXER_BROWSERS = [
   'Safari >= 7.1',
 ];
 
-const INCLUDE_PATHS = [
-  path.resolve(__dirname, '../src'),
-  path.resolve(__dirname, '../src/app.js'),
-  path.resolve(__dirname, '../src/config.js'),
-];
+const INCLUDE_PATHS = [ // :off
+  path.resolve(PATHS.src),
+  path.resolve(PATHS.main),
+  path.resolve(PATHS.config),
+]; // :on
 
 const JS_LOADER = { test: /\.jsx?$/, include: INCLUDE_PATHS, loader: 'babel' };
 
@@ -29,6 +40,8 @@ const JS_LOADER_DEV = Object.assign({}, JS_LOADER, {
   query: {
     presets: ['react-hmre'],
   },
+
+  cacheDirectory: true,
 });
 
 const SCSS_LOADER = { // :off
@@ -43,10 +56,28 @@ const SCSS_LOADER_DEV = { // :off
   include: INCLUDE_PATHS,
 }; // :on
 
+const developmentPlugins = [
+  new NpmInstallPlugin({
+    save: true,
+  }),
+];
+
+const productionPlugins = [ // :off
+  new webpack.optimize.DedupePlugin(),
+
+  new webpack.optimize.UglifyJsPlugin({
+    compress: { warnings: VERBOSE },
+  }),
+  new webpack.optimize.AggressiveMergingPlugin(),
+];  // :on
+
 // Base configuration
 const config = {
   output: { // :off
-    path: path.join(__dirname, '../build'),
+    path: PATHS.build,
+    filename: '[name].js',
+    chunkFilename: '[chunkhash].js',
+    sourceMapFilename: '[file].map',
     publicPath: '/',
     sourcePrefix: '  ',
   },  // :on
@@ -70,6 +101,7 @@ const config = {
   },
 
   plugins: [
+
     new webpack.optimize.OccurenceOrderPlugin(), // :off
     new webpack.DefinePlugin({
       'process.env.NODE_ENV': DEBUG ? '"development"' : '"production"',
@@ -79,7 +111,7 @@ const config = {
 
   module: {
     loaders: [
-      { test: /[\\\/]app\.js$/, loader: path.join(__dirname, './lib/routes-loader.js'), include: ['../'] },
+      { test: /[\\\/]app\.js$/, loader: path.join(PATHS.tools, './lib/routes-loader.js'), include: [PATHS.main] },
 
       { test: /\.json$/, loader: 'json', include: INCLUDE_PATHS },
 
@@ -88,6 +120,7 @@ const config = {
       { test: /\.(png|jpg|jpeg|gif|svg|woff|woff2)$/, loader: 'url?limit=10000', include: INCLUDE_PATHS },
 
       { test: /\.(eot|ttf|wav|mp3)$/, loader: 'file', include: INCLUDE_PATHS },
+
     ],
   },
 
@@ -99,28 +132,24 @@ const config = {
   },
 };
 
-const productionPlugins = [ // :off
-  new webpack.optimize.DedupePlugin(),
-  new webpack.optimize.UglifyJsPlugin({
-    compress: { warnings: VERBOSE },
-  }),
-  new webpack.optimize.AggressiveMergingPlugin(),
-];  // :on
-
 // Configuration for the client-side bundle
 const appConfig = merge({}, config, {
-  entry: [ // :off
-    'babel-polyfill',
-    ...(WATCH ? ['webpack-hot-middleware/client'] : []),
-    './src/app.js',
-  ],  // :on
+  entry: {
+    app: [ // :off
+      'babel-polyfill',
+      ...(WATCH ? ['webpack-hot-middleware/client'] : []),
+      './src/app.js',
+    ],  // :on
+    vendor: Object.keys(dependencies),
+  },
 
-  output: { filename: 'app.js' },
-
-  devtool: DEBUG ? 'cheap-module-eval-source-map' : false,
+  devtool: DEBUG ? 'source-map' : false,
 
   plugins: [ // :off
-    ...config.plugins, ...(DEBUG ? [] : productionPlugins),
+    new webpack.optimize.CommonsChunkPlugin({
+      names: ['vendor', 'manifest'],
+    }),
+    ...config.plugins, ...(DEBUG ? developmentPlugins : productionPlugins),
     ...(!WATCH ? [] : [
       new webpack.HotModuleReplacementPlugin(),
       new webpack.NoErrorsPlugin(),
@@ -138,9 +167,11 @@ const appConfig = merge({}, config, {
 
 // Configuration for server-side pre-rendering bundle
 const pagesConfig = merge({}, config, {
-  entry: ['babel-polyfill', './src/app.js'],
+  entry: {
+    'app.node': ['babel-polyfill', './src/app.js'],
+  },
 
-  output: { filename: 'app.node.js', libraryTarget: 'commonjs2' },
+  output: { libraryTarget: 'commonjs2' },
 
   target: 'node',
 
