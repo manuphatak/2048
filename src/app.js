@@ -1,7 +1,7 @@
 /// <reference path="./typings/main.d.ts" />
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { canUseDOM } from 'fbjs/lib/ExecutionEnvironment';
+import { canUseDOM } from '../node_modules/fbjs/lib/ExecutionEnvironment';
 import Location from './lib/Location';
 import App from './components/App';
 
