@@ -5,6 +5,8 @@ import { canUseDOM } from 'fbjs/lib/ExecutionEnvironment';
 import Location from './lib/Location';
 import App from './components/App';
 
+import './lib/immutable';
+
 const routes = {}; // Auto-generated on build. See tools/lib/routes-loader.js
 
 const route = async(path, callback) => {
