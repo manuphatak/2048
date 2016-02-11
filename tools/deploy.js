@@ -2,7 +2,7 @@ import GitRepo from 'git-repository';
 import task from './lib/task';
 
 // TODO: Update deployment URL
-const remote = {  // :off
+const remote = { // :off
   name: 'github',
   url: 'https://github.com/{user}/{repo}.git',
   branch: 'gh-pages',

@@ -10,12 +10,12 @@ describe('app utilities', () => {
   describe('getTiles', () => {
     it('gets tiles from state', () => {
       const [a, b] = [placeholderFactory(2), placeholderFactory(4)];
-      const state = fromJS([  // :off
+      const state = fromJS([ // :off
         [U, U, U, U],
         [U, U, U, a],
         [U, U, b, U],
         [U, U, U, U],
-      ]);  // :on
+      ]); // :on
 
       const nextState = getTiles(state);
 
@@ -34,12 +34,12 @@ describe('app utilities', () => {
 
         placeholderFactory(4), placeholderFactory(4), placeholderFactory(4), placeholderFactory(4),
       ];
-      const state = fromJS([  // :off
+      const state = fromJS([ // :off
         [a, b, c, U],
         [U, U, d, e],
         [U, f, g, h],
         [i, j, k, l],
-      ]);  // :on
+      ]); // :on
 
       const nextState = getTiles(state);
 
@@ -67,12 +67,12 @@ describe('app utilities', () => {
     });
 
     it('gets no tiles from state', () => {
-      const state = fromJS([  // :off
+      const state = fromJS([ // :off
         [U, U, U, U],
         [U, U, U, U],
         [U, U, U, U],
         [U, U, U, U],
-      ]);  // :on
+      ]); // :on
 
       const nextState = getTiles(state);
 
@@ -83,12 +83,12 @@ describe('app utilities', () => {
   describe('getEmpty', () => {
     it('creates a list of empty tiles', () => {
       const [a, b] = [placeholderFactory(2), placeholderFactory(4)];
-      const state = fromJS([  // :off
+      const state = fromJS([ // :off
         [U, U, U, U],
         [U, U, U, a],
         [U, U, b, U],
         [U, U, U, U],
-      ]);  // :on
+      ]); // :on
       const nextState = getEmpty(state);
 
       expect(nextState).to.equal(Set([

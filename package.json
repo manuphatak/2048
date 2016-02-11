@@ -1,6 +1,6 @@
 {
   "scripts": {
-    "lint": "eslint src tools test",
+    "lint": "eslint app components lib pages static test tools",
     "test": "mocha",
     "test:watch": "mocha --watch",
     "clean": "babel-node --eval \"require('./tools/clean').default().catch(err => console.log(err.stack))\"",

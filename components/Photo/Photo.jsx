@@ -10,7 +10,7 @@ const springSettings = {
 class Photo extends Component {
   constructor(props) {
     super(props);
-    this.state = {  // :off
+    this.state = { // :off
       photos: [[500, 350], [800, 600], [800, 400], [700, 500], [200, 650], [600, 600]],  // :on
       currentPhoto: 0,
     };

@@ -44,7 +44,7 @@ const SCSS_LOADER_DEV = {
 
 // Base configuration
 const config = {
-  output: {  // :off
+  output: { // :off
     path: path.join(__dirname, '../build'),
     publicPath: '/',
     sourcePrefix: '  ',
@@ -69,7 +69,7 @@ const config = {
   },
 
   plugins: [
-    new webpack.optimize.OccurenceOrderPlugin(),  // :off
+    new webpack.optimize.OccurenceOrderPlugin(), // :off
     new webpack.DefinePlugin({
       'process.env.NODE_ENV': DEBUG ? '"development"' : '"production"',
       __DEV__: DEBUG,
@@ -91,14 +91,14 @@ const config = {
   },
 
   postcss: function plugins() {
-    return [  // :off
+    return [ // :off
       require('precss')(),
       require('autoprefixer')({ browsers: AUTOPREFIXER_BROWSERS }),
     ];  // :on
   },
 };
 
-const productionPlugins = [  // :off
+const productionPlugins = [ // :off
   new webpack.optimize.DedupePlugin(),
   new webpack.optimize.UglifyJsPlugin({
     compress: { warnings: VERBOSE },
@@ -108,7 +108,7 @@ const productionPlugins = [  // :off
 
 // Configuration for the client-side bundle
 const appConfig = merge({}, config, {
-  entry: [  // :off
+  entry: [ // :off
     'babel-polyfill',
     ...(WATCH ? ['webpack-hot-middleware/client'] : []),
     './app.js',
@@ -118,7 +118,7 @@ const appConfig = merge({}, config, {
 
   devtool: DEBUG ? 'cheap-module-eval-source-map' : false,
 
-  plugins: [  // :off
+  plugins: [ // :off
     ...config.plugins, ...(DEBUG ? [] : productionPlugins),
     ...(!WATCH ? [] : [
       new webpack.HotModuleReplacementPlugin(),
@@ -127,7 +127,7 @@ const appConfig = merge({}, config, {
   ],  // :on
 
   module: {
-    loaders: [  // :off
+    loaders: [ // :off
       WATCH ? JS_LOADER_DEV : JS_LOADER,
       ...config.module.loaders,
       DEBUG ? SCSS_LOADER_DEV : SCSS_LOADER,
@@ -143,7 +143,7 @@ const pagesConfig = merge({}, config, {
 
   target: 'node',
 
-  node: {  // :off
+  node: { // :off
     console: false,
     global: false,
     process: false,
@@ -154,7 +154,7 @@ const pagesConfig = merge({}, config, {
 
   externals: /^[a-z][a-z\.\-\/0-9]*$/i,
 
-  plugins: config.plugins.concat([  // :off
+  plugins: config.plugins.concat([ // :off
     new webpack.optimize.LimitChunkCountPlugin({ maxChunks: 1 }),
     new ExtractTextPlugin('app.css', { allChunks: true }),
   ]),  // :on

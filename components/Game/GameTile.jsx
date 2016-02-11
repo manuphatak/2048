@@ -24,12 +24,12 @@ class GameTile extends PureComponent {
       left: CELL_SPACE * col, top: CELL_SPACE * row, scale: 0,
     };
 
-    const style = {  // :off
+    const style = { // :off
       left: spring(CELL_SPACE * col, tileSlideConfig),
       top: spring(CELL_SPACE * row, tileSlideConfig),
       scale: spring(1, tileNewConfig),
     };  // :on
-    const tileClass = classNames(  // :off
+    const tileClass = classNames( // :off
       'tile',
       `tile-value-${this.getValueText(value)}`
     );  // :on

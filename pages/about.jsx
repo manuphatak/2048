@@ -6,7 +6,7 @@ class Demo extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      items: [  // :off
+      items: [ // :off
         { key: 'a', size: 10 },
         { key: 'b', size: 20 },
         { key: 'c', size: 30 },
@@ -18,20 +18,20 @@ class Demo extends Component {
 
   handleRemove() {
     this.setState({
-      items: [  // :off
+      items: [ // :off
         { key: 'a', size: 10 },
         { key: 'b', size: 20 },
-      ],  // :on
+      ], // :on
     });
   }
 
   handleAdd() {
     this.setState({
-      items: [  // :off
+      items: [ // :off
         { key: 'a', size: 10 },
         { key: 'b', size: 20 },
         { key: uuid.v4(), size: 40 },
-      ],  // :on
+      ], // :on
     });
   }
 

@@ -1,30 +1,27 @@
 import * as ACTION from '../actions';
-import { tileFactory } from '../core/utils';
-import { fromJS } from 'immutable';
-export function onNewGame() {
+
+export function handleNewGame() {
   return { type: ACTION.NEW_GAME };
 }
 
-export function onShiftLeft() {
+export function handleShiftLeft() {
   return { type: ACTION.SHIFT_LEFT };
 }
 
-export function onShiftRight() {
+export function handleShiftRight() {
   return { type: ACTION.SHIFT_RIGHT };
 }
 
-export function onShiftDown() {
+export function handleShiftDown() {
   return { type: ACTION.SHIFT_DOWN };
 }
 
-export function onShiftUp() {
+export function handleShiftUp() {
   return { type: ACTION.SHIFT_UP };
 }
 
-export function onCreateTile(tiles) {
+export function onCreateTile(payload) {
   return {
-    type: ACTION.CREATE_TILE,
-
-    payload: fromJS(tiles.map(({ value, col, row, id }) => tileFactory(value, col, row, id))),
+    type: ACTION.CREATE_TILE, payload,
   };
 }

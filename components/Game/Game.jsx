@@ -14,33 +14,38 @@ class Game extends PureComponent {
     super(props);
     this.onKeyDown = this.onKeyDown.bind(this);
     this.keymap = {
-      37: e => this.props.actions.onShiftLeft(e),
-      38: e => this.props.actions.onShiftUp(e),
-      39: e => this.props.actions.onShiftRight(e),
-      40: e => this.props.actions.onShiftDown(e),
+      37: e => this.props.actions.handleShiftLeft(e),
+      38: e => this.props.actions.handleShiftUp(e),
+      39: e => this.props.actions.handleShiftRight(e),
+      40: e => this.props.actions.handleShiftDown(e),
     };
   }
 
   static propTypes = {
     actions: PropTypes.shape({
-      onShiftLeft: PropTypes.func.isRequired,
-      onShiftRight: PropTypes.func.isRequired,
-      onShiftDown: PropTypes.func.isRequired,
-      onShiftUp: PropTypes.func.isRequired,
-    }), value: PropTypes.number.isRequired, tiles: ImmutablePropTypes.setOf(ImmutablePropTypes.map).isRequired,
+      handleShiftLeft: PropTypes.func.isRequired,
+      handleShiftRight: PropTypes.func.isRequired,
+      handleShiftDown: PropTypes.func.isRequired,
+      handleShiftUp: PropTypes.func.isRequired,
+      handleNewGame: PropTypes.func.isRequired,
+    }),
+
+    value: PropTypes.number.isRequired,
+
+    tiles: ImmutablePropTypes.setOf(ImmutablePropTypes.map).isRequired,
   };
 
   render() {
-    const { onShiftLeft, onShiftRight, onShiftUp, onShiftDown } = this.props.actions;
+    const { handleShiftLeft, handleShiftRight, handleShiftUp, handleShiftDown } = this.props.actions;
     const { tiles } = this.props;
 
     return (
       <div>
         <p className="buttons">
-          <button onClick={onShiftLeft}>Left</button>
-          <button onClick={onShiftRight}>Right</button>
-          <button onClick={onShiftDown}>Down</button>
-          <button onClick={onShiftUp}>Up</button>
+          <button onClick={handleShiftLeft}>Left</button>
+          <button onClick={handleShiftRight}>Right</button>
+          <button onClick={handleShiftDown}>Down</button>
+          <button onClick={handleShiftUp}>Up</button>
         </p>
 
         <div className="game">
@@ -58,7 +63,7 @@ class Game extends PureComponent {
   }
 
   componentWillMount() {
-    this.props.actions.onNewGame();
+    this.props.actions.handleNewGame();
   }
 
   componentWillUnmount() {
@@ -77,7 +82,7 @@ class Game extends PureComponent {
 
 function mapStateToProps(state) {
   return {
-    value: state.get('value', 0),  // :off
+    value: state.get('value', 0), // :off
     tiles: state.getIn(['game', 'tiles'], Map()).toSet(),  // :on
   };
 }

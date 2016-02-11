@@ -13,7 +13,7 @@ const route = async(path, callback) => {
   }
   const handler = routes[path] || routes['/404'];
   const componentHandler = await handler();
-  const component = typeof componentHandler === 'function'  // :off
+  const component = typeof componentHandler === 'function' // :off
     ? componentHandler
     : componentHandler.default;  // :on
 

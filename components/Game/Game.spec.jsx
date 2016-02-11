@@ -24,7 +24,7 @@ describe('Game', () => {
   });
 
   describe('props', () => {
-    it('trigger onShiftLeft on keydown', () => {
+    it('trigger handleShiftLeft on keydown', () => {
       // setup
       const keyCode = KEY.LEFT;
       const props = defaultProps();
@@ -34,10 +34,10 @@ describe('Game', () => {
       renderIntoDocument(<Game {...props} />);
       window.dispatchEvent(event);
 
-      expect(props.actions.onShiftLeft).to.have.been.calledOnce;
-      expect(props.actions.onShiftLeft).to.have.been.calledWith(event);
+      expect(props.actions.handleShiftLeft).to.have.been.calledOnce;
+      expect(props.actions.handleShiftLeft).to.have.been.calledWith(event);
     });
-    it('trigger onShiftUp on keydown', () => {
+    it('trigger handleShiftUp on keydown', () => {
       // setup
       const keyCode = KEY.UP;
       const props = defaultProps();
@@ -47,10 +47,10 @@ describe('Game', () => {
       renderIntoDocument(<Game {...props} />);
       window.dispatchEvent(event);
 
-      expect(props.actions.onShiftUp).to.have.been.calledOnce;
-      expect(props.actions.onShiftUp).to.have.been.calledWith(event);
+      expect(props.actions.handleShiftUp).to.have.been.calledOnce;
+      expect(props.actions.handleShiftUp).to.have.been.calledWith(event);
     });
-    it('trigger onShiftRight on keydown', () => {
+    it('trigger handleShiftRight on keydown', () => {
       // setup
       const keyCode = KEY.RIGHT;
       const props = defaultProps();
@@ -60,10 +60,10 @@ describe('Game', () => {
       renderIntoDocument(<Game {...props} />);
       window.dispatchEvent(event);
 
-      expect(props.actions.onShiftRight).to.have.been.calledOnce;
-      expect(props.actions.onShiftRight).to.have.been.calledWith(event);
+      expect(props.actions.handleShiftRight).to.have.been.calledOnce;
+      expect(props.actions.handleShiftRight).to.have.been.calledWith(event);
     });
-    it('trigger onShiftDown on keydown', () => {
+    it('trigger handleShiftDown on keydown', () => {
       // setup
       const keyCode = KEY.DOWN;
       const props = defaultProps();
@@ -73,27 +73,27 @@ describe('Game', () => {
       renderIntoDocument(<Game {...props} />);
       window.dispatchEvent(event);
 
-      expect(props.actions.onShiftDown).to.have.been.calledOnce;
-      expect(props.actions.onShiftDown).to.have.been.calledWith(event);
+      expect(props.actions.handleShiftDown).to.have.been.calledOnce;
+      expect(props.actions.handleShiftDown).to.have.been.calledWith(event);
     });
-    it('fires a onNewGame event on mounting', () => {
+    it('fires a handleNewGame event on mounting', () => {
       const props = defaultProps();
       renderIntoDocument(<Game {...props} />);
 
-      expect(props.actions.onNewGame).to.have.been.calledOnce;
-      expect(props.actions.onNewGame).to.have.been.calledWith();
+      expect(props.actions.handleNewGame).to.have.been.calledOnce;
+      expect(props.actions.handleNewGame).to.have.been.calledWith();
     });
   });
 });
 
 function defaultProps() {
   return {
-    actions: {  // :off
-      onShiftLeft: spy(),
-      onShiftRight: spy(),
-      onShiftUp: spy(),
-      onShiftDown: spy(),
-      onNewGame: spy(),
+    actions: { // :off
+      handleShiftLeft: spy(),
+      handleShiftRight: spy(),
+      handleShiftUp: spy(),
+      handleShiftDown: spy(),
+      handleNewGame: spy(),
     },  // :on
 
     value: 2,

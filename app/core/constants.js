@@ -4,12 +4,12 @@ const U = undefined;
 
 export const INITIAL_STATE = fromJS({
   game: {
-    status: [    // :off
+    status: [ // :off
           [U, U, U, U],
           [U, U, U, U],
           [U, U, U, U],
           [U, U, U, U],
-    ],  // :on
+    ], // :on
     tiles: Map(),
   },
 });

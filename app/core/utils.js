@@ -41,6 +41,6 @@ export function placeholderFactory(value, id = undefined) {
   });
 }
 
-export function emptyFactory(col, row) {  // :off
-  return Map({ col, row });  // :on
+export function emptyFactory(col, row) { // :off
+  return Map({ col, row }); // :on
 }
