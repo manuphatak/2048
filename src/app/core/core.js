@@ -1,34 +1,29 @@
-import { Map, List, Set } from 'immutable';
-import { tileFactory } from './utils';
+import { List, Stack } from 'immutable';
 
-export function shiftLeft(state) {
-  return state
-    .update(value => value.map(col => shift(col)));
+export function shiftLeft(state = List()) {
+  return state.update(value => value.map(shift));
 }
 
-export function shiftUp(state) {
-  return state
-    .update(value => transpose(shiftLeft(transpose(value))));
+export function shiftUp(state = List()) {
+  return state.update(value => transpose(shiftLeft(transpose(value))));
 }
 
-export function shiftRight(state) {
-  return state
-    .update(value => value.map(col => shift(col.reverse()).reverse()));
+export function shiftRight(state = List()) {
+  return state.update(value => value.map(col => shift(col.reverse()).reverse()));
 }
 
-export function shiftDown(state) {
-  return state
-    .update(value => transpose(shiftRight(transpose(value))));
+export function shiftDown(state = List()) {
+  return state.update(value => transpose(shiftRight(transpose(value))));
 }
 
-export function shift(state) {
+export function shift(state = List()) {
   return state
-    .update(value => _shift(undefined, value.asImmutable().toStack()))
+    .update(value => _shift(undefined, value.toStack()))
     .toList()
     .setSize(state.size);
 }
 
-function _shift(x, xs) {
+function _shift(x, xs = Stack()) {
   // Guard last item.
   if (!xs.size) {
     return xs.withMutations(stack => stack.unshift(x));
@@ -59,7 +54,7 @@ function _shift(x, xs) {
     .withMutations(stack => stack.unshift(x));
 }
 
-const createTile = state => tile => {
+const pushTile = state => tile => {
   const keyPath = [tile.get('row'), tile.get('col')];
 
   if (state.getIn(keyPath, undefined) !== undefined) { return undefined; }
@@ -67,21 +62,19 @@ const createTile = state => tile => {
   state.setIn(keyPath, tile.set('isNew', true));
 };
 
-export function createTiles(state, tiles) {
-  return state.withMutations(updater => {
-    tiles.forEach(createTile(updater));
+export const pushTiles = tiles => gameState => (
+  gameState.withMutations(updater => {
+    tiles.forEach(pushTile(updater));
     return updater;
-  });
-}
+  })
+);
 
-export function refreshGameTiles(game) {
-  return game.update('state', List(), updater => (
+export function refreshGameTiles(gameState) {
+  return gameState.update(updater => (
     updater.map((row, rowIndex) => (
-      row.map((tile, colIndex) => {
-        if (tile === undefined) {return undefined;}
-
-        return tile.updateGrid(colIndex, rowIndex, false);
-      })
+      row.map((tile, colIndex) => (
+        tile === undefined ? undefined : tile.updateGrid(colIndex, rowIndex, false)
+      ))
     ))
   ));
 }

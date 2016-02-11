@@ -1,16 +1,8 @@
 import sampleSize from 'lodash.samplesize';
 import { onCreateTile } from '../actionCreators';
 
-export function createRandomTileAction(state, quantity = 1) {
-  const emptyTiles = state.getIn(['game', 'state'])
-                          .map((row, rowIndex) => (
-                            row.map((cell, colIndex) => (
-                              cell !== undefined ? undefined : { row: rowIndex, col: colIndex }
-                            ))
-                          ))
-                          .flatten(true)
-                          .filter(tile => tile !== undefined)
-                          .toJS();
+export function createRandomTileAction(gameState, quantity = 1) {
+  const emptyTiles = gameState.getEmptyTiles().toJS();
   if (!emptyTiles.length) {
     return undefined;
   }

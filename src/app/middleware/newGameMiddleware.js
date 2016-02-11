@@ -6,9 +6,10 @@ export default store => next => action => {
     return next(action);
   }
   const handle = next(action);
-  const nextState = store.getState();
+  const nextGameState = store.getState().getIn(['game', 'state']);
 
-  const nextTiles = createRandomTileAction(nextState, randomTileQuantity());
+  const nextTiles = createRandomTileAction(nextGameState, randomTileQuantity());
+
   if (nextTiles === undefined) {
     console.error('no empty tiles', 'nextTiles', nextTiles);
     return handle;

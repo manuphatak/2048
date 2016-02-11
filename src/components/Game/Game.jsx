@@ -81,13 +81,10 @@ class Game extends PureComponent {
 }
 
 function mapStateToProps(state) {
-  const tiles = state.getIn(['game', 'state'], List())
-                     .flatten(true)
-                     .toSet()
-                     .filter(tile => tile !== undefined);
-  return {
-    value: state.get('value', 0), tiles,
-  };
+  return { // :off
+    value: state.get('value', 0),
+    tiles: state.getIn(['game', 'state']).toTileSet(),
+  }; // :on
 }
 
 function mapDispatchToProps(dispatch) {

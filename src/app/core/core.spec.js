@@ -2,7 +2,7 @@
 /* eslint no-unused-expressions: 0 */
 import { List, fromJS, Map } from 'immutable';
 import {
-  shift, transpose, shiftLeft, shiftUp, shiftRight, shiftDown, createTiles, addGameTiles, refreshGameTiles,
+  shift, transpose, shiftLeft, shiftUp, shiftRight, shiftDown, pushTiles,refreshGameTiles,
 } from './core';
 import { expect } from 'chai';
 import { tileFactory } from './utils';
@@ -364,7 +364,7 @@ describe('app core logic', () => {
     });
   });
 
-  describe('createTiles', () => {
+  describe('pushTiles', () => {
     it('creates a tile at coordinates', () => {
       const [a, b] = [tileFactory(2, 3, 1), tileFactory(4, 2, 2)];
       const state = fromJS([ // :off
@@ -374,7 +374,7 @@ describe('app core logic', () => {
         [U, U, U, U],
       ]); // :on
       const c = tileFactory(2, 0, 0);
-      const nextState = createTiles(state, List.of(c));
+      const nextState = pushTiles(List.of(c))(state);
 
       const C = c.set('isNew', true);
       const expected = fromJS([ // :off
@@ -396,7 +396,7 @@ describe('app core logic', () => {
         [U, U, U, U],
       ]); // :on
       const tiles = List.of(d);
-      const nextState = createTiles(state, tiles);
+      const nextState = pushTiles(tiles)(state);
       const expected = fromJS([ // :off
         [c, U, U, U],
         [U, U, U, a],
@@ -417,7 +417,7 @@ describe('app core logic', () => {
         [U, U, U, U],
       ]); // :on
       const tiles = List.of(c, d);
-      const nextState = createTiles(state, tiles);
+      const nextState = pushTiles(tiles)(state);
 
       const [C, D] = [c, d].map(tile => tile.set('isNew', true));
       const expected = fromJS([ // :off
@@ -426,105 +426,6 @@ describe('app core logic', () => {
         [U, U, b, U],
         [U, D, U, U],
       ]); // :on
-      expect(nextState.toJS()).to.deep.equal(expected.toJS());
-      expect(nextState).to.equal(expected);
-    });
-  });
-  describe.skip('addGameTiles', () => {
-    it('adds a tile to the tiles map', () => {
-      const a = tileFactory(2);
-      const A = a.updateGrid(3, 1);
-      const state = fromJS({
-        status: [ // :off
-          [U, U, U, U],
-          [U, U, U, a],
-          [U, U, U, U],
-          [U, U, U, U],
-        ], // :on
-      });
-      const nextState = addGameTiles(List.of(A))(state);
-
-      const expected = fromJS({
-        status: [ // :off
-          [U, U, U, U],
-          [U, U, U, a],
-          [U, U, U, U],
-          [U, U, U, U],
-        ], // :on
-
-        tiles: Map([
-          [A.get('id'), A.set('isNew', true)],
-        ]),
-      });
-      expect(nextState.toJS()).to.deep.equal(expected.toJS());
-      expect(nextState).to.equal(expected);
-    });
-    it('adds multiple tiles to the tiles map', () => {
-      const [a, b] = [tileFactory(2), tileFactory(4)];
-      const [A, B] = [a.updateGrid(3, 1), b.updateGrid(2, 2)];
-      const state = fromJS({
-        status: [ // :off
-          [U, U, U, U],
-          [U, U, U, a],
-          [U, U, b, U],
-          [U, U, U, U],
-        ], // :on
-
-        tiles: Map(),
-      });
-      const nextState = addGameTiles(List.of(A, B))(state);
-
-      const expected = fromJS({
-        status: [ // :off
-          [U, U, U, U],
-          [U, U, U, a],
-          [U, U, b, U],
-          [U, U, U, U],
-        ], // :on
-
-        tiles: Map([
-          [A.get('id'), A.set('isNew', true)], [B.get('id'), B.set('isNew', true)],
-        ]),
-      });
-      expect(nextState.toJS()).to.deep.equal(expected.toJS());
-      expect(nextState).to.equal(expected);
-    });
-  });
-
-  describe.skip('refreshGameTile', () => {
-    it('sets isNew to false for existing tiles', () => {
-      const [a, b] = [tileFactory(2), tileFactory(4)];
-      const [A, B] = [a.updateGrid(3, 1), b.updateGrid(2, 2)];
-      const state = fromJS({
-        status: [ // :off
-          [U, U, U, U],
-          [U, U, U, a],
-          [U, U, b, U],
-          [U, U, U, U],
-        ], // :on
-
-        tiles: Map([
-          [A.get('id'), A.set('isNew', true)],
-
-          [B.get('id'), B.set('isNew', true)],
-        ]),
-      });
-      const nextState = refreshGameTiles(state);
-
-      const expected = fromJS({
-        status: [ // :off
-          [U, U, U, U],
-          [U, U, U, a],
-          [U, U, b, U],
-          [U, U, U, U],
-        ], // :on
-
-        tiles: Map([
-          [A.get('id'), A.set('isNew', false)],
-
-          [B.get('id'), B.set('isNew', false)],
-        ]),
-      });
       expect(nextState.toJS()).to.deep.equal(expected.toJS());
       expect(nextState).to.equal(expected);
     });

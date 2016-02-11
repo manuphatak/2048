@@ -10,14 +10,15 @@ export default store => next => action => {
   if (!watchActions.includes(action.type)) {
     return next(action);
   }
-  const state = store.getState();
+  const gameState = store.getState().getIn(['game', 'state']);
   const handle = next(action);
-  const nextState = store.getState();
-  if (state.getIn(['game', 'state']).equals(nextState.getIn(['game', 'state']))) {
+  const nextGameState = store.getState().getIn(['game', 'state']);
+
+  if (gameState.equals(nextGameState)) {
     return handle;
   }
 
-  const nextTile = createRandomTileAction(nextState, 1);
+  const nextTile = createRandomTileAction(nextGameState, 1);
 
   if (nextTile === undefined) {
     console.error('no empty tiles', 'nextTile', nextTile);

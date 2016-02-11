@@ -1,15 +1,34 @@
 /* eslint-env mocha */
 /* eslint no-unused-expressions: 0 */
-import { List, fromJS, Set } from 'immutable';
-import { getTiles, getEmpty, emptyFactory, tileFactory } from './utils';
+import { List, fromJS, Set, Map } from 'immutable';
+import { tileFactory } from './utils';
 import { expect } from 'chai';
+import uuid from 'node-uuid';
 
 const U = undefined;
 
 describe('app utilities', () => {
-  describe('getTiles', () => {
-    it('gets tiles from state', () => {
-      const [a, b] = [tileFactory(2), tileFactory(4)];
+  describe('tileFactory', () => {
+    it('creates a tile', () => {
+      const id = uuid.v4();
+      expect(tileFactory(2, 0, 0, id)).to.equal(fromJS({ value: 2, col: 0, row: 0, id }));
+    });
+  });
+
+  describe('updateGrid', () => {
+    it('updates grid coordinates', () => {
+      expect(tileFactory(2, 3, 1, 1).updateGrid(2, 2))
+        .to.equal(tileFactory(2, 2, 2, 1));
+    });
+    it('it sets isNew with optional argument', () => {
+      expect(tileFactory(2, 3, 1, 1).updateGrid(2, 2, true))
+        .to.equal(tileFactory(2, 2, 2, 1).set('isNew', true));
+    });
+  });
+
+  describe('toTileSet', () => {
+    it('gets tiles from gameState', () => {
+      const [a, b] = [tileFactory(2, 3, 1), tileFactory(4, 2, 2)];
       const state = fromJS([ // :off
         [U, U, U, U],
         [U, U, U, a],
@@ -17,14 +36,13 @@ describe('app utilities', () => {
         [U, U, U, U],
       ]); // :on
 
-      const nextState = getTiles(state);
+      const nextState = state.toTileSet();
 
-      expect(nextState).to.equal(Set([
-        a.updateGrid(3, 1), b.updateGrid(2, 2),
-      ]));
+      const expected = Set.of(a, b);
+      expect(nextState).to.equal(expected);
     });
 
-    it('gets tiles from state', () => {
+    it('gets all tiles from gameState', () => {
       const [a, b, c, d, e, f, g, h, i, j, k, l] = [
         tileFactory(2), tileFactory(4), tileFactory(4),
 
@@ -41,32 +59,18 @@ describe('app utilities', () => {
         [i, j, k, l],
       ]); // :on
 
-      const nextState = getTiles(state);
+      const nextState = state.toTileSet();
 
       expect(nextState).to.equal(Set([
-        a.updateGrid(0, 0),
-        b.updateGrid(1, 0),
-        c.updateGrid(2, 0),
-        d.updateGrid(2, 1),
-        e.updateGrid(3, 1),
-        f.updateGrid(1, 2),
-        g.updateGrid(2, 2),
-        h.updateGrid(3, 2),
-        i.updateGrid(0, 3),
-        j.updateGrid(1, 3),
-        k.updateGrid(2, 3),
-        l.updateGrid(3, 3),
+        a, b, c, d, e, f, g, h, i, j, k, l,
       ]));
     });
 
     it('gets no tiles from empty state', () => {
-      const state = List();
-      const nextState = getTiles(state);
-
-      expect(nextState).to.equal(Set());
+      expect(List().toTileSet()).to.equal(Set());
     });
 
-    it('gets no tiles from state', () => {
+    it('gets no tiles from initial state', () => {
       const state = fromJS([ // :off
         [U, U, U, U],
         [U, U, U, U],
@@ -74,39 +78,40 @@ describe('app utilities', () => {
         [U, U, U, U],
       ]); // :on
 
-      const nextState = getTiles(state);
-
-      expect(nextState).to.equal(Set());
+      expect(state.toTileSet()).to.equal(Set());
     });
   });
 
-  describe('getEmpty', () => {
+  describe('getEmptyTiles', () => {
     it('creates a list of empty tiles', () => {
-      const [a, b] = [tileFactory(2), tileFactory(4)];
+      const [a, b] = [tileFactory(2, 3, 1), tileFactory(4, 2, 2)];
       const state = fromJS([ // :off
         [U, U, U, U],
         [U, U, U, a],
         [U, U, b, U],
         [U, U, U, U],
       ]); // :on
-      const nextState = getEmpty(state);
+      const nextState = state.getEmptyTiles();
 
-      expect(nextState).to.equal(Set([
-        emptyFactory(0, 0),
-        emptyFactory(1, 0),
-        emptyFactory(2, 0),
-        emptyFactory(3, 0),
-        emptyFactory(0, 1),
-        emptyFactory(1, 1),
-        emptyFactory(2, 1),
-        emptyFactory(0, 2),
-        emptyFactory(1, 2),
-        emptyFactory(3, 2),
-        emptyFactory(0, 3),
-        emptyFactory(1, 3),
-        emptyFactory(2, 3),
-        emptyFactory(3, 3),
-      ]));
+      const expected = fromJS([ // :off
+        { col: 0, row: 0 },
+        { col: 1, row: 0 },
+        { col: 2, row: 0 },
+        { col: 3, row: 0 },
+        { col: 0, row: 1 },
+        { col: 1, row: 1 },
+        { col: 2, row: 1 },
+        { col: 0, row: 2 },
+        { col: 1, row: 2 },
+        { col: 3, row: 2 },
+        { col: 0, row: 3 },
+        { col: 1, row: 3 },
+        { col: 2, row: 3 },
+        { col: 3, row: 3 },
+      ]); // :on
+
+      expect(nextState.toJS()).to.deep.equal(expected.toJS());
+      expect(nextState).to.equal(expected);
     });
   });
 });
