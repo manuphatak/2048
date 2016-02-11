@@ -1,15 +1,14 @@
-import { fromJS, Map } from 'immutable';
+import { fromJS } from 'immutable';
 
 const U = undefined;
 
 export const INITIAL_STATE = fromJS({
   game: {
-    status: [ // :off
+    state: [ // :off
           [U, U, U, U],
           [U, U, U, U],
           [U, U, U, U],
           [U, U, U, U],
     ], // :on
-    tiles: Map(),
   },
 });

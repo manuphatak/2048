@@ -5,40 +5,33 @@ import { fromJS, Map } from 'immutable';
 
 import { handleShiftDown, handleShiftLeft, handleShiftUp, handleShiftRight, onCreateTile } from '../actionCreators';
 import reducer from './gameReducer';
-import { placeholderFactory } from '../core/utils';
+import { tileFactory } from '../core/utils';
 
 const U = undefined;
 
 describe('gameReducer', () => {
-  const [a, b] = [placeholderFactory(2), placeholderFactory(4)];
-  const [A, B] = [a.updateGrid(3, 1), b.updateGrid(2, 2)];
+  const [a, b] = [tileFactory(2, 3, 1), tileFactory(4, 2, 2)];
+
   describe('SHIFT_LEFT', () => {
     it('handles SHIFT_LEFT', () => {
       const initialState = fromJS({
-        status: [ // :off
+        state: [ // :off
           [U, U, U, U],
           [U, U, U, a],
           [U, U, b, U],
           [U, U, U, U],
         ], // :on
-        tiles: Map([
-          [a.get('id'), A], [b.get('id'), B],
-        ]),
       });
       const nextState = reducer(initialState, handleShiftLeft());
 
+      const [A, B] = [a.updateGrid(0, 1, false), b.updateGrid(0, 2, false)];
       const expected = fromJS({
-        status: [ // :off
+        state: [ // :off
           [U, U, U, U],
-          [a, U, U, U],
-          [b, U, U, U],
+          [A, U, U, U],
+          [B, U, U, U],
           [U, U, U, U],
         ], // :on
-        tiles: Map([
-          [a.get('id'), a.updateGrid(0, 1).set('isNew', false)],
-
-          [b.get('id'), b.updateGrid(0, 2).set('isNew', false)],
-        ]),
       });
       expect(nextState.toJS()).to.deep.equal(expected.toJS());
       expect(nextState).to.equal(expected);
@@ -48,29 +41,22 @@ describe('gameReducer', () => {
   describe('SHIFT_RIGHT', () => {
     it('handles SHIFT_RIGHT', () => {
       const initialState = fromJS({
-        status: [ // :off
+        state: [ // :off
           [U, U, U, U],
           [U, U, U, a],
           [U, U, b, U],
           [U, U, U, U],
         ], // :on
-        tiles: Map([
-          [a.get('id'), A], [b.get('id'), B],
-        ]),
       });
       const nextState = reducer(initialState, handleShiftRight());
+      const [A, B] = [a.updateGrid(3, 1, false), b.updateGrid(3, 2, false)];
       const expected = fromJS({
-        status: [ // :off
+        state: [ // :off
           [U, U, U, U],
-          [U, U, U, a],
-          [U, U, U, b],
+          [U, U, U, A],
+          [U, U, U, B],
           [U, U, U, U],
         ], // :on
-        tiles: Map([
-          [a.get('id'), a.updateGrid(3, 1).set('isNew', false)],
-
-          [b.get('id'), b.updateGrid(3, 2).set('isNew', false)],
-        ]),
       });
       expect(nextState.toJS()).to.deep.equal(expected.toJS());
       expect(nextState).to.equal(expected);
@@ -80,30 +66,23 @@ describe('gameReducer', () => {
   describe('SHIFT_DOWN', () => {
     it('handles SHIFT_DOWN', () => {
       const initialState = fromJS({
-        status: [ // :off
+        state: [ // :off
           [U, U, U, U],
           [U, U, U, a],
           [U, U, b, U],
           [U, U, U, U],
         ], // :on
-        tiles: Map([
-          [a.get('id'), A], [b.get('id'), B],
-        ]),
       });
       const nextState = reducer(initialState, handleShiftDown());
 
+      const [A, B] = [a.updateGrid(3, 3, false), b.updateGrid(2, 3, false)];
       const expected = fromJS({
-        status: [ // :off
+        state: [ // :off
           [U, U, U, U],
           [U, U, U, U],
           [U, U, U, U],
-          [U, U, b, a],
+          [U, U, B, A],
         ], // :on
-        tiles: Map([
-          [a.get('id'), a.updateGrid(3, 3).set('isNew', false)],
-
-          [b.get('id'), b.updateGrid(2, 3).set('isNew', false)],
-        ]),
       });
       expect(nextState.toJS()).to.deep.equal(expected.toJS());
       expect(nextState).to.equal(expected);
@@ -113,30 +92,23 @@ describe('gameReducer', () => {
   describe('SHIFT_UP', () => {
     it('handles SHIFT_UP', () => {
       const initialState = fromJS({
-        status: [ // :off
+        state: [ // :off
           [U, U, U, U],
           [U, U, U, a],
           [U, U, b, U],
           [U, U, U, U],
         ], // :on
-        tiles: Map([
-          [a.get('id'), A], [b.get('id'), B],
-        ]),
       });
       const nextState = reducer(initialState, handleShiftUp());
 
+      const [A, B] = [a.updateGrid(3, 0, false), b.updateGrid(2, 0, false)];
       const expected = fromJS({
-        status: [ // :off
-          [U, U, b, a],
+        state: [ // :off
+          [U, U, B, A],
           [U, U, U, U],
           [U, U, U, U],
           [U, U, U, U],
         ], // :on
-        tiles: Map([
-          [a.get('id'), a.updateGrid(3, 0).set('isNew', false)],
-
-          [b.get('id'), b.updateGrid(2, 0).set('isNew', false)],
-        ]),
       });
       expect(nextState.toJS()).to.deep.equal(expected.toJS());
       expect(nextState).to.equal(expected);
@@ -144,73 +116,53 @@ describe('gameReducer', () => {
   });
 
   describe('CREATE_TILE', () => {
+    const [A, B] = [a, b].map(tile => tile.set('isNew', false));
     it('handles CREATE_TILE', () => {
-      const c = placeholderFactory(2);
-      const C = c.updateGrid(0, 0);
+      const c = tileFactory(2, 0, 0);
+
       const initialState = fromJS({
-        status: [ // :off
+        state: [ // :off
           [U, U, U, U],
           [U, U, U, a],
           [U, U, b, U],
           [U, U, U, U],
         ], // :on
-        tiles: Map([
-          [a.get('id'), A], [b.get('id'), B],
-        ]),
       });
-      const nextState = reducer(initialState, onCreateTile([C.toJS()]));
+      const nextState = reducer(initialState, onCreateTile([c.toJS()]));
 
+      const C = c.set('isNew', true);
       const expected = fromJS({
-        status: [ // :off
-          [c, U, U, U],
-          [U, U, U, a],
-          [U, U, b, U],
+        state: [ // :off
+          [C, U, U, U],
+          [U, U, U, A],
+          [U, U, B, U],
           [U, U, U, U],
         ], // :on
-        tiles: Map([
-          [a.get('id'), A],
-
-          [b.get('id'), B],
-
-          [c.get('id'), C.set('isNew', true)],
-        ]),
       });
       expect(nextState.toJS()).to.deep.equal(expected.toJS());
       expect(nextState).to.equal(expected);
     });
 
     it('handles CREATE_TILE with multiple tiles', () => {
-      const [c, d] = [placeholderFactory(2), placeholderFactory(4)];
-      const [C, D] = [c.updateGrid(0, 0), d.updateGrid(1, 0)];
+      const [c, d] = [tileFactory(2, 0, 0), tileFactory(4, 1, 0)];
       const initialState = fromJS({
-        status: [ // :off
+        state: [ // :off
           [U, U, U, U],
           [U, U, U, a],
           [U, U, b, U],
           [U, U, U, U],
         ], // :on
-        tiles: Map([
-          [a.get('id'), A], [b.get('id'), B],
-        ]),
       });
-      const nextState = reducer(initialState, onCreateTile([C.toJS(), D.toJS()]));
+      const nextState = reducer(initialState, onCreateTile([c.toJS(), d.toJS()]));
 
+      const [C, D] = [c, d].map(tile => tile.set('isNew', true));
       const expected = fromJS({
-        status: [ // :off
-          [c, d, U, U],
-          [U, U, U, a],
-          [U, U, b, U],
+        state: [ // :off
+          [C, D, U, U],
+          [U, U, U, A],
+          [U, U, B, U],
           [U, U, U, U],
         ], // :on
-        tiles: Map([
-          [a.get('id'), A],
-
-          [b.get('id'), B],
-
-          [c.get('id'), C.set('isNew', true)],
-
-          [d.get('id'), D.set('isNew', true)],
-        ]),
       });
       expect(nextState.toJS()).to.deep.equal(expected.toJS());
       expect(nextState).to.equal(expected);

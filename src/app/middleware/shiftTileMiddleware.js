@@ -13,7 +13,7 @@ export default store => next => action => {
   const state = store.getState();
   const handle = next(action);
   const nextState = store.getState();
-  if (state.getIn(['game', 'status']).equals(nextState.getIn(['game', 'status']))) {
+  if (state.getIn(['game', 'state']).equals(nextState.getIn(['game', 'state']))) {
     return handle;
   }
 

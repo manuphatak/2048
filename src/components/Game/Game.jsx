@@ -2,7 +2,7 @@ import React, { PropTypes } from 'react';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { Map } from 'immutable';
+import { List } from 'immutable';
 
 import PureComponent from '../../lib/PureComponent';
 import * as actionCreators from '../../app/actionCreators';
@@ -81,9 +81,12 @@ class Game extends PureComponent {
 }
 
 function mapStateToProps(state) {
+  const tiles = state.getIn(['game', 'state'], List())
+                     .flatten(true)
+                     .toSet()
+                     .filter(tile => tile !== undefined);
   return {
-    value: state.get('value', 0), // :off
-    tiles: state.getIn(['game', 'tiles'], Map()).toSet(),  // :on
+    value: state.get('value', 0), tiles,
   };
 }
 

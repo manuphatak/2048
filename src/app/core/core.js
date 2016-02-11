@@ -1,5 +1,5 @@
 import { Map, List, Set } from 'immutable';
-import { placeholderFactory } from './utils';
+import { tileFactory } from './utils';
 
 export function shiftLeft(state) {
   return state
@@ -64,7 +64,7 @@ const createTile = state => tile => {
 
   if (state.getIn(keyPath, undefined) !== undefined) { return undefined; }
 
-  state.setIn(keyPath, placeholderFactory(tile.get('value'), tile.get('id')));
+  state.setIn(keyPath, tile.set('isNew', true));
 };
 
 export function createTiles(state, tiles) {
@@ -75,41 +75,16 @@ export function createTiles(state, tiles) {
 }
 
 export function refreshGameTiles(game) {
-  return game.update('tiles', Set(), tiles => refreshTiles(tiles, game.get('status')));
+  return game.update('state', List(), updater => (
+    updater.map((row, rowIndex) => (
+      row.map((tile, colIndex) => {
+        if (tile === undefined) {return undefined;}
+
+        return tile.updateGrid(colIndex, rowIndex, false);
+      })
+    ))
+  ));
 }
-
-function refreshTiles(tiles, status) {
-  return Map(status
-    .map((row, rowIndex) => row.map((tile, colIndex) => {
-      if (tile === undefined) {
-        return undefined;
-      }
-      return List.of(tile.get('id'), tile.updateGrid(colIndex, rowIndex)
-                                         .set('isNew', false));
-    }))
-    .flatten(true))
-    .map((nextTile, key) => {
-      const oldTile = tiles.get(key, undefined);
-      if (oldTile === undefined) {
-        return nextTile.delete('from');
-      }
-
-      return nextTile/*.update('from', () => oldTile)*/;
-    });
-}
-const updateNewTile = game => tile => (
-  game.getIn(['status', tile.get('row'), tile.get('col')])
-      .updateGrid(tile.get('col'), tile.get('row'))
-      .set('isNew', true)
-);
-
-export const addGameTiles = tiles => game => (
-  game.update('tiles', Map(), updater => updater.withMutations(mutator => {
-    tiles.map(updateNewTile(game))
-         .forEach(tile => mutator.set(tile.get('id'), tile));
-    return mutator;
-  }))
-);
 
 export function transpose(state) {
   return state

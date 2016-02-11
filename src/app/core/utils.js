@@ -1,8 +1,9 @@
 import { List, Map, fromJS } from 'immutable';
 import uuid from 'node-uuid';
 
-Map.prototype.updateGrid = function updateGrid(col, row) { // eslint-disable-line no-extend-native
-  return this.merge({ col, row });
+Map.prototype.updateGrid = function updateGrid(col, row, isNew = undefined) { // eslint-disable-line no-extend-native
+
+  return this.merge(isNew === undefined ? { col, row } : { col, row, isNew });
 };
 
 export function getTiles(state) {
@@ -29,17 +30,17 @@ export function getEmpty(state = List()) {
 }
 
 export function tileFactory(value, col, row, id) {
-  return placeholderFactory(value, id).updateGrid(col, row);
+  return fromJS({ value, col, row, id: id === undefined ? uuid.v4() : id });
 }
 
-export function placeholderFactory(value, id = undefined) {
-  if (id === undefined) {
-    id = uuid.v4();  // eslint-disable-line no-param-reassign
-  }
-  return fromJS({
-    value, id,
-  });
-}
+// export function placeholderFactory(value, id = undefined) {
+//   if (id === undefined) {
+//     id = uuid.v4();  // eslint-disable-line no-param-reassign
+//   }
+//   return fromJS({
+//     value, id,
+//   });
+// }
 
 export function emptyFactory(col, row) { // :off
   return Map({ col, row }); // :on

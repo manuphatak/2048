@@ -1,7 +1,7 @@
 /* eslint-env mocha */
 /* eslint no-unused-expressions: 0 */
 import { List, fromJS, Set } from 'immutable';
-import { getTiles, getEmpty, emptyFactory, placeholderFactory } from './utils';
+import { getTiles, getEmpty, emptyFactory, tileFactory } from './utils';
 import { expect } from 'chai';
 
 const U = undefined;
@@ -9,7 +9,7 @@ const U = undefined;
 describe('app utilities', () => {
   describe('getTiles', () => {
     it('gets tiles from state', () => {
-      const [a, b] = [placeholderFactory(2), placeholderFactory(4)];
+      const [a, b] = [tileFactory(2), tileFactory(4)];
       const state = fromJS([ // :off
         [U, U, U, U],
         [U, U, U, a],
@@ -26,13 +26,13 @@ describe('app utilities', () => {
 
     it('gets tiles from state', () => {
       const [a, b, c, d, e, f, g, h, i, j, k, l] = [
-        placeholderFactory(2), placeholderFactory(4), placeholderFactory(4),
+        tileFactory(2), tileFactory(4), tileFactory(4),
 
-        placeholderFactory(8), placeholderFactory(8),
+        tileFactory(8), tileFactory(8),
 
-        placeholderFactory(4), placeholderFactory(4), placeholderFactory(2),
+        tileFactory(4), tileFactory(4), tileFactory(2),
 
-        placeholderFactory(4), placeholderFactory(4), placeholderFactory(4), placeholderFactory(4),
+        tileFactory(4), tileFactory(4), tileFactory(4), tileFactory(4),
       ];
       const state = fromJS([ // :off
         [a, b, c, U],
@@ -82,7 +82,7 @@ describe('app utilities', () => {
 
   describe('getEmpty', () => {
     it('creates a list of empty tiles', () => {
-      const [a, b] = [placeholderFactory(2), placeholderFactory(4)];
+      const [a, b] = [tileFactory(2), tileFactory(4)];
       const state = fromJS([ // :off
         [U, U, U, U],
         [U, U, U, a],
