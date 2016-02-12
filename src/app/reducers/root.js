@@ -1,4 +1,4 @@
-import { Map, fromJS } from 'immutable';
+import { Map } from 'immutable';
 import * as ACTIONS from '../actions';
 import { INITIAL_STATE } from '../core/constants';
 

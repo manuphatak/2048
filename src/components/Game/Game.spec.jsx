@@ -81,15 +81,15 @@ describe('Game', () => {
   });
 
   describe('new game', () => {
-    it.only('triggers handleNewGame on buttonClick', () => {
+    it('triggers handleNewGame on buttonClick', () => {
       // setup
       const button = findRenderedDOMComponentWithClass(component, 'new-game');
       expect(button).to.be.instanceOf(Object);
 
       // click
-      const a = Simulate.click(button);
+      Simulate.click(button);
 
-      expect(props.actions.handleNewGame).to.have.been.caledOnce;
+      expect(props.actions.handleNewGame).to.have.been.calledOnce;
     });
   });
 });
