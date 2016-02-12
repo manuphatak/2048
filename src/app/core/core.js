@@ -1,20 +1,25 @@
 import { List } from 'immutable';
 import { shift, transpose } from './utils';
+import { INITIAL_STATE } from '../core/constants';
 
-export function shiftLeft(state = List()) {
-  return state.update(value => value.map(shift));
+export function shiftLeft(gameState = List()) {
+  return gameState.update(value => value.map(shift));
 }
 
-export function shiftUp(state = List()) {
-  return state.update(value => transpose(shiftLeft(transpose(value))));
+export function shiftUp(gameState = List()) {
+  return gameState.update(value => transpose(shiftLeft(transpose(value))));
 }
 
-export function shiftRight(state = List()) {
-  return state.update(value => value.map(col => shift(col.reverse()).reverse()));
+export function shiftRight(gameState = List()) {
+  return gameState.update(value => value.map(col => shift(col.reverse()).reverse()));
 }
 
-export function shiftDown(state = List()) {
-  return state.update(value => transpose(shiftRight(transpose(value))));
+export function shiftDown(gameState = List()) {
+  return gameState.update(value => transpose(shiftRight(transpose(value))));
+}
+
+export function newGame() {
+  return INITIAL_STATE.getIn(['game', 'state']);
 }
 
 export function pushTiles(tiles) {

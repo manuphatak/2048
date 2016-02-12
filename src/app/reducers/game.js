@@ -1,29 +1,31 @@
-import { shiftDown, shiftLeft, shiftRight, shiftUp, pushTiles, refreshGameTiles } from '../core';
+import { shiftDown, shiftLeft, shiftRight, shiftUp, pushTiles, refreshGameTiles, newGame } from '../core';
 import { INITIAL_STATE } from '../core/constants';
 import * as ACTION from '../actions';
 import { tileFactory } from '../core/utils';
 
-export default function gameReducer(state = INITIAL_STATE, action) {
+const INITIAL_GAME_STATE = INITIAL_STATE.get('game');
+
+export default function gameReducer(game = INITIAL_GAME_STATE, action) {
   switch (action.type) {
     case ACTION.NEW_GAME:
-      return state;
+      return game.update('state', newGame);
     case ACTION.SHIFT_LEFT:
-      return state.update('state', shiftLeft)
-                  .update('state', refreshGameTiles);
+      return game.update('state', shiftLeft)
+                 .update('state', refreshGameTiles);
     case ACTION.SHIFT_RIGHT:
-      return state.update('state', shiftRight)
-                  .update('state', refreshGameTiles);
+      return game.update('state', shiftRight)
+                 .update('state', refreshGameTiles);
     case ACTION.SHIFT_UP:
-      return state.update('state', shiftUp)
-                  .update('state', refreshGameTiles);
+      return game.update('state', shiftUp)
+                 .update('state', refreshGameTiles);
     case ACTION.SHIFT_DOWN:
-      return state.update('state', shiftDown)
-                  .update('state', refreshGameTiles);
+      return game.update('state', shiftDown)
+                 .update('state', refreshGameTiles);
     case ACTION.CREATE_TILE: // eslint-disable-line no-case-declarations
       const newTiles = action.payload.map(({ value, col, row, id }) => tileFactory(value, col, row, id));
-      return state.update('state', refreshGameTiles)
-                  .update('state', pushTiles(newTiles));
+      return game.update('state', refreshGameTiles)
+                 .update('state', pushTiles(newTiles));
     default:
-      return state;
+      return game;
   }
 }

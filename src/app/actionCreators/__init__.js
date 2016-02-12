@@ -20,7 +20,7 @@ export function handleShiftUp() {
   return { type: ACTION.SHIFT_UP };
 }
 
-export function onCreateTile(payload) {
+export function handleCreateTile(payload) {
   return {
     type: ACTION.CREATE_TILE, payload,
   };
@@ -37,9 +37,9 @@ function setStateComplete(payload) {
 }
 
 export function setState(get, ...args) {
-  return function (dispatch) {
+  return async(dispatch) => {
     dispatch(setStateInit());
-    return get(...args)
-      .then(state => dispatch(setStateComplete(state)));
-  }
+    const state = await get(...args);
+    dispatch(setStateComplete(state));
+  };
 }

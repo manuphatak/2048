@@ -2,17 +2,26 @@ import { randomTileQuantity, createRandomTileAction } from './utils';
 import * as ACTION from '../actions';
 
 export default store => next => action => {
-  if (action.type !== ACTION.NEW_GAME) {
-    return next(action);
-  }
+  // setup
   const handle = next(action);
-  const nextGameState = store.getState().getIn(['game', 'state']);
 
-  const nextTiles = createRandomTileAction(nextGameState, randomTileQuantity());
-
-  if (nextTiles === undefined) {
-    console.error('no empty tiles', 'nextTiles', nextTiles);
+  // Guard, uninteresting actions.
+  if (action.type !== ACTION.NEW_GAME) {
     return handle;
   }
-  return next(nextTiles);
+
+  // next
+  const nextGameState = store.getState().getIn(['game', 'state']);
+
+  // create action to create a few new tile.
+  const newTilesAction = createRandomTileAction(nextGameState, randomTileQuantity());
+
+  // Guard, couldn't create a new tile.  (Board is full.)
+  if (!newTilesAction) {
+    console.error('no empty tiles', 'newTilesAction', newTilesAction);
+    return handle;
+  }
+
+  // dispatch action.
+  return next(newTilesAction);
 };

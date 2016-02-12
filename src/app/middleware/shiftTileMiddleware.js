@@ -7,23 +7,32 @@ const watchActions = [
 ];
 
 export default store => next => action => {
-  if (!watchActions.includes(action.type)) {
-    return next(action);
-  }
+  // setup
   const gameState = store.getState().getIn(['game', 'state']);
   const handle = next(action);
+
+  // Guard, uninteresting actions.
+  if (!watchActions.includes(action.type)) {
+    return handle;
+  }
+
+  // next
   const nextGameState = store.getState().getIn(['game', 'state']);
 
+  // Guard, no change.
   if (gameState.equals(nextGameState)) {
     return handle;
   }
 
-  const nextTile = createRandomTileAction(nextGameState, 1);
+  // create action to create one new tile.
+  const newTileAction = createRandomTileAction(nextGameState, 1);
 
-  if (nextTile === undefined) {
-    console.error('no empty tiles', 'nextTile', nextTile);
+  // Guard, couldn't create a new tile.  (Board is full.)
+  if (!newTileAction) {
+    console.error('no empty tiles', 'newTile', newTileAction);
     return handle;
   }
 
-  return next(nextTile);
+  // dispatch action.
+  return next(newTileAction);
 };

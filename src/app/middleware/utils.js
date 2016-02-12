@@ -1,18 +1,25 @@
 import sampleSize from 'lodash.samplesize';
-import { onCreateTile } from '../actionCreators';
+import merge from 'lodash.merge';
+import { handleCreateTile } from '../actionCreators';
 
 export function createRandomTileAction(gameState, quantity = 1) {
+  // get empty tiles
   const emptyTiles = gameState.getEmptyTiles().toJS();
+
+  // Guard, no empty tiles
   if (!emptyTiles.length) {
     return undefined;
   }
 
-  const nextTile = sampleSize(emptyTiles, Math.min(quantity, emptyTiles.length));
+  // choose random tiles from the grid
+  const randomTileSample = sampleSize(emptyTiles, Math.min(quantity, emptyTiles.length));
 
-  if (nextTile === undefined) {
-    return undefined;
-  }
-  return onCreateTile(nextTile.map(tile => Object.assign({}, tile, { value: randomTileValue() })));
+  // create tiles
+  const newTiles = randomTileSample.map(tile => (
+    merge(tile, { value: randomTileValue() })
+  ));
+
+  return handleCreateTile(newTiles);
 }
 
 function randomTileValue() {

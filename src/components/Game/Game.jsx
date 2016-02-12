@@ -35,7 +35,7 @@ class Game extends PureComponent {
   };
 
   render() {
-    const { handleShiftLeft, handleShiftRight, handleShiftUp, handleShiftDown } = this.props.actions;
+    const { handleShiftLeft, handleShiftRight, handleShiftUp, handleShiftDown, handleNewGame } = this.props.actions;
     const { tiles } = this.props;
 
     return (
@@ -45,6 +45,10 @@ class Game extends PureComponent {
           <button onClick={handleShiftRight}>Right</button>
           <button onClick={handleShiftDown}>Down</button>
           <button onClick={handleShiftUp}>Up</button>
+        </p>
+
+        <p>
+          <button className="new-game" onClick={handleNewGame}>New Game</button>
         </p>
 
         <div className="game">
