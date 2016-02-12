@@ -1,4 +1,6 @@
 import { combineReducers } from 'redux-immutable';
-import game from './gameReducer';
+import game from './game';
+import root from './root';
+import { includeRootReducer } from './utils';
 
-export default combineReducers({ game });
+export default includeRootReducer(root, combineReducers({ game }));

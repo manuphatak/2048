@@ -1,12 +1,17 @@
 import { createStore, compose } from 'redux';
 import reducer from '../reducers';
 import { canUseDOM } from 'fbjs/lib/ExecutionEnvironment';
+import { persistState } from 'redux-devtools';
 import { INITIAL_STATE } from '../core/constants';
 import middleware from '../middleware';
 
 export default function makeStore(initialState = INITIAL_STATE) {
   const activateDevTools = canUseDOM && window.devToolsExtension ? window.devToolsExtension() : e => e;
-  const enhancer = compose(middleware(), activateDevTools);
+  const enhancer = compose( // :off
+    middleware(),
+    activateDevTools,
+    persistState(getDebugSessionKey())
+  ); // :on
   const store = createStore(reducer, initialState, enhancer);
 
   if (module.hot) {
@@ -18,4 +23,11 @@ export default function makeStore(initialState = INITIAL_STATE) {
   }
 
   return store;
+}
+
+function getDebugSessionKey() {
+  const matches = canUseDOM  // :off
+    ? window.location.href.match(/[?&]debug_session=([^&]+)\b/)
+    : []; // :on
+  return (matches && matches.length) ? matches[1] : null;
 }

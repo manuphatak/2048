@@ -2,6 +2,7 @@ import jsdom from 'jsdom';
 import chai from 'chai';
 import chaiImmutable from 'chai-immutable';
 import chaiSinon from 'sinon-chai';
+import '../src/lib/immutable';
 
 const doc = jsdom.jsdom('<!doctype html><html><body></body></html>');
 const win = doc.defaultView;

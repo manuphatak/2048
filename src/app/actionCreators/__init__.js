@@ -25,3 +25,9 @@ export function onCreateTile(payload) {
     type: ACTION.CREATE_TILE, payload,
   };
 }
+
+export function setState(payload) {
+  return {
+    type: ACTION.SET_STATE, payload,
+  };
+}

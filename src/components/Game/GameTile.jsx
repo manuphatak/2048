@@ -18,8 +18,7 @@ class GameTile extends PureComponent {
   };
 
   render() {
-    const { row, col, value, id, from } = this.props.tile.toObject();
-    const fromValue = from === undefined ? value : from.get('value');
+    const { row, col, value, id } = this.props.tile.toObject();
     const defaultStyle = {
       left: CELL_SPACE * col, top: CELL_SPACE * row, scale: 0,
     };
@@ -39,12 +38,12 @@ class GameTile extends PureComponent {
         defaultStyle={defaultStyle}
         style={style}
       >
-        {this.renderTile.bind(this, { tileClass, value, fromValue, id })}
+        {this.renderTile.bind(this, { tileClass, value, id })}
       </Motion>
     );
   }
 
-  renderTile({ tileClass, value, fromValue, id }, style) {
+  renderTile({ tileClass, value, id }, style) {
     return (
       <div
         key={id}
@@ -52,7 +51,8 @@ class GameTile extends PureComponent {
         style={{ transform: `scale(${style.scale})`, ...style }}
       >
         <div className="tile-inner">
-          {style.scale >= 1 ? value : fromValue}</div>
+          {value}
+        </div>
       </div>
     );
   }

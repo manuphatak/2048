@@ -30,12 +30,12 @@ function _shift(x, xs = Stack()) {
   }
 
   // Guard shift undefined
-  if (x === undefined) {
+  if (!x) {
     return _shift(xs.first(), xs.shift());
   }
 
   // Guard next is undefined
-  if (xs.first() === undefined) {
+  if (!xs.first()) {
     return _shift(x, xs.shift());
   }
 
@@ -57,7 +57,7 @@ function _shift(x, xs = Stack()) {
 const pushTile = state => tile => {
   const keyPath = [tile.get('row'), tile.get('col')];
 
-  if (state.getIn(keyPath, undefined) !== undefined) { return undefined; }
+  if (state.getIn(keyPath)) { return undefined; }
 
   state.setIn(keyPath, tile.set('isNew', true));
 };
@@ -73,7 +73,7 @@ export function refreshGameTiles(gameState) {
   return gameState.update(updater => (
     updater.map((row, rowIndex) => (
       row.map((tile, colIndex) => (
-        tile === undefined ? undefined : tile.updateGrid(colIndex, rowIndex, false)
+        tile ? tile.updateGrid(colIndex, rowIndex, false) : undefined
       ))
     ))
   ));

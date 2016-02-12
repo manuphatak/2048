@@ -1,7 +1,7 @@
 /* eslint-env mocha */
 /* eslint no-unused-expressions: 0 */
-import { List, fromJS, Set } from './immutable';
-import { tileFactory } from '../app/core/utils';
+import { List, fromJS, Set } from '../immutable';
+import { tileFactory } from '../../app/core/utils';
 import { expect } from 'chai';
 
 const U = undefined;

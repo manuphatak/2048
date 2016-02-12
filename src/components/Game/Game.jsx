@@ -2,7 +2,6 @@ import React, { PropTypes } from 'react';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { List } from 'immutable';
 
 import PureComponent from '../../lib/PureComponent';
 import * as actionCreators from '../../app/actionCreators';
@@ -73,10 +72,10 @@ class Game extends PureComponent {
   onKeyDown(event) {
     const handler = this.keymap[event.keyCode];
 
-    if (handler !== undefined) {
-      event.preventDefault();
-      handler(event);
-    }
+    if (!handler) { return undefined;}
+
+    event.preventDefault();
+    handler(event);
   }
 }
 

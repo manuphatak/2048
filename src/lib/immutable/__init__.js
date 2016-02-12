@@ -4,17 +4,17 @@ List.prototype.getEmptyTiles = function getEmptyTiles() {// eslint-disable-line 
   return this
     .map((row, rowIndex) => (
       row.map((cell, colIndex) => (
-        cell !== undefined ? undefined : Map({ row: rowIndex, col: colIndex })
+        cell ? undefined : Map({ row: rowIndex, col: colIndex })
       ))))
     .flatten(true)
-    .filter(tile => tile !== undefined);
+    .filter(tile => !!tile);
 };
 
 List.prototype.toTileSet = function toTileSet() {
   return this
     .flatten(true)
     .toSet()
-    .filter(tile => tile !== undefined);
+    .filter(tile => !!tile);
 };
 
 Map.prototype.updateGrid = function updateGrid(col, row, isNew = undefined) { // eslint-disable-line no-extend-native

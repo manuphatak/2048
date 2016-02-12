@@ -1,10 +1,10 @@
 /* eslint-env mocha */
 /* eslint no-unused-expressions: 0 */
 import { expect } from 'chai';
-import { fromJS, Map } from 'immutable';
+import { fromJS } from 'immutable';
 
 import { handleShiftDown, handleShiftLeft, handleShiftUp, handleShiftRight, onCreateTile } from '../actionCreators';
-import reducer from './gameReducer';
+import reducer from './game';
 import { tileFactory } from '../core/utils';
 
 const U = undefined;

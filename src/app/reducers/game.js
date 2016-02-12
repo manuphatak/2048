@@ -1,7 +1,4 @@
-import { List, fromJS } from 'immutable';
-import {
-  shiftDown, shiftLeft, shiftRight, shiftUp, pushTiles, refreshGameTiles,
-} from '../core';
+import { shiftDown, shiftLeft, shiftRight, shiftUp, pushTiles, refreshGameTiles } from '../core';
 import { INITIAL_STATE } from '../core/constants';
 import * as ACTION from '../actions';
 import { tileFactory } from '../core/utils';

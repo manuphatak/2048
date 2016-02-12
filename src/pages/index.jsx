@@ -1,13 +1,27 @@
 import React, { Component } from 'react';
 import Game from '../components/Game';
-import makeStore from '../app/stores';
+import configureStore from '../app/stores/';
 import { Provider } from 'react-redux';
+import storage from '../lib/storage';
+import { setState } from '../app/actionCreators';
+const STORAGE_KEY = '2048_state';
+
+const store = configureStore();
+
+storage.get(STORAGE_KEY)
+       .then(initialState => {
+         store.dispatch(setState(initialState));
+       });
+
+store.subscribe(() => {
+  storage.set(STORAGE_KEY, store.getState().toJS());
+});
 
 class Page extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      store: makeStore(),
+      store,
     };
   }
 

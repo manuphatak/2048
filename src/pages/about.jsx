@@ -1,6 +1,24 @@
+/* eslint no-console:0 */
 import React, { Component } from 'react';
 import { Motion, spring, TransitionMotion } from 'react-motion';
 import uuid from 'node-uuid';
+import assert from 'assert';
+
+function* count(n) {
+  for (let x = 0; x < n; x++) {
+    yield x;
+  }
+}
+
+const sentinel = new Error('foo');
+function* demo() {
+  try {
+    yield 10;
+  }
+  catch (error) {
+    assert(error === sentinel);
+  }
+}
 
 class Demo extends Component {
   constructor(props) {
@@ -14,6 +32,18 @@ class Demo extends Component {
     };
     this.handleRemove = this.handleRemove.bind(this);
     this.handleAdd = this.handleAdd.bind(this);
+  }
+
+  componentWillUpdate() {
+    console.log(uuid.v4());
+    for (const x of count(5)) {
+      console.log('x', x);
+    }
+    const d = demo();
+    const A = d.next();
+    console.log('A', A);
+    const C = d.throw(sentinel);
+    console.log('C', C);
   }
 
   handleRemove() {
@@ -35,13 +65,11 @@ class Demo extends Component {
     });
   }
 
-  willLeave(styleThatLeft) {
-    console.log('styleThatLeft', styleThatLeft);
+  willLeave() {
     return { width: spring(0), height: spring(0) };
   }
 
-  willEnter(styleThatEntered) {
-    console.log('styleThatEntered', styleThatEntered);
+  willEnter() {
     return { width: 0, height: 0 };
   }
 
