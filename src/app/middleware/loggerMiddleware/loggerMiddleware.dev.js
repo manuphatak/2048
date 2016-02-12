@@ -4,5 +4,5 @@ export default createLogger({
 
   duration: true,
 
-  collapse: true,
+  collapsed: true,
 });
