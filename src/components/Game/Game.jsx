@@ -62,7 +62,7 @@ class Game extends PureComponent {
   }
 
   componentWillMount() {
-    this.props.actions.handleNewGame();
+    // this.props.actions.handleNewGame();
   }
 
   componentWillUnmount() {
@@ -83,6 +83,7 @@ function mapStateToProps(state) {
   return { // :off
     value: state.get('value', 0),
     tiles: state.getIn(['game', 'state']).toTileSet(),
+    isLoading: state.get('isLoading'),
   }; // :on
 }
 

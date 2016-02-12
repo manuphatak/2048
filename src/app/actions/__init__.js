@@ -4,4 +4,5 @@ export const SHIFT_RIGHT = 'SHIFT_RIGHT';
 export const SHIFT_UP = 'SHIFT_UP';
 export const SHIFT_DOWN = 'SHIFT_DOWN';
 export const CREATE_TILE = 'CREATE_TILE';
-export const SET_STATE = 'SET_STATE';
+export const SET_STATE_INIT = 'SET_STATE_INIT';
+export const SET_STATE_COMPLETE = 'SET_STATE_COMPLETE';

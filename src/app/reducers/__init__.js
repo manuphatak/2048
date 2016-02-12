@@ -3,4 +3,6 @@ import game from './game';
 import root from './root';
 import { includeRootReducer } from './utils';
 
-export default includeRootReducer(root, combineReducers({ game }));
+const isLoading = state => state;
+
+export default includeRootReducer(root, combineReducers({ game, isLoading }));

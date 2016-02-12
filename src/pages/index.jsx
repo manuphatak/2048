@@ -7,11 +7,7 @@ import { setState } from '../app/actionCreators';
 const STORAGE_KEY = '2048_state';
 
 const store = configureStore();
-
-storage.get(STORAGE_KEY)
-       .then(initialState => {
-         store.dispatch(setState(initialState));
-       });
+store.dispatch(setState(storage.get, STORAGE_KEY));
 
 store.subscribe(() => {
   storage.set(STORAGE_KEY, store.getState().toJS());

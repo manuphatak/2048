@@ -26,8 +26,20 @@ export function onCreateTile(payload) {
   };
 }
 
-export function setState(payload) {
+function setStateInit() {
+  return { type: ACTION.SET_STATE_INIT };
+}
+
+function setStateComplete(payload) {
   return {
-    type: ACTION.SET_STATE, payload,
+    type: ACTION.SET_STATE_COMPLETE, payload,
   };
+}
+
+export function setState(get, ...args) {
+  return function (dispatch) {
+    dispatch(setStateInit());
+    return get(...args)
+      .then(state => dispatch(setStateComplete(state)));
+  }
 }

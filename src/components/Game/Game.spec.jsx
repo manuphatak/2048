@@ -76,7 +76,7 @@ describe('Game', () => {
       expect(props.actions.handleShiftDown).to.have.been.calledOnce;
       expect(props.actions.handleShiftDown).to.have.been.calledWith(event);
     });
-    it('fires a handleNewGame event on mounting', () => {
+    it.skip('fires a handleNewGame event on mounting', () => {
       const props = defaultProps();
       renderIntoDocument(<Game {...props} />);
 
