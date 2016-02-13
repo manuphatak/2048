@@ -68,7 +68,7 @@ const config = {
     sourcePrefix: '  ',
   },  // :on
 
-  cache: DEBUG,
+  cache: WATCH,
 
   resolve: {
     extensions: ['', '.webpack.js', '.web.js', '.js', '.jsx'],
@@ -132,7 +132,7 @@ const appConfig = merge({}, config, {
     ],
   },
 
-  devtool: DEBUG ? 'source-map' : false,
+  devtool: DEBUG ? 'eval-source-map' : false,
 
   plugins: [ // :off
     ...config.plugins,
@@ -156,16 +156,14 @@ const appConfig = merge({}, config, {
       ? [
         new webpack.HotModuleReplacementPlugin(),
         new webpack.NoErrorsPlugin(),
-      ] : [
-
-      ]
+      ] : []
     ),
   ],  // :on
 
   module: {
     loaders: [ // :off
-      ...config.module.loaders,
       WATCH ? JS_LOADER_DEV : JS_LOADER,
+      ...config.module.loaders,
       WATCH ? SCSS_LOADER_DEV : SCSS_LOADER,
     ],  // :on
   },
@@ -174,10 +172,10 @@ const appConfig = merge({}, config, {
 // Configuration for server-side pre-rendering bundle
 const pagesConfig = merge({}, config, {
   entry: {
-    'app.node': ['babel-polyfill', './src/app.js'],
+    'app.node': ['./src/app.js'],
   },
 
-  output: { libraryTarget: 'commonjs2' },
+  output: { libraryTarget: 'umd' },
 
   target: 'node',
 
@@ -195,7 +193,6 @@ const pagesConfig = merge({}, config, {
   plugins: [ // :off
     ...config.plugins,
     new webpack.optimize.LimitChunkCountPlugin({ maxChunks: 1 }),
-    new ExtractTextPlugin('app.css', { allChunks: true }),
   ],  // :on
 
   module: {
@@ -204,9 +201,8 @@ const pagesConfig = merge({}, config, {
       ...config.module.loaders,
       {
         test: /\.scss$/,
-        loader: ExtractTextPlugin.extract(
-          'style', `css?importLoaders=1${DEBUG ? '' : '&minify'}!postcss!sass`
-        ),
+        loaders: ['css', 'postcss', 'sass'],
+        include: INCLUDE_PATHS,
       },
     ], // :on
   },
