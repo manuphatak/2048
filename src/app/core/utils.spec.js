@@ -9,7 +9,7 @@ const U = undefined;
 describe('app utilities', () => {
   describe('tileFactory', () => {
     it('creates a tile', () => {
-      expect(tileFactory(2, 0, 0, 1)).to.equal(fromJS({ value: 2, col: 0, row: 0, id: 1 }));
+      expect(tileFactory(2, 0, 0, 1)).to.equal(fromJS({ value: 2, fromValue: 2, col: 0, row: 0, id: 1 }));
     });
   });
 

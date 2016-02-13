@@ -26,6 +26,12 @@ export function handleCreateTile(payload) {
   };
 }
 
+export function addPoints(payload) {
+  return {
+    type: ACTION.ADD_POINTS, payload,
+  };
+}
+
 function setStateInit() {
   return { type: ACTION.SET_STATE_INIT };
 }

@@ -1,9 +1,11 @@
 import React, { Component } from 'react';
 import Game from '../components/Game';
+import Score from '../components/Score';
 import configureStore from '../app/stores/';
 import { Provider } from 'react-redux';
 import storage from '../lib/storage';
 import { setState } from '../app/actionCreators';
+
 const STORAGE_KEY = '2048_state';
 
 const store = configureStore();
@@ -26,6 +28,7 @@ class Page extends Component {
       <Provider store={this.state.store}>
         <div>
           <h1>Home Page</h1>
+          <Score />
 
           <Game />
         </div>

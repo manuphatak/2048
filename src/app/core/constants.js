@@ -12,5 +12,11 @@ export const INITIAL_STATE = fromJS({
           [U, U, U, U],
           [U, U, U, U],
     ], // :on
+
+    meta: {
+      score: 0,
+
+      topScore: 0,
+    },
   },
 });

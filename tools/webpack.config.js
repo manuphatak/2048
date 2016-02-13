@@ -1,7 +1,7 @@
 import path from 'path';
 import webpack from 'webpack';
 import merge from 'lodash.merge';
-import ExtractTextPlugin from 'extract-text-webpack-plugin';
+// import ExtractTextPlugin from 'extract-text-webpack-plugin';
 import NpmInstallPlugin from 'npm-install-webpack-plugin';
 
 const dependencies = require('../package.json').dependencies;
@@ -10,7 +10,7 @@ const PATHS = {
   src: path.join(__dirname, '../src'),
   build: path.join(__dirname, '../build'),
   main: path.join(__dirname, '../src/app.js'),
-  config: path.join(__dirname, '../src/webpack.config.js'),
+  config: path.join(__dirname, '../src/config.js'),
   tools: path.join(__dirname, '../tools'),
 };
 
@@ -30,17 +30,17 @@ const AUTOPREFIXER_BROWSERS = [
 
 const INCLUDE_PATHS = [ // :off
   path.resolve(PATHS.src),
-  path.resolve(PATHS.main),
-  path.resolve(PATHS.config),
 ]; // :on
 
-const JS_LOADER = { test: /\.jsx?$/, include: INCLUDE_PATHS, loader: 'babel', query: { compact: false } };
+const JS_LOADER = {
+  test: /\.jsx?$/, include: INCLUDE_PATHS, loader: 'babel', query: { compact: DEBUG },
+};
 
 const JS_LOADER_DEV = Object.assign({}, JS_LOADER, {
   query: {
     presets: ['react-hmre'],
 
-    compact: false,
+    compact: DEBUG,
   },
 
   cacheDirectory: true,
@@ -175,7 +175,7 @@ const pagesConfig = merge({}, config, {
     'app.node': ['./src/app.js'],
   },
 
-  output: { libraryTarget: 'umd' },
+  output: { libraryTarget: 'commonjs2' },
 
   target: 'node',
 

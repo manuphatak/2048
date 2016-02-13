@@ -41,7 +41,7 @@ export function pushTiles(tiles) {
   }
 }
 
-export function refreshGameTiles(gameState) {
+export function updateTilesCoordinates(gameState) {
   return gameState.update(updater => (
     updater.map((row, rowIndex) => (
       row.map((tile, colIndex) => (

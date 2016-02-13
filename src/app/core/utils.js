@@ -2,7 +2,7 @@ import { fromJS, Stack, List } from 'immutable';
 import uuid from 'node-uuid';
 
 export function tileFactory(value, col, row, id) {
-  return fromJS({ value, col, row, id: id || uuid.v4() });
+  return fromJS({ value, col, row, fromValue: value, id: id || uuid.v4() });
 }
 
 export function transpose(state) {
@@ -11,7 +11,6 @@ export function transpose(state) {
     .update(value => value.map((col, index) => state.map(row => row.get(index))))
     .asImmutable();
 }
-
 
 export function shift(state = List()) {
   return state

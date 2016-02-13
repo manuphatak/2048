@@ -21,4 +21,9 @@ Map.prototype.updateGrid = function updateGrid(col, row, isNew = undefined) { //
   return this.merge(isNew === undefined ? { col, row } : { col, row, isNew });
 };
 
+List.prototype.tileValues = function tileValues() {
+  return this.flatten(true)
+             .map(tile => !tile ? tile : tile.get('value'));
+};
+
 export * from 'immutable';

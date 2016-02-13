@@ -290,7 +290,7 @@ describe('app core logic', () => {
     });
   });
 
-  describe('refreshGameTiles', () => {
+  describe('updateTilesCoordinates', () => {
   //  TODO Add tests
   });
 });
