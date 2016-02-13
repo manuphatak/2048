@@ -1,13 +1,14 @@
 import GitRepo from 'git-repository';
 import task from './lib/task';
 
-// TODO: Update deployment URL
+const reGithubPrefix = /^(?:git)?\+?(?:https?)?:\/\/github\.com\//;
 const remote = { // :off
   name: 'github',
-  url: 'https://github.com/{user}/{repo}.git',
+  url: require('../package.json').repository.url
+                                 .replace(reGithubPrefix, 'git@github.com:'),
   branch: 'gh-pages',
 };  // :on
-
+console.log('remote.url', remote.url);
 /**
  * Deploy the contents of the `/build` folder to GitHub Pages.
  */

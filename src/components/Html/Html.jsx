@@ -1,6 +1,9 @@
 import React, { Component, PropTypes } from 'react';
 import GoogleAnalytics from '../GoogleAnalytics';
-import { title, description } from '../../config';
+import config from '../../config';
+const { title, description } = config;
+
+const WATCH = global.watch;
 
 class Html extends Component {
 
@@ -15,11 +18,10 @@ class Html extends Component {
     return (
       <html
         className="no-js"
-        lang=""
+        lang="en"
       >
       <head>
-        <title>2048</title>
-        <meta charSet="utf-8" />
+        <meta charSet="UTF-8" />
         <meta
           httpEquiv="X-UA-Compatible"
           content="IE=edge"
@@ -43,11 +45,11 @@ class Html extends Component {
         />
         <link
           rel="stylesheet"
-          href={`/app.css?${new Date().getTime()}`}
+          href={`./app.css?${new Date().getTime()}`}
         />
-        <script src={`/manifest.js?${new Date().getTime()}`}></script>
-        <script src={`/vendor.js?${new Date().getTime()}`}></script>
-        <script src={`/app.js?${new Date().getTime()}`}></script>
+        <script src="./manifest.js"></script>
+        <script src="./vendor.js"></script>
+        <script src={`./app.js?${new Date().getTime()}`}></script>
       </head>
       <body>
       <div

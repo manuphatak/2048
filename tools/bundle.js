@@ -1,6 +1,6 @@
 import webpack from 'webpack';
 import task from './lib/task';
-import config from './config';
+import config from './webpack.config';
 
 function bundle() {
   return new Promise((resolve, reject) => {

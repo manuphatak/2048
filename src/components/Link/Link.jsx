@@ -12,13 +12,17 @@ function isModifiedEvent(event) {
 }
 
 class Link extends Component {
-
   static propTypes = {
     to: PropTypes.string.isRequired,
     children: PropTypes.element.isRequired,
     state: PropTypes.object,
     onClick: PropTypes.func,
   };
+
+  constructor(props) {
+    super(props);
+    this.handleClick = Link.handleClick.bind(this);
+  }
 
   static handleClick = event => {
     let allowTransition = true;
@@ -47,7 +51,7 @@ class Link extends Component {
 
   render() {
     const { to, children, ...props } = this.props;
-    return <a onClick={Link.handleClick.bind(this)} {...props}>{children}</a>;
+    return <a onClick={this.handleClick} {...props}>{children}</a>;
   }
 
 }

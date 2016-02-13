@@ -10,7 +10,7 @@ const PATHS = {
   src: path.join(__dirname, '../src'),
   build: path.join(__dirname, '../build'),
   main: path.join(__dirname, '../src/app.js'),
-  config: path.join(__dirname, '../src/config.js'),
+  config: path.join(__dirname, '../src/webpack.config.js'),
   tools: path.join(__dirname, '../tools'),
 };
 
@@ -34,11 +34,13 @@ const INCLUDE_PATHS = [ // :off
   path.resolve(PATHS.config),
 ]; // :on
 
-const JS_LOADER = { test: /\.jsx?$/, include: INCLUDE_PATHS, loader: 'babel' };
+const JS_LOADER = { test: /\.jsx?$/, include: INCLUDE_PATHS, loader: 'babel', query: { compact: false } };
 
 const JS_LOADER_DEV = Object.assign({}, JS_LOADER, {
   query: {
     presets: ['react-hmre'],
+
+    compact: false,
   },
 
   cacheDirectory: true,
@@ -56,27 +58,11 @@ const SCSS_LOADER_DEV = { // :off
   include: INCLUDE_PATHS,
 }; // :on
 
-const developmentPlugins = [
-  new NpmInstallPlugin({
-    save: true,
-  }),
-];
-
-const productionPlugins = [ // :off
-  new webpack.optimize.DedupePlugin(),
-
-  new webpack.optimize.UglifyJsPlugin({
-    compress: { warnings: VERBOSE },
-  }),
-  new webpack.optimize.AggressiveMergingPlugin(),
-];  // :on
-
 // Base configuration
 const config = {
   output: { // :off
     path: PATHS.build,
     filename: '[name].js',
-    chunkFilename: '[chunkhash].js',
     sourceMapFilename: '[file].map',
     publicPath: '/',
     sourcePrefix: '  ',
@@ -100,9 +86,8 @@ const config = {
     cachedAssets: VERBOSE,
   },
 
-  plugins: [
-
-    new webpack.optimize.OccurenceOrderPlugin(), // :off
+  plugins: [ // :off
+    new webpack.optimize.OccurenceOrderPlugin(),
     new webpack.DefinePlugin({
       'process.env.NODE_ENV': DEBUG ? '"development"' : '"production"',
       __DEV__: DEBUG,
@@ -124,8 +109,9 @@ const config = {
     ],
   },
 
-  postcss: function plugins() {
+  postcss: function plugins(bundler) {
     return [ // :off
+      require('postcss-import')({ addDependencyTo: bundler }),
       require('precss')(),
       require('autoprefixer')({ browsers: AUTOPREFIXER_BROWSERS }),
     ];  // :on
@@ -140,27 +126,47 @@ const appConfig = merge({}, config, {
       ...(WATCH ? ['webpack-hot-middleware/client'] : []),
       './src/app.js',
     ],  // :on
-    vendor: Object.keys(dependencies),
+
+    vendor: [
+      ...Object.keys(dependencies),
+    ],
   },
 
   devtool: DEBUG ? 'source-map' : false,
 
   plugins: [ // :off
+    ...config.plugins,
     new webpack.optimize.CommonsChunkPlugin({
       names: ['vendor', 'manifest'],
     }),
-    ...config.plugins, ...(DEBUG ? developmentPlugins : productionPlugins),
-    ...(!WATCH ? [] : [
-      new webpack.HotModuleReplacementPlugin(),
-      new webpack.NoErrorsPlugin(),
-    ]),
+    ...(DEBUG
+      ? [
+        new NpmInstallPlugin({
+          save: true,
+        }),
+      ] : [
+        new webpack.optimize.DedupePlugin(),
+        new webpack.optimize.UglifyJsPlugin({
+          compress: { warnings: VERBOSE },
+        }),
+        new webpack.optimize.AggressiveMergingPlugin(),
+      ]
+    ),
+    ...(WATCH
+      ? [
+        new webpack.HotModuleReplacementPlugin(),
+        new webpack.NoErrorsPlugin(),
+      ] : [
+
+      ]
+    ),
   ],  // :on
 
   module: {
     loaders: [ // :off
-      WATCH ? JS_LOADER_DEV : JS_LOADER,
       ...config.module.loaders,
-      DEBUG ? SCSS_LOADER_DEV : SCSS_LOADER,
+      WATCH ? JS_LOADER_DEV : JS_LOADER,
+      WATCH ? SCSS_LOADER_DEV : SCSS_LOADER,
     ],  // :on
   },
 });
@@ -186,10 +192,11 @@ const pagesConfig = merge({}, config, {
 
   externals: /^[a-z][a-z\.\-\/0-9]*$/i,
 
-  plugins: config.plugins.concat([ // :off
+  plugins: [ // :off
+    ...config.plugins,
     new webpack.optimize.LimitChunkCountPlugin({ maxChunks: 1 }),
     new ExtractTextPlugin('app.css', { allChunks: true }),
-  ]),  // :on
+  ],  // :on
 
   module: {
     loaders: [// :off
@@ -198,12 +205,7 @@ const pagesConfig = merge({}, config, {
       {
         test: /\.scss$/,
         loader: ExtractTextPlugin.extract(
-          'css'
-          + '?modules'
-          + '&importLoaders=1'
-          + `${DEBUG ? '' : '&minify'}`
-          + '!postcss'
-          + '!sass'
+          'style', `css?importLoaders=1${DEBUG ? '' : '&minify'}!postcss!sass`
         ),
       },
     ], // :on

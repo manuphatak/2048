@@ -1,5 +1,5 @@
 export default {
-  title: 'React Static Boilerplate',
-  description: 'Static website generator for React.js web applications.',
+  title: '2048',
+  description: '2048 Clone',
   googleAnalyticsId: 'UA-XXXXX-X',
 };
