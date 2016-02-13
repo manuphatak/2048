@@ -1,1 +1,1 @@
-module.exports = require('localforage');
+module.exports = require('script!localforage');
