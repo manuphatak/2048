@@ -106,4 +106,27 @@ describe('Immutable patch', () => {
       expect(nextState).to.equal(expected);
     });
   });
+
+  describe('tileValues', () => {
+    it('gets a list of tile values', () => {
+      const [a, b] = [tileFactory(2, 3, 1), tileFactory(4, 2, 2)];
+      const state = fromJS([ // :off
+        [U, U, U, U],
+        [U, U, U, a],
+        [U, U, b, U],
+        [U, U, U, U],
+      ]); // :on
+      const nextState = state.tileValues();
+
+      const expected = fromJS([ // :off
+        U, U, U, U,
+        U, U, U, 2,
+        U, U, 4, U,
+        U, U, U, U,
+      ]); // :on
+
+      expect(nextState.toJS()).to.deep.equal(expected.toJS());
+      expect(nextState).to.equal(expected);
+    });
+  });
 });

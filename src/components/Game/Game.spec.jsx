@@ -7,8 +7,7 @@ import {
 import { expect } from 'chai';
 import { Set } from 'immutable';
 import { spy } from 'sinon';
-
-import { Game } from './Game';
+import Game from './Game';
 
 const KEY = { LEFT: 37, UP: 38, RIGHT: 39, DOWN: 40 };
 
@@ -31,52 +30,59 @@ describe('Game', () => {
   });
 
   describe('keypress handler', () => {
-    it('triggers handleShiftLeft on keydown', () => {
+    it('triggers handleShiftLeft on keydown', (done) => {
       // setup
       const keyCode = KEY.LEFT;
-      const event = new window.KeyboardEvent('keydown', { bubbles: true, cancelable: true, keyCode });
+      const event = new window.KeyboardEvent('keydown', { bubbles: false, cancelable: true, keyCode });
 
       // simulate
-      window.dispatchEvent(event);
+      document.dispatchEvent(event);
 
       expect(props.actions.handleShiftLeft).to.have.been.calledOnce;
       expect(props.actions.handleShiftLeft).to.have.been.calledWith(event);
+
+      done();
     });
 
-    it('triggers handleShiftUp on keydown', () => {
+    it('triggers handleShiftUp on keydown', (done) => {
       // setup
       const keyCode = KEY.UP;
-      const event = new window.KeyboardEvent('keydown', { bubbles: true, cancelable: true, keyCode });
+      const event = new window.KeyboardEvent('keydown', { bubbles: false, cancelable: true, keyCode });
 
       // simulate
-      window.dispatchEvent(event);
+      document.dispatchEvent(event);
 
       expect(props.actions.handleShiftUp).to.have.been.calledOnce;
       expect(props.actions.handleShiftUp).to.have.been.calledWith(event);
+
+      done();
     });
 
-    it('triggers handleShiftRight on keydown', () => {
+    it('triggers handleShiftRight on keydown', (done) => {
       // setup
       const keyCode = KEY.RIGHT;
-      const event = new window.KeyboardEvent('keydown', { bubbles: true, cancelable: true, keyCode });
+      const event = new window.KeyboardEvent('keydown', { bubbles: false, cancelable: true, keyCode });
 
       // simulate
-      window.dispatchEvent(event);
+      document.dispatchEvent(event);
 
       expect(props.actions.handleShiftRight).to.have.been.calledOnce;
       expect(props.actions.handleShiftRight).to.have.been.calledWith(event);
+
+      done();
     });
 
-    it('triggers handleShiftDown on keydown', () => {
+    it('triggers handleShiftDown on keydown', (done) => {
       // setup
       const keyCode = KEY.DOWN;
-      const event = new window.KeyboardEvent('keydown', { bubbles: true, cancelable: true, keyCode });
+      const event = new window.KeyboardEvent('keydown', { bubbles: false, cancelable: true, keyCode });
 
       // simulate
-      window.dispatchEvent(event);
+      document.dispatchEvent(event);
 
       expect(props.actions.handleShiftDown).to.have.been.calledOnce;
       expect(props.actions.handleShiftDown).to.have.been.calledWith(event);
+      done();
     });
   });
 
@@ -97,11 +103,11 @@ describe('Game', () => {
 function defaultProps() {
   return {
     actions: { // :off
-      handleShiftLeft: spy(),
-      handleShiftRight: spy(),
-      handleShiftUp: spy(),
-      handleShiftDown: spy(),
-      handleNewGame: spy(),
+      handleShiftLeft: spy(e => e.preventDefault()),
+      handleShiftRight: spy(e => e.preventDefault()),
+      handleShiftUp: spy(e => e.preventDefault()),
+      handleShiftDown: spy(e => e.preventDefault()),
+      handleNewGame: spy(e => e.preventDefault()),
     },  // :on
 
     value: 2,

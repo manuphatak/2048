@@ -19,3 +19,6 @@ class App extends Component {
 }
 
 export default App;
+Map.prototype.updateGrid = function updateGrid(col, row) { // eslint-disable-line no-extend-native
+  return this.merge({ col, row });
+};

@@ -1,6 +1,6 @@
 import sampleSize from 'lodash.samplesize';
 import merge from 'lodash.merge';
-import { handleCreateTile } from '../actionCreators';
+import { handleCreateTile } from '../../actionCreators';
 
 export function createRandomTileAction(gameState, quantity = 1) {
   // get empty tiles

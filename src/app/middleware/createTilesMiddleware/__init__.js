@@ -1,6 +1,6 @@
 import { randomTileQuantity, createRandomTileAction } from './utils';
 
-import * as ACTION from '../actions';
+import * as ACTION from '../../actions';
 
 const actionDispatch = { // :off
   [ACTION.SHIFT_DOWN]: createTiles(() => 1),

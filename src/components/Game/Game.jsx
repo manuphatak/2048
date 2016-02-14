@@ -1,10 +1,8 @@
 import React, { PropTypes } from 'react';
 import ImmutablePropTypes from 'react-immutable-proptypes';
-import { bindActionCreators } from 'redux';
-import { connect } from 'react-redux';
 
 import PureComponent from '../../lib/PureComponent';
-import * as actionCreators from '../../app/actionCreators';
+
 import GameGrid from './GameGrid';
 import GameTiles from './GameTiles';
 
@@ -48,7 +46,11 @@ class Game extends PureComponent {
         </p>
 
         <p>
-          <button className="new-game" onClick={handleNewGame}>New Game</button>
+          <button
+            className="new-game"
+            onClick={handleNewGame}
+          >New Game
+          </button>
         </p>
 
         <div className="game">
@@ -62,7 +64,7 @@ class Game extends PureComponent {
   }
 
   componentDidMount() {
-    window.addEventListener('keydown', this.onKeyDown, false);
+    document.addEventListener('keydown', this.onKeyDown, false);
   }
 
   componentWillMount() {
@@ -70,7 +72,7 @@ class Game extends PureComponent {
   }
 
   componentWillUnmount() {
-    window.removeEventListener('keydown', this.onKeyDown, false);
+    document.removeEventListener('keydown', this.onKeyDown, false);
   }
 
   onKeyDown(event) {
@@ -83,17 +85,4 @@ class Game extends PureComponent {
   }
 }
 
-function mapStateToProps(state) {
-  return { // :off
-    value: state.get('value', 0),
-    tiles: state.getIn(['game', 'state']).toTileSet(),
-    isLoading: state.get('isLoading'),
-  }; // :on
-}
-
-function mapDispatchToProps(dispatch) {
-  return { actions: bindActionCreators(actionCreators, dispatch) };
-}
-
-export { Game };
-export default connect(mapStateToProps, mapDispatchToProps)(Game);
+export default Game;

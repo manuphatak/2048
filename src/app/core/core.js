@@ -41,6 +41,16 @@ export function pushTiles(tiles) {
   }
 }
 
+export function updateTilesFromValue(gameState) {
+  return gameState.map(row => row.map(updateTileFromValue));
+
+  function updateTileFromValue(tile) {
+    if (!tile) {return tile;}
+
+    return tile.set('fromValue', tile.get('value', 0));
+  }
+}
+
 export function updateTilesCoordinates(gameState) {
   return gameState.update(updater => (
     updater.map((row, rowIndex) => (
@@ -49,4 +59,26 @@ export function updateTilesCoordinates(gameState) {
       ))
     ))
   ));
+}
+
+export function updateScore(game) {
+  return game
+    .update('meta', gameMeta => (
+      gameMeta.update('score', gameScore => (
+        game.get('state')
+            .toTileSet()
+            .reduce(sumPoints, gameScore)
+      ))
+    ))
+    .update('meta', gameMeta => (
+      gameMeta.update('topScore', topScore => (
+        Math.max(topScore, gameMeta.get('score'))
+      ))
+    ));
+
+  function sumPoints(left, right) {
+    if (right.get('value') === right.get('fromValue')) {return left;}
+
+    return left + right.get('value');
+  }
 }

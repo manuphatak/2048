@@ -21,6 +21,7 @@ describe('gameReducer', () => {
           [U, U, b, U],
           [U, U, U, U],
         ], // :on
+        meta: { score: 0, topScore: 0 },
       });
       const nextState = reducer(initialState, handleShiftLeft());
 
@@ -32,6 +33,7 @@ describe('gameReducer', () => {
           [B, U, U, U],
           [U, U, U, U],
         ], // :on
+        meta: { score: 0, topScore: 0 },
       });
       expect(nextState.toJS()).to.deep.equal(expected.toJS());
       expect(nextState).to.equal(expected);
@@ -47,6 +49,7 @@ describe('gameReducer', () => {
           [U, U, b, U],
           [U, U, U, U],
         ], // :on
+        meta: { score: 0, topScore: 0 },
       });
       const nextState = reducer(initialState, handleShiftRight());
       const [A, B] = [a.updateGrid(3, 1, false), b.updateGrid(3, 2, false)];
@@ -57,6 +60,7 @@ describe('gameReducer', () => {
           [U, U, U, B],
           [U, U, U, U],
         ], // :on
+        meta: { score: 0, topScore: 0 },
       });
       expect(nextState.toJS()).to.deep.equal(expected.toJS());
       expect(nextState).to.equal(expected);
@@ -72,6 +76,7 @@ describe('gameReducer', () => {
           [U, U, b, U],
           [U, U, U, U],
         ], // :on
+        meta: { score: 0, topScore: 0 },
       });
       const nextState = reducer(initialState, handleShiftDown());
 
@@ -83,6 +88,7 @@ describe('gameReducer', () => {
           [U, U, U, U],
           [U, U, B, A],
         ], // :on
+        meta: { score: 0, topScore: 0 },
       });
       expect(nextState.toJS()).to.deep.equal(expected.toJS());
       expect(nextState).to.equal(expected);
@@ -98,6 +104,7 @@ describe('gameReducer', () => {
           [U, U, b, U],
           [U, U, U, U],
         ], // :on
+        meta: { score: 0, topScore: 0 },
       });
       const nextState = reducer(initialState, handleShiftUp());
 
@@ -109,6 +116,7 @@ describe('gameReducer', () => {
           [U, U, U, U],
           [U, U, U, U],
         ], // :on
+        meta: { score: 0, topScore: 0 },
       });
       expect(nextState.toJS()).to.deep.equal(expected.toJS());
       expect(nextState).to.equal(expected);
@@ -127,6 +135,7 @@ describe('gameReducer', () => {
           [U, U, b, U],
           [U, U, U, U],
         ], // :on
+        meta: { score: 0, topScore: 0 },
       });
       const nextState = reducer(initialState, handleCreateTile([c.toJS()]));
 
@@ -138,6 +147,7 @@ describe('gameReducer', () => {
           [U, U, B, U],
           [U, U, U, U],
         ], // :on
+        meta: { score: 0, topScore: 0 },
       });
       expect(nextState.toJS()).to.deep.equal(expected.toJS());
       expect(nextState).to.equal(expected);
@@ -152,6 +162,7 @@ describe('gameReducer', () => {
           [U, U, b, U],
           [U, U, U, U],
         ], // :on
+        meta: { score: 0, topScore: 0 },
       });
       const nextState = reducer(initialState, handleCreateTile([c.toJS(), d.toJS()]));
 
@@ -163,6 +174,7 @@ describe('gameReducer', () => {
           [U, U, B, U],
           [U, U, U, U],
         ], // :on
+        meta: { score: 0, topScore: 0 },
       });
       expect(nextState.toJS()).to.deep.equal(expected.toJS());
       expect(nextState).to.equal(expected);

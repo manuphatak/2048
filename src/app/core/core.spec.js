@@ -1,9 +1,12 @@
 /* eslint-env mocha */
 /* eslint no-unused-expressions: 0 */
 import { List, fromJS } from 'immutable';
-import { shiftLeft, shiftUp, shiftRight, shiftDown, pushTiles } from './core';
+import {
+  shiftLeft, shiftUp, shiftRight, shiftDown, pushTiles, updateTilesCoordinates, updateTilesFromValue
+} from './core';
 import { expect } from 'chai';
 import { tileFactory } from './utils';
+import { updateScore } from './core';
 
 const U = undefined;
 
@@ -291,6 +294,129 @@ describe('app core logic', () => {
   });
 
   describe('updateTilesCoordinates', () => {
-  //  TODO Add tests
+    it('updates coordinates based on location', () => {
+      const [a, b] = [tileFactory(2, 3, 1), tileFactory(4, 2, 2)];
+      const [A, B] = [a.updateGrid(0, 1, false), b.updateGrid(0, 2, false)];
+      const state = fromJS([ // :off
+        [U, U, U, U],
+        [a, U, U, U],
+        [b, U, U, U],
+        [U, U, U, U],
+      ]); // :on
+      const nextState = updateTilesCoordinates(state);
+      const expected = fromJS([ // :off
+        [U, U, U, U],
+        [A, U, U, U],
+        [B, U, U, U],
+        [U, U, U, U],
+      ]); // :on
+
+      expect(nextState.toJS()).to.deep.equal(expected.toJS());
+      expect(nextState).to.equal(expected);
+    });
+  });
+
+  describe('updateTilesFromValue', () => {
+    it('syncs fromValue with current value', () => {
+      const [a, b] = [tileFactory(4, 3, 1).set('fromValue', 2), tileFactory(4, 2, 2).set('fromValue', 4)];
+      const [A, B] = [a.set('fromValue', 4), b];
+      const state = fromJS([ // :off
+        [U, U, U, U],
+        [U, U, U, a],
+        [U, U, b, U],
+        [U, U, U, U],
+      ]); // :on
+      const nextState = updateTilesFromValue(state);
+      const expected = fromJS([ // :off
+        [U, U, U, U],
+        [U, U, U, A],
+        [U, U, B, U],
+        [U, U, U, U],
+      ]); // :on
+
+      expect(nextState.toJS()).to.deep.equal(expected.toJS());
+      expect(nextState).to.equal(expected);
+    });
+  });
+
+  describe('updateScore', () => {
+    it('it 0 points when nothing changes', () => {
+      const [a, b] = [tileFactory(2, 3, 1), tileFactory(4, 2, 2)];
+      const state = fromJS({
+        state: [ // :off
+          [U, U, U, U],
+          [U, U, U, a],
+          [U, U, b, U],
+          [U, U, U, U],
+        ],  // :on
+
+        meta: { score: 0, topScore: 0 },
+      });
+      const nextState = updateScore(state);
+
+      const expected = state;
+      expect(nextState.toJS()).to.deep.equal(expected.toJS());
+      expect(nextState).to.equal(expected);
+    });
+
+    it('adds points for combined tiles', () => {
+      const [a, b] = [
+        tileFactory(4, 3, 1).set('fromValue', 2), tileFactory(8, 2, 2).set('fromValue', 4),
+      ];
+      const state = fromJS({
+        state: [ // :off
+          [U, U, U, U],
+          [U, U, U, a],
+          [U, U, b, U],
+          [U, U, U, U],
+        ],  // :on
+
+        meta: { score: 0, topScore: 4 },
+      });
+      const nextState = updateScore(state);
+
+      const expected = fromJS({
+        state: [ // :off
+          [U, U, U, U],
+          [U, U, U, a],
+          [U, U, b, U],
+          [U, U, U, U],
+        ],  // :on
+
+        meta: { score: 12, topScore: 12 },
+      });
+      expect(nextState.toJS()).to.deep.equal(expected.toJS());
+      expect(nextState).to.equal(expected);
+    });
+
+    it('does not update top score when current score is lower', () => {
+      const [a, b] = [
+        tileFactory(4, 3, 1).set('fromValue', 2), tileFactory(8, 2, 2).set('fromValue', 4),
+      ];
+      const state = fromJS({
+        state: [ // :off
+          [U, U, U, U],
+          [U, U, U, a],
+          [U, U, b, U],
+          [U, U, U, U],
+        ],  // :on
+
+        meta: { score: 4, topScore: 22 },
+      });
+      const nextState = updateScore(state);
+
+      const expected = fromJS({
+        state: [ // :off
+          [U, U, U, U],
+          [U, U, U, a],
+          [U, U, b, U],
+          [U, U, U, U],
+        ],  // :on
+
+        meta: { score: 16, topScore: 22 },
+      });
+      expect(nextState.toJS()).to.deep.equal(expected.toJS());
+      expect(nextState).to.equal(expected);
+    });
   });
 });

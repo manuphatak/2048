@@ -17,35 +17,35 @@ export function shift(state = List()) {
     .update(value => _shift(undefined, value.toStack()))
     .toList()
     .setSize(state.size);
-}
 
-function _shift(x, xs = Stack()) {
-  // Guard last item.
-  if (!xs.size) {
-    return xs.withMutations(stack => stack.unshift(x));
+  function _shift(x, xs = Stack()) {
+    // Guard last item.
+    if (!xs.size) {
+      return xs.withMutations(stack => stack.unshift(x));
+    }
+
+    // Guard shift undefined
+    if (!x) {
+      return _shift(xs.first(), xs.shift());
+    }
+
+    // Guard next is undefined
+    if (!xs.first()) {
+      return _shift(x, xs.shift());
+    }
+
+    // next
+    const y = xs.first();
+    const ys = xs.shift();
+
+    // combine blocks
+    if (x.get('value') === y.get('value')) {
+      return _shift(ys.first(), ys.shift())
+        .withMutations(stack => stack.unshift(y.update('value', v => v * 2)));
+    }
+
+    // concat blocks
+    return _shift(y, ys)
+      .withMutations(stack => stack.unshift(x));
   }
-
-  // Guard shift undefined
-  if (!x) {
-    return _shift(xs.first(), xs.shift());
-  }
-
-  // Guard next is undefined
-  if (!xs.first()) {
-    return _shift(x, xs.shift());
-  }
-
-  // next
-  const y = xs.first();
-  const ys = xs.shift();
-
-  // combine blocks
-  if (x.get('value') === y.get('value')) {
-    return _shift(ys.first(), ys.shift())
-      .withMutations(stack => stack.unshift(y.update('value', v => v * 2)));
-  }
-
-  // concat blocks
-  return _shift(y, ys)
-    .withMutations(stack => stack.unshift(x));
 }

@@ -87,6 +87,11 @@ const config = {
   },
 
   plugins: [ // :off
+    ...(DEBUG || WATCH ? [
+      new NpmInstallPlugin({
+        save: true,
+      }),
+    ] : []),
     new webpack.optimize.OccurenceOrderPlugin(),
     new webpack.DefinePlugin({
       'process.env.NODE_ENV': DEBUG ? '"development"' : '"production"',
@@ -141,9 +146,6 @@ const appConfig = merge({}, config, {
     }),
     ...(DEBUG
       ? [
-        new NpmInstallPlugin({
-          save: true,
-        }),
       ] : [
         new webpack.optimize.DedupePlugin(),
         new webpack.optimize.UglifyJsPlugin({
