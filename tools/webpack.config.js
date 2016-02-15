@@ -1,14 +1,17 @@
 import path from 'path';
 import webpack from 'webpack';
 import merge from 'lodash.merge';
-// import ExtractTextPlugin from 'extract-text-webpack-plugin';
+import webpackMerge from 'webpack-merge';
 import NpmInstallPlugin from 'npm-install-webpack-plugin';
+// import ExtractTextPlugin from 'extract-text-webpack-plugin';
 
 const dependencies = require('../package.json').dependencies;
 
 const PATHS = {
   src: path.join(__dirname, '../src'),
   build: path.join(__dirname, '../build'),
+  buildTests: path.join(__dirname, '../build/test'),
+  test: path.join(__dirname, '../test'),
   main: path.join(__dirname, '../src/app.js'),
   config: path.join(__dirname, '../src/config.js'),
   tools: path.join(__dirname, '../tools'),
@@ -30,20 +33,19 @@ const AUTOPREFIXER_BROWSERS = [
 
 const INCLUDE_PATHS = [ // :off
   path.resolve(PATHS.src),
+  path.resolve(PATHS.test),
 ]; // :on
 
 const JS_LOADER = {
   test: /\.jsx?$/, include: INCLUDE_PATHS, loader: 'babel', query: { compact: DEBUG },
 };
 
-const JS_LOADER_DEV = Object.assign({}, JS_LOADER, {
-  query: {
+const JS_LOADER_DEV = merge({}, JS_LOADER, {
+  query: { // :off
     presets: ['react-hmre'],
-
     compact: DEBUG,
-  },
-
-  cacheDirectory: true,
+    cacheDirectory: true,
+  }, // :on
 });
 
 const SCSS_LOADER = { // :off
@@ -129,7 +131,7 @@ const appConfig = merge({}, config, {
     app: [ // :off
       'babel-polyfill',
       ...(WATCH ? ['webpack-hot-middleware/client'] : []),
-      './src/app.js',
+      PATHS.main,
     ],  // :on
 
     vendor: [
@@ -140,7 +142,6 @@ const appConfig = merge({}, config, {
   devtool: DEBUG ? 'eval-source-map' : false,
 
   plugins: [ // :off
-    ...config.plugins,
     new webpack.optimize.CommonsChunkPlugin({
       names: ['vendor', 'manifest'],
     }),
@@ -172,9 +173,9 @@ const appConfig = merge({}, config, {
 });
 
 // Configuration for server-side pre-rendering bundle
-const pagesConfig = merge({}, config, {
+const pagesConfig = webpackMerge(config, {
   entry: {
-    'app.node': ['./src/app.js'],
+    'app.node': [PATHS.main],
   },
 
   output: { libraryTarget: 'commonjs2' },
@@ -192,18 +193,16 @@ const pagesConfig = merge({}, config, {
 
   externals: /^[a-z][a-z\.\-\/0-9]*$/i,
 
-  plugins: [ // :off
-    ...config.plugins,
+  plugins: [
     new webpack.optimize.LimitChunkCountPlugin({ maxChunks: 1 }),
-  ],  // :on
+  ],
 
   module: {
     loaders: [// :off
       JS_LOADER,
-      ...config.module.loaders,
       {
         test: /\.scss$/,
-        loaders: ['css', 'postcss', 'sass'],
+        loader: 'null',
         include: INCLUDE_PATHS,
       },
     ], // :on

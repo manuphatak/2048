@@ -2,7 +2,7 @@
 /* eslint no-unused-expressions: 0 */
 import { List, fromJS } from 'immutable';
 import {
-  shiftLeft, shiftUp, shiftRight, shiftDown, pushTiles, updateTilesCoordinates, updateTilesFromValue
+  shiftLeft, shiftUp, shiftRight, shiftDown, pushTiles, updateTilesCoordinates, updateTilesFromValue,
 } from './core';
 import { expect } from 'chai';
 import { tileFactory } from './utils';
