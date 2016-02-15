@@ -32,9 +32,11 @@ function createTiles(n) {
     }
 
     const newTileAction = createRandomTileAction(nextGameState, n());
+
     // Guard, couldn't create a new tile.  (Board is full.)
     if (!newTileAction) {
-      console.error('no empty tiles', 'newTile', newTileAction);
+      // TODO fix this
+      console.error('no empty tiles', 'newTile', newTileAction); // eslint-disable-line no-console
       return nextHandle;
     }
 

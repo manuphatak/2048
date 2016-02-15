@@ -28,7 +28,7 @@ class GameTile extends PureComponent {
       top: spring(CELL_SPACE * row, tileSlideConfig),
       scale: spring(1, tileNewConfig),
     };  // :on
-    const tileClass = classNames( // :off
+    const tileClass = classNames(// :off
       'tile',
       `tile-value-${this.getValueText(value)}`
     );  // :on

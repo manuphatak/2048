@@ -6,5 +6,7 @@ import middleware from '../middleware';
 
 export default function makeStore(initialState = INITIAL_STATE) {
   const enhancer = compose(middleware());
+
+  // noinspection JSCheckFunctionSignatures
   return createStore(reducer, initialState, enhancer);
 }

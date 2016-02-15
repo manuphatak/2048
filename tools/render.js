@@ -24,6 +24,7 @@ function getPages() {
           else if (path.endsWith('/index')) {
             path = path.substr(0, path.lastIndexOf('/index'));
           }
+
           return { path, file };
         });
         resolve(result);

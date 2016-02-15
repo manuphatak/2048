@@ -17,13 +17,17 @@ class Photo extends Component {
     this.handleChange = this.handleChange.bind(this);
   }
 
+  handleChange({ target: { value } }) {
+    this.setState({ currentPhoto: value });
+  }
+
   render() {
     const { photos, currentPhoto } = this.state;
     const [currentWidth, currentHeight] = photos[currentPhoto];
 
     const widths = photos.map(([originalWidth, originalHeight]) => (currentHeight / originalHeight * originalWidth));
 
-    const leftStartCoords = widths.slice(0, currentPhoto)
+    const leftStartPosition = widths.slice(0, currentPhoto)
                                   .reduce((sum, width) => sum - width, 0);
 
     const configs = [];
@@ -34,7 +38,7 @@ class Photo extends Component {
         width: spring(widths[index], springSettings),
       });
       return prevLeft + widths[index];
-    }, leftStartCoords);
+    }, leftStartPosition);
 
     return (
       <div>
@@ -77,11 +81,6 @@ class Photo extends Component {
       </div>
     );
   }
-
-  handleChange({ target: { value } }) {
-    this.setState({ currentPhoto: value });
-  }
-
 }
 
 export default Photo;

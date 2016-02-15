@@ -2,11 +2,10 @@
 /* eslint no-unused-expressions: 0 */
 import { List, fromJS } from 'immutable';
 import {
-  shiftLeft, shiftUp, shiftRight, shiftDown, pushTiles, updateTilesCoordinates, updateTilesFromValue,
+  shiftLeft, shiftUp, shiftRight, shiftDown, pushTiles, updateTilesCoordinates, updateTilesFromValue, updateMeta,
 } from './core';
 import { expect } from 'chai';
 import { tileFactory } from './utils';
-import { updateScore } from './core';
 
 const U = undefined;
 
@@ -339,7 +338,7 @@ describe('app core logic', () => {
     });
   });
 
-  describe('updateScore', () => {
+  describe('updateMeta', () => {
     it('it 0 points when nothing changes', () => {
       const [a, b] = [tileFactory(2, 3, 1), tileFactory(4, 2, 2)];
       const state = fromJS({
@@ -350,9 +349,9 @@ describe('app core logic', () => {
           [U, U, U, U],
         ],  // :on
 
-        meta: { score: 0, topScore: 0 },
+        meta: { score: 0, topScore: 0, gameWon: false },
       });
-      const nextState = updateScore(state);
+      const nextState = updateMeta(state);
 
       const expected = state;
       expect(nextState.toJS()).to.deep.equal(expected.toJS());
@@ -373,7 +372,7 @@ describe('app core logic', () => {
 
         meta: { score: 0, topScore: 4 },
       });
-      const nextState = updateScore(state);
+      const nextState = updateMeta(state);
 
       const expected = fromJS({
         state: [ // :off
@@ -383,7 +382,7 @@ describe('app core logic', () => {
           [U, U, U, U],
         ],  // :on
 
-        meta: { score: 12, topScore: 12 },
+        meta: { score: 12, topScore: 12, gameWon: false },
       });
       expect(nextState.toJS()).to.deep.equal(expected.toJS());
       expect(nextState).to.equal(expected);
@@ -401,9 +400,9 @@ describe('app core logic', () => {
           [U, U, U, U],
         ],  // :on
 
-        meta: { score: 4, topScore: 22 },
+        meta: { score: 4, topScore: 22, gameWon: false },
       });
-      const nextState = updateScore(state);
+      const nextState = updateMeta(state);
 
       const expected = fromJS({
         state: [ // :off
@@ -413,10 +412,71 @@ describe('app core logic', () => {
           [U, U, U, U],
         ],  // :on
 
-        meta: { score: 16, topScore: 22 },
+        meta: { score: 16, topScore: 22, gameWon: false },
       });
       expect(nextState.toJS()).to.deep.equal(expected.toJS());
       expect(nextState).to.equal(expected);
+    });
+
+    describe('setting gameWon', () => {
+      it('sets gameWon to true when a 2048 is on the board', () => {
+        const [a, b] = [tileFactory(2048, 3, 1), tileFactory(4, 2, 2)];
+        const state = fromJS({
+          state: [ // :off
+            [U, U, U, U],
+            [U, U, U, a],
+            [U, U, b, U],
+            [U, U, U, U],
+          ],  // :on
+
+          meta: { score: 0, topScore: 0, gameWon: false },
+        });
+        const nextState = updateMeta(state);
+        const expected = fromJS({
+          state: [ // :off
+            [U, U, U, U],
+            [U, U, U, a],
+            [U, U, b, U],
+            [U, U, U, U],
+          ],  // :on
+
+          meta: { score: 0, topScore: 0, gameWon: true },
+        });
+
+        expect(nextState.toJS().meta.gameWon).to.ok;
+        expect(nextState.toJS().meta).to.deep.equal(expected.toJS().meta);
+        expect(nextState.toJS()).to.deep.equal(expected.toJS());
+        expect(nextState).to.equal(expected);
+      });
+      it('gameWon stays true for larger tiles', () => {
+        const a = tileFactory(4096, 3, 1);
+        const state = fromJS({
+          state: [ // :off
+            [U, U, U, U],
+            [U, U, U, a],
+            [U, U, U, U],
+            [U, U, U, U],
+          ],  // :on
+
+          meta: { score: 0, topScore: 0, gameWon: true },
+        });
+        const nextState = updateMeta(state);
+        const expected = fromJS({
+          state: [ // :off
+            [U, U, U, U],
+            [U, U, U, a],
+            [U, U, U, U],
+            [U, U, U, U],
+          ],  // :on
+
+          meta: { score: 0, topScore: 0, gameWon: true },
+        });
+
+        expect(nextState.toJS().meta.gameWon).to.ok;
+        expect(nextState.toJS().meta).to.deep.equal(expected.toJS().meta);
+        expect(nextState.toJS()).to.deep.equal(expected.toJS());
+        expect(nextState).to.equal(expected);
+      });
     });
   });
 });

@@ -25,7 +25,9 @@ export function createRandomTileAction(gameState, quantity = 1) {
 function randomTileValue() {
   const random = Math.random();
   if (random >= 0.95) {return 8;}
+
   if (random >= 0.70) {return 4;}
+
   return 2;
 }
 

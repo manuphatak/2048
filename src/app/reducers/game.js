@@ -7,7 +7,7 @@ import {
   updateTilesCoordinates,
   newGame,
   updateTilesFromValue,
-  updateScore,
+  updateMeta,
 } from '../core';
 import { INITIAL_STATE } from '../core/constants';
 import * as ACTION from '../actions';
@@ -26,22 +26,22 @@ export default function gameReducer(game = INITIAL_GAME_STATE, action) {
       return game.update('state', updateTilesFromValue)
                  .update('state', shiftLeft)
                  .update('state', updateTilesCoordinates)
-                 .update(updateScore);
+                 .update(updateMeta);
     case ACTION.SHIFT_RIGHT:
       return game.update('state', updateTilesFromValue)
                  .update('state', shiftRight)
                  .update('state', updateTilesCoordinates)
-                 .update(updateScore);
+                 .update(updateMeta);
     case ACTION.SHIFT_UP:
       return game.update('state', updateTilesFromValue)
                  .update('state', shiftUp)
                  .update('state', updateTilesCoordinates)
-                 .update(updateScore);
+                 .update(updateMeta);
     case ACTION.SHIFT_DOWN:
       return game.update('state', updateTilesFromValue)
                  .update('state', shiftDown)
                  .update('state', updateTilesCoordinates)
-                 .update(updateScore);
+                 .update(updateMeta);
     case ACTION.CREATE_TILE: // eslint-disable-line no-case-declarations
       const newTiles = action.payload.map(({ value, col, row, id }) => tileFactory(value, col, row, id));
       return game.update('state', updateTilesCoordinates)

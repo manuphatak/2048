@@ -39,6 +39,7 @@ class Demo extends Component {
     for (const x of count(5)) {
       console.log('x', x);
     }
+
     const d = demo();
     const A = d.next();
     console.log('A', A);

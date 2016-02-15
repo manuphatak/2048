@@ -13,6 +13,7 @@ const route = async(path, callback) => {
   if (path !== '/' && path.endsWith('/')) {
     path = path.slice(0, -1); // eslint-disable-line no-param-reassign
   }
+
   const handler = routes[path] || routes['/404'];
   const componentHandler = await handler();
   const component = typeof componentHandler === 'function' // :off

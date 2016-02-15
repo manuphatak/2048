@@ -1,6 +1,6 @@
 import { List } from 'immutable';
 import { shift, transpose } from './utils';
-import { INITIAL_STATE } from '../core/constants';
+import { INITIAL_STATE, GAME_WON_TILE } from '../core/constants';
 
 export function shiftLeft(gameState = List()) {
   return gameState.update(value => value.map(shift));
@@ -61,7 +61,7 @@ export function updateTilesCoordinates(gameState) {
   ));
 }
 
-export function updateScore(game) {
+export function updateMeta(game) {
   return game
     .update('meta', gameMeta => (
       gameMeta.update('score', gameScore => (
@@ -74,7 +74,17 @@ export function updateScore(game) {
       gameMeta.update('topScore', topScore => (
         Math.max(topScore, gameMeta.get('score'))
       ))
-    ));
+    ))
+    .update(_game => _game.setIn(['meta', 'gameWon'], gameIsOver(_game)));
+
+  function gameIsOver(_game) {
+    const largestTile = _game.get('state')
+                             .tileValues()
+                             .reduce((left, right) => (
+                               right ? Math.max(left, right) : left
+                             ), 0);
+    return largestTile >= GAME_WON_TILE;
+  }
 
   function sumPoints(left, right) {
     if (right.get('value') === right.get('fromValue')) {return left;}

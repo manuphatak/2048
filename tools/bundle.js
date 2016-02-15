@@ -14,6 +14,7 @@ function bundle() {
         resolve();
       }
     };
+
     bundler.run(run);
   });
 }

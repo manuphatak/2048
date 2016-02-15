@@ -3,8 +3,6 @@ import GoogleAnalytics from '../GoogleAnalytics';
 import config from '../../config';
 const { title, description } = config;
 
-const WATCH = global.watch;
-
 class Html extends Component {
 
   static propTypes = {

@@ -50,6 +50,7 @@ class Link extends Component {
   };
 
   render() {
+    // noinspection JSUnusedLocalSymbols
     const { to, children, ...props } = this.props;
     return <a onClick={this.handleClick} {...props}>{children}</a>;
   }

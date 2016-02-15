@@ -3,6 +3,7 @@ import webpack from 'webpack';
 import merge from 'lodash.merge';
 import webpackMerge from 'webpack-merge';
 import NpmInstallPlugin from 'npm-install-webpack-plugin';
+
 // import ExtractTextPlugin from 'extract-text-webpack-plugin';
 
 const dependencies = require('../package.json').dependencies;
@@ -158,17 +159,30 @@ const appConfig = merge({}, config, {
     ...(WATCH
       ? [
         new webpack.HotModuleReplacementPlugin(),
-        new webpack.NoErrorsPlugin(),
+
+        // new webpack.NoErrorsPlugin(),
       ] : []
     ),
   ],  // :on
 
   module: {
+    preLoaders: [
+      {
+        test: /\.jsx?$/, loaders: ['eslint', 'jscs'], include: INCLUDE_PATHS,
+      }, {
+        test: /\.s?css$/, loader: 'stylelint', include: INCLUDE_PATHS,
+      },
+    ],
+
     loaders: [ // :off
       WATCH ? JS_LOADER_DEV : JS_LOADER,
       ...config.module.loaders,
       WATCH ? SCSS_LOADER_DEV : SCSS_LOADER,
     ],  // :on
+  },
+
+  stylelint: {
+    configFile: path.resolve(__dirname, '../.stylelintrc'),
   },
 });
 

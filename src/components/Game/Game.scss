@@ -8,43 +8,53 @@
     transition-duration: 25ms, 50ms;
     transition-delay:    25ms, 0s;
   }
+
   @if $chars >= 2 {
     .tile-inner {
-      color: rgba(256, 256, 256, .80);
+      color: rgba(256, 256, 256, 0.8);
     }
-  } @else {
-    .tile-inner {
-      color: rgba(0, 0, 0, .50);
-    }
-
   }
+
+  @if $chars == 2 {
+    .tile-inner {
+      color: rgba(0, 0, 0, 0.5);
+    }
+  }
+
   @if $chars <= 2 {
     .tile-inner {
       font-size: 55px;
+
       @media screen and (max-width: $screen-sm-min) {
         font-size: 35px;
       }
     }
   }
+
   @if $chars == 3 {
     .tile-inner {
       font-size: 45px;
+
       @media screen and (max-width: $screen-sm-min) {
         font-size: 25px;
       }
     }
   }
+
   @if $chars == 4 {
     .tile-inner {
       font-size: 35px;
+
       @media screen and (max-width: $screen-sm-min) {
         font-size: 15px;
       }
     }
   }
+
   @if $chars == 5 {
     .tile-inner {
       font-size: 30px;
+
       @media screen and (max-width: $screen-sm-min) {
         font-size: 10px;
       }
@@ -84,7 +94,7 @@
   float:            left;
   width:            106.25px;
   height:           106.25px;
-  background-color: hsla(0, 0%, 100%, 0.20);
+  background-color: hsla(0, 0%, 100%, 0.2);
   border-radius:    3px;
   margin-right:     15px;
   &:last-child {
@@ -144,31 +154,31 @@
 }
 
 .tile-value-128 {
-  @include tile-shadow(.24, .14);
+  @include tile-shadow(0.24, 0.14);
   @include tile-inner(3);
   background-color: hsl(45, 75%, 70%);
 }
 
 .tile-value-256 {
-  @include tile-shadow(.32, .19);
+  @include tile-shadow(0.32, 0.19);
   @include tile-inner(3);
   background-color: hsl(45, 80%, 65%);
 }
 
 .tile-value-512 {
-  @include tile-shadow(.40, .23);
+  @include tile-shadow(0.4, 0.23);
   @include tile-inner(3);
   background-color: hsl(45, 85%, 60%);
 }
 
 .tile-value-1024 {
-  @include tile-shadow(.48, .29);
+  @include tile-shadow(0.48, 0.29);
   @include tile-inner(4);
   background-color: hsl(45, 90%, 55%);
 }
 
 .tile-value-2048 {
-  @include tile-shadow(.56, .33);
+  @include tile-shadow(0.56, 0.33);
   @include tile-inner(4);
   background-color: hsl(40, 90%, 55%);
 }

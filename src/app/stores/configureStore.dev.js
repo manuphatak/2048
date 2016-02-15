@@ -10,11 +10,13 @@ export default function makeStore(initialState = INITIAL_STATE) {
   const activateDevTools = canUseDOM && window.devToolsExtension // :off
     ? window.devToolsExtension()
     : identity; // :on
-  const enhancer = compose( // :off
+  const enhancer = compose(// :off
     middleware(),
     activateDevTools,
     persistState(getDebugSessionKey())
   ); // :on
+
+  // noinspection JSCheckFunctionSignatures
   const store = createStore(reducer, initialState, enhancer);
 
   if (module.hot) {
