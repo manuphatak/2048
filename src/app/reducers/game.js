@@ -19,7 +19,9 @@ export default function gameReducer(game = INITIAL_GAME_STATE, action) {
   switch (action.type) {
     case ACTION.NEW_GAME:
       return game.update('state', newGame)
-                 .set('score', 0);
+                 .update('meta', meta => meta.merge({
+                   score: 0, inProgress: true, gameWon: false, gameOver: false,
+                 }));
     case ACTION.SHIFT_LEFT:
       return game.update('state', updateTilesFromValue)
                  .update('state', shiftLeft)

@@ -2,8 +2,9 @@
 /* eslint no-unused-expressions: 0 */
 import { expect } from 'chai';
 import { fromJS } from 'immutable';
-
-import { handleShiftDown, handleShiftLeft, handleShiftUp, handleShiftRight, handleCreateTile } from '../actionCreators';
+import {
+  handleShiftDown, handleShiftLeft, handleShiftUp, handleShiftRight, handleCreateTile, handleNewGame,
+} from '../actionCreators';
 import reducer from './game';
 import { tileFactory } from '../core/utils';
 
@@ -178,6 +179,116 @@ describe('gameReducer', () => {
       });
       expect(nextState.toJS()).to.deep.equal(expected.toJS());
       expect(nextState).to.equal(expected);
+    });
+  });
+
+  describe('NEW_GAME', () => {
+    it('resets game state', () => {
+      const initialState = fromJS({
+        state: [ // :off
+          [U, U, U, U],
+          [U, U, U, a],
+          [U, U, b, U],
+          [U, U, U, U],
+        ], // :on
+        meta: { score: 0, topScore: 0 },
+      });
+      const nextState = reducer(initialState, handleNewGame());
+
+      const expected = fromJS({
+        state: [ // :off
+          [U, U, U, U],
+          [U, U, U, U],
+          [U, U, U, U],
+          [U, U, U, U],
+        ], // :on
+        meta: { score: 0, topScore: 0, inProgress: true, gameWon: false, gameOver: false },
+      });
+      expect(nextState.toJS().meta).to.deep.equal(expected.toJS().meta);
+      expect(nextState.toJS()).to.deep.equal(expected.toJS());
+      expect(nextState).to.equal(expected);
+    });
+
+    describe('resetting the score', () => {
+      let initialState;
+      let nextState;
+      let expected;
+      beforeEach('reduce to next state', () => {
+        initialState = fromJS({
+          state: [ // :off
+            [U, U, U, U],
+            [U, U, U, a],
+            [U, U, b, U],
+            [U, U, U, U],
+          ], // :on
+          meta: { score: 100, topScore: 200, inProgress: false, gameWon: true, gameOver: true },
+        });
+        nextState = reducer(initialState, handleNewGame());
+
+        expected = fromJS({
+          state: [ // :off
+            [U, U, U, U],
+            [U, U, U, U],
+            [U, U, U, U],
+            [U, U, U, U],
+          ], // :on
+          meta: { score: 0, topScore: 200, inProgress: true, gameWon: false, gameOver: false },
+        });
+      });
+      it('sets current score to 0', () => {
+        expect(nextState.toJS().meta.score).to.deep.equal(expected.toJS().meta.score);
+      });
+
+      it('leaves topScore unchanged', () => {
+        expect(nextState.toJS().meta.topScore).to.deep.equal(expected.toJS().meta.topScore);
+      });
+
+      it('preserves state shape', () => {
+        expect(nextState.toJS()).to.deep.equal(expected.toJS());
+        expect(nextState).to.equal(expected);
+      });
+    });
+
+    describe('updates game status', () => {
+      let initialState;
+      let nextState;
+      let expected;
+      beforeEach('reduce to next state', () => {
+        initialState = fromJS({
+          state: [ // :off
+            [U, U, U, U],
+            [U, U, U, a],
+            [U, U, b, U],
+            [U, U, U, U],
+          ], // :on
+          meta: { score: 0, topScore: 0, inProgress: false, gameWon: true, gameOver: true },
+        });
+        nextState = reducer(initialState, handleNewGame());
+
+        expected = fromJS({
+          state: [ // :off
+            [U, U, U, U],
+            [U, U, U, U],
+            [U, U, U, U],
+            [U, U, U, U],
+          ], // :on
+          meta: { score: 0, topScore: 0, inProgress: true, gameWon: false, gameOver: false },
+        });
+      });
+      it('sets inProgress to true', () => {
+        expect(nextState.toJS().meta.inProgress).to.be.ok;
+      });
+      it('sets gameWon to false', () => {
+        expect(nextState.toJS().meta.gameWon).to.not.be.ok;
+      });
+      it('set gameOver to false', () => {
+        expect(nextState.toJS().meta.gameOver).to.not.be.ok;
+      });
+      it('preserves state shape', () => {
+        expect(nextState.toJS().meta).to.deep.equal(expected.toJS().meta);
+        expect(nextState.toJS()).to.deep.equal(expected.toJS());
+        expect(nextState).to.equal(expected);
+      });
     });
   });
 });

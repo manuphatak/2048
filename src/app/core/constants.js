@@ -17,6 +17,12 @@ export const INITIAL_STATE = fromJS({
       score: 0,
 
       topScore: 0,
+
+      gameStarted: false,
+
+      gameOver: false,
+
+      gameWon: false,
     },
   },
 });
