@@ -18,7 +18,7 @@ export const INITIAL_STATE = fromJS({
 
       topScore: 0,
 
-      gameStarted: false,
+      inProgress: false,
 
       gameOver: false,
 
