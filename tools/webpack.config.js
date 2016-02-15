@@ -37,7 +37,7 @@ const INCLUDE_PATHS = [ // :off
 ]; // :on
 
 const JS_LOADER = {
-  test: /\.jsx?$/, include: INCLUDE_PATHS, loader: 'babel', query: { compact: DEBUG },
+  test: /\.jsx?$/, include: INCLUDE_PATHS, loader: 'babel',
 };
 
 const JS_LOADER_DEV = merge({}, JS_LOADER, {

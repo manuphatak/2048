@@ -10,17 +10,6 @@ module.exports = function karmaConfig(config) {
     // available frameworks: https://npmjs.org/browse/keyword/karma-adapter
     frameworks: ['chai', 'mocha'],
 
-    plugins: [
-      'karma-phantomjs-launcher',
-      'karma-chai',
-      'karma-mocha',
-      'karma-sourcemap-loader',
-      'karma-webpack',
-      'karma-spec-reporter',
-      'karma-coverage',
-      'sinon-chai',
-    ],
-
     // list of files / patterns to load in the browser
     files: [ // :off
       '../node_modules/phantomjs-polyfill/bind-polyfill.js',
@@ -39,7 +28,7 @@ module.exports = function karmaConfig(config) {
     // test results reporter to use
     // possible values: 'dots', 'progress'
     // available reporters: https://npmjs.org/browse/keyword/karma-reporter
-    reporters: ['spec', 'coverage'],
+    reporters: ['mocha'/*, 'coverage'*/],
 
     // web server port
     port: 9876,
@@ -75,11 +64,11 @@ module.exports = function karmaConfig(config) {
       devtool: 'inline-source-map',
 
       module: {
-        preLoaders: [
+        /*preLoaders: [
           {
             test: /\.jsx?$/, loaders: ['isparta-instrumenter'], include: '../src',
           },
-        ],
+        ],*/
 
         loaders: [
 
