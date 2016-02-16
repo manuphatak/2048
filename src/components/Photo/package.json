@@ -1,4 +1,4 @@
 {
   "name": "Photo",
-  "main": "./Photo.jsx"
+  "main": "./Photo.tsx"
 }

@@ -1,4 +1,4 @@
 {
   "name": "PureComponent",
-  "main": "./__init__.jsx"
+  "main": "./PureComponent.tsx"
 }

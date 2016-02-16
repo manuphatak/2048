@@ -34,5 +34,5 @@ function getDebugSessionKey() {
   const matches = canUseDOM  // :off
     ? window.location.href.match(/[?&]debug_session=([^&]+)\b/)
     : []; // :on
-  return (matches && matches.length) ? matches[1] : null;
+  return (matches && matches.length) ? matches[ 1 ] : null;
 }

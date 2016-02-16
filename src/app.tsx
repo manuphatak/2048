@@ -1,7 +1,8 @@
-/// <reference path="./typings/main.d.ts" />
+///<reference path="../typings/main.d.ts"/>
+
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { canUseDOM } from 'fbjs/lib/ExecutionEnvironment';
+import {canUseDOM} from 'fbjs/lib/ExecutionEnvironment';
 import Location from './lib/Location';
 import App from './components/App';
 
@@ -9,21 +10,21 @@ import './lib/immutable';
 
 const routes = {}; // Auto-generated on build. See tools/lib/routes-loader.js
 
-const route = async(path, callback) => {
+const route = async(path: string, callback: Function): Promise => {
   if (path !== '/' && path.endsWith('/')) {
     path = path.slice(0, -1); // eslint-disable-line no-param-reassign
   }
 
-  const handler = routes[path] || routes['/404'];
+  const handler: Function = routes[path] || routes['/404'];
   const componentHandler = await handler();
-  const component = typeof componentHandler === 'function' // :off
+  const component: Function = typeof componentHandler === 'function' // :off
     ? componentHandler
     : componentHandler.default;  // :on
 
   await callback(<App>{React.createElement(component)}</App>);
 };
 
-function run() {
+function run(): void {
   const container = document.getElementById('app');
   Location.listen(location => {
     route(location.pathname, async(component) => ReactDOM.render(component, container, () => {
@@ -46,5 +47,6 @@ if (canUseDOM) {
 }
 
 export default {
-  route, routes,
+  route,
+  routes,
 };

@@ -1,6 +1,5 @@
 import React, { PropTypes } from 'react';
 import ImmutablePropTypes from 'react-immutable-proptypes';
-
 import PureComponent from '../../lib/PureComponent';
 
 import GameGrid from './GameGrid';
@@ -11,10 +10,10 @@ class Game extends PureComponent {
     super(props);
     this.onKeyDown = this.onKeyDown.bind(this);
     this.keymap = {
-      37: e => this.props.actions.handleShiftLeft(e),
-      38: e => this.props.actions.handleShiftUp(e),
-      39: e => this.props.actions.handleShiftRight(e),
-      40: e => this.props.actions.handleShiftDown(e),
+      [37]: this.props.actions.handleShiftLeft,
+      [38]: this.props.actions.handleShiftUp,
+      [39]: this.props.actions.handleShiftRight,
+      [40]: this.props.actions.handleShiftDown,
     };
   }
 

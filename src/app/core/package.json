@@ -1,4 +1,4 @@
 {
   "name": "core",
-  "main": "./core.js"
+  "main": "./core.ts"
 }

@@ -76,6 +76,10 @@ module.exports = function karmaConfig(config) {
             exclude: /node_modules/, loader: 'babel?cacheDirectory', test: /\.jsx?$/,
           },
 
+          {
+            exclude: /node_modules/, loader: 'babel?cacheDirectory!ts', test: /\.tsx?$/,
+          },
+
         ],
       },
 

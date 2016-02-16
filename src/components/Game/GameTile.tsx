@@ -2,6 +2,7 @@ import React, { PropTypes } from 'react';
 import { Motion, spring } from 'react-motion';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 import classNames from 'classnames';
+import merge from 'lodash.merge';
 
 import PureComponent from '../../lib/PureComponent';
 import { CELL_SPACE, tileSlideConfig, tileNewConfig } from './constants';
@@ -44,11 +45,12 @@ class GameTile extends PureComponent {
   }
 
   renderTile({ tileClass, value, id }, style) {
+    const _style = merge({}, style, { transform: `scale(${style.scale})` });
     return (
       <div
         key={id}
         className={tileClass}
-        style={{ transform: `scale(${style.scale})`, ...style }}
+        style={_style}
       >
         <div className="tile-inner">
           {value}

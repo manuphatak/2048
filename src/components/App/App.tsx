@@ -1,5 +1,7 @@
-import React, { Component, PropTypes } from 'react';
+import React from 'react';
 import Layout from '../Layout';
+
+const { Component, PropTypes } = React;
 
 class App extends Component {
 

@@ -1,3 +1,4 @@
+/* @flow */
 import storage from './provider';
 import { INITIAL_STATE } from '../../app/core/constants';
 import merge from 'lodash.merge';
@@ -5,7 +6,7 @@ import merge from 'lodash.merge';
 const initialState = INITIAL_STATE.toJS();
 
 export default {
-  async get(key) {
+  async get(key:string): any {
     try {
       return merge(initialState, JSON.parse(await storage.getItem(key) || {}));
     }
@@ -14,7 +15,7 @@ export default {
     }
   },
 
-  async set(key, value) {
+  async set(key:string, value:any): void {
     await storage.setItem(key, JSON.stringify(value));
   },
 };

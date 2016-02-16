@@ -2,15 +2,6 @@ import React, { Component, PropTypes } from 'react';
 import Location from '../../lib/Location';
 import './Link.scss';
 
-function isLeftClickEvent(event) {
-  return event.button === 0;
-}
-
-function isModifiedEvent(event) {
-  // noinspection OverlyComplexBooleanExpressionJS
-  return !!(event.metaKey || event.altKey || event.ctrlKey || event.shiftKey);
-}
-
 class Link extends Component {
   static propTypes = {
     to: PropTypes.string.isRequired,
@@ -54,7 +45,15 @@ class Link extends Component {
     const { to, children, ...props } = this.props;
     return <a onClick={this.handleClick} {...props}>{children}</a>;
   }
+}
 
+function isLeftClickEvent(event) {
+  return event.button === 0;
+}
+
+function isModifiedEvent(event) {
+  // noinspection OverlyComplexBooleanExpressionJS
+  return !!(event.metaKey || event.altKey || event.ctrlKey || event.shiftKey);
 }
 
 export default Link;

@@ -19,7 +19,7 @@ export function shiftDown(gameState = List()) {
 }
 
 export function newGame() {
-  return INITIAL_STATE.getIn(['game', 'state']);
+  return INITIAL_STATE.getIn([ 'game', 'state' ]);
 }
 
 export function pushTiles(tiles) {
@@ -32,7 +32,7 @@ export function pushTiles(tiles) {
 
   function pushTile(state) {
     return tile => {
-      const keyPath = [tile.get('row'), tile.get('col')];
+      const keyPath = [ tile.get('row'), tile.get('col') ];
 
       if (state.getIn(keyPath)) { return undefined; }
 
@@ -45,7 +45,9 @@ export function updateTilesFromValue(gameState) {
   return gameState.map(row => row.map(updateTileFromValue));
 
   function updateTileFromValue(tile) {
-    if (!tile) {return tile;}
+    if (!tile) {
+      return tile;
+    }
 
     return tile.set('fromValue', tile.get('value', 0));
   }
@@ -66,8 +68,8 @@ export function updateMeta(game) {
     .update('meta', gameMeta => (
       gameMeta.update('score', gameScore => (
         game.get('state')
-            .toTileSet()
-            .reduce(sumPoints, gameScore)
+          .toTileSet()
+          .reduce(sumPoints, gameScore)
       ))
     ))
     .update('meta', gameMeta => (
@@ -75,19 +77,21 @@ export function updateMeta(game) {
         Math.max(topScore, gameMeta.get('score'))
       ))
     ))
-    .update(_game => _game.setIn(['meta', 'gameWon'], gameIsOver(_game)));
+    .update(_game => _game.setIn([ 'meta', 'gameWon' ], gameIsOver(_game)));
 
   function gameIsOver(_game) {
     const largestTile = _game.get('state')
-                             .tileValues()
-                             .reduce((left, right) => (
-                               right ? Math.max(left, right) : left
-                             ), 0);
+      .tileValues()
+      .reduce((left, right) => (
+        right ? Math.max(left, right) : left
+      ), 0);
     return largestTile >= GAME_WON_TILE;
   }
 
   function sumPoints(left, right) {
-    if (right.get('value') === right.get('fromValue')) {return left;}
+    if (right.get('value') === right.get('fromValue')) {
+      return left;
+    }
 
     return left + right.get('value');
   }

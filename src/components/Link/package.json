@@ -1,4 +1,4 @@
 {
   "name": "Link",
-  "main": "./Link.jsx"
+  "main": "./Link.tsx"
 }

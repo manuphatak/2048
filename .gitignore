@@ -18,3 +18,5 @@ node_modules
 
 .tmp
 typings
+
+flow.log*

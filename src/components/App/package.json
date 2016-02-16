@@ -1,4 +1,4 @@
 {
   "name": "App",
-  "main": "./App.jsx"
+  "main": "./App.tsx"
 }

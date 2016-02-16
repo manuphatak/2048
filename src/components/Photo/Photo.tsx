@@ -23,21 +23,21 @@ class Photo extends Component {
 
   render() {
     const { photos, currentPhoto } = this.state;
-    const [currentWidth, currentHeight] = photos[currentPhoto];
+    const [currentWidth, currentHeight] = photos[ currentPhoto ];
 
     const widths = photos.map(([originalWidth, originalHeight]) => (currentHeight / originalHeight * originalWidth));
 
     const leftStartPosition = widths.slice(0, currentPhoto)
-                                  .reduce((sum, width) => sum - width, 0);
+      .reduce((sum, width) => sum - width, 0);
 
     const configs = [];
     photos.reduce((prevLeft, [originalWidth, originalHeight], index) => {
       configs.push({
         left: spring(prevLeft, springSettings),
         height: spring(currentHeight, springSettings),
-        width: spring(widths[index], springSettings),
+        width: spring(widths[ index ], springSettings),
       });
-      return prevLeft + widths[index];
+      return prevLeft + widths[ index ];
     }, leftStartPosition);
 
     return (
@@ -53,27 +53,27 @@ class Photo extends Component {
         <div className="Photo">
           <Motion style={{ height: spring(currentHeight), width: spring(currentWidth) }}>
             {container => (
-              <div
-                className="Photo-inner"
-                style={container}
+            <div
+              className="Photo-inner"
+              style={container}
+            >
+              {configs.map((style, index) => (
+              <Motion
+                key={index}
+                style={style}
               >
-                {configs.map((style, index) => (
-                  <Motion
-                    key={index}
-                    style={style}
-                  >
-                    {imgStyle => (
-                      <img
-                        src={IMAGE[index]}
-                        className="Photo-photo"
-                        style={imgStyle}
-                      />
-                    )}
-                  </Motion>
+                {imgStyle => (
+                <img
+                  src={IMAGE[index]}
+                  className="Photo-photo"
+                  style={imgStyle}
+                />
+                  )}
+              </Motion>
                 ))}
 
-              </div>
-            )}
+            </div>
+              )}
           </Motion>
 
         </div>

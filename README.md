@@ -34,7 +34,7 @@
 ├── /static/                    # Static files such as favicon.ico etc.
 ├── /test/                      # Unit and integration tests
 ├── /tools/                     # Build automation scripts and utilities
-│── app.js                      # The main JavaScript file (entry point)
+│── app.tsx                      # The main JavaScript file (entry point)
 │── config.js                   # Website configuration / settings
 │── LICENSE.txt                 # License file
 │── package.json                # Dev dependencies and NPM scripts

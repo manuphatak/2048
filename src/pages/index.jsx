@@ -3,7 +3,7 @@ import Game from '../components/Game';
 import Score from '../components/Score';
 import configureStore from '../app/stores/';
 import { Provider } from 'react-redux';
-import storage from '../lib/storage';
+import storage from '../lib/storage/storage';
 import { setState } from '../app/actionCreators';
 
 const STORAGE_KEY = '2048_state';

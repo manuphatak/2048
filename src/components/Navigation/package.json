@@ -1,4 +1,4 @@
 {
   "name": "Navigation",
-  "main": "./Navigation.jsx"
+  "main": "./Navigation.tsx"
 }

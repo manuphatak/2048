@@ -15,7 +15,7 @@ const trackingCode = {
 
 class GoogleAnalytics extends Component {
   render() {
-    return <script dangerouslySetInnerHTML={trackingCode} />;
+    return <script dangerouslySetInnerHTML={trackingCode}/>;
   }
 }
 

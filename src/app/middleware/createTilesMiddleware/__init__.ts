@@ -11,7 +11,7 @@ const actionDispatch = { // :off
 }; // :on
 
 export default store => next => action => {
-  const handleAction = actionDispatch[action.type];
+  const handleAction = actionDispatch[ action.type ];
 
   // Guard, uninteresting actions.
   if (!handleAction) {return next(action);}
@@ -22,9 +22,9 @@ export default store => next => action => {
 function createTiles(n) {
   return (store, next, action) => {
     // setup
-    const gameState = store.getState().getIn(['game', 'state']);
+    const gameState = store.getState().getIn([ 'game', 'state' ]);
     const nextHandle = next(action);
-    const nextGameState = store.getState().getIn(['game', 'state']);
+    const nextGameState = store.getState().getIn([ 'game', 'state' ]);
 
     // Guard, no change.
     if (gameState.tileValues().equals(nextGameState.tileValues())) {

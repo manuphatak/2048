@@ -11,11 +11,10 @@ const dependencies = require('../package.json').dependencies;
 const PATHS = {
   src: path.join(__dirname, '../src'),
   build: path.join(__dirname, '../build'),
-  buildTests: path.join(__dirname, '../build/test'),
-  test: path.join(__dirname, '../test'),
-  main: path.join(__dirname, '../src/app.js'),
+  main: path.join(__dirname, '../src/app.tsx'),
   config: path.join(__dirname, '../src/config.js'),
   tools: path.join(__dirname, '../tools'),
+  interfaces: path.join(__dirname, '../interfaces'),
 };
 
 const DEBUG = !process.argv.includes('release');
@@ -34,7 +33,6 @@ const AUTOPREFIXER_BROWSERS = [
 
 const INCLUDE_PATHS = [ // :off
   path.resolve(PATHS.src),
-  path.resolve(PATHS.test),
 ]; // :on
 
 const JS_LOADER = {
@@ -44,9 +42,14 @@ const JS_LOADER = {
 const JS_LOADER_DEV = merge({}, JS_LOADER, {
   query: { // :off
     presets: ['react-hmre'],
-    compact: DEBUG,
     cacheDirectory: true,
   }, // :on
+});
+const TS_LOADER = {
+  test: /\.tsx?$/, include: INCLUDE_PATHS, loader: 'babel!ts',
+};
+const TS_LOADER_DEV = merge({}, TS_LOADER, {
+  loader: 'babel?cacheDirectory&presets[]=react-hmre&compact=false!ts',
 });
 
 const SCSS_LOADER = { // :off
@@ -74,7 +77,7 @@ const config = {
   cache: WATCH,
 
   resolve: {
-    extensions: ['', '.webpack.js', '.web.js', '.js', '.jsx'],
+    extensions: ['', '.webpack.js', '.web.js', '.tsx', '.ts', '.jsx', '.js'],
   },
 
   stats: {
@@ -104,7 +107,7 @@ const config = {
 
   module: {
     loaders: [
-      { test: /[\\\/]app\.js$/, loader: path.join(PATHS.tools, './lib/routes-loader.js'), include: [PATHS.main] },
+      { test: /[\\\/]app\.tsx$/, loader: path.join(PATHS.tools, './lib/routes-loader.js'), include: [PATHS.main] },
 
       { test: /\.json$/, loader: 'json', include: INCLUDE_PATHS },
 
@@ -169,13 +172,16 @@ const appConfig = merge({}, config, {
     preLoaders: [
       {
         test: /\.jsx?$/, loaders: ['eslint', 'jscs'], include: INCLUDE_PATHS,
-      }, {
+      },
+
+      {
         test: /\.s?css$/, loader: 'stylelint', include: INCLUDE_PATHS,
       },
     ],
 
     loaders: [ // :off
       WATCH ? JS_LOADER_DEV : JS_LOADER,
+      WATCH ? TS_LOADER_DEV : TS_LOADER,
       ...config.module.loaders,
       WATCH ? SCSS_LOADER_DEV : SCSS_LOADER,
     ],  // :on
@@ -214,6 +220,7 @@ const pagesConfig = webpackMerge(config, {
   module: {
     loaders: [// :off
       JS_LOADER,
+      TS_LOADER,
       {
         test: /\.scss$/,
         loader: 'null',

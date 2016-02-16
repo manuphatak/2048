@@ -1,0 +1,16 @@
+{
+  "compilerOptions": {
+    "module": "es2015",
+    "target": "es2015",
+    "noImplicitAny": false,
+    "outDir": "build",
+    "sourceMap": true,
+    "rootDir": ".",
+    "jsx": "react",
+    "moduleResolution": "node"
+  },
+  "exclude": [
+    "node_modules",
+    "typings/browser"
+  ]
+}

@@ -20,7 +20,7 @@ export function handleShiftUp() {
   return { type: ACTION.SHIFT_UP };
 }
 
-export function handleCreateTile(payload) {
+export function handleCreateTiles(payload) {
   return {
     type: ACTION.CREATE_TILE, payload,
   };

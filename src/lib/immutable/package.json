@@ -1,4 +1,4 @@
 {
   "name": "immutable",
-  "main": "./__init__.js"
+  "main": "./immutable.ts"
 }

@@ -30,13 +30,13 @@ List.prototype.tileValues = function tileValues() {
 
 Iterable.prototype.log = function log(key, msg) {
   const target = key ? this.get(key) : this;
-  console.log(...(msg ? [msg, target.toJS()] : [target.toJS()])); // eslint-disable-line no-console
+  console.log(...(msg ? [ msg, target.toJS() ] : [ target.toJS() ])); // eslint-disable-line no-console
   return this;
 };
 
 Iterable.prototype.logIn = function logIn(path, msg) {
   const target = this.get(path);
-  console.log(...(msg ? [msg, target.toJS()] : [target.toJS()])); // eslint-disable-line no-console
+  console.log(...(msg ? [ msg, target.toJS() ] : [ target.toJS() ])); // eslint-disable-line no-console
   return this;
 };
 

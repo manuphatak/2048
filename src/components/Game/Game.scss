@@ -1,12 +1,10 @@
 @import '../variables.scss';
 
 @mixin tile-inner($chars) {
-  transition-property: background-color;
-  transition-duration: 50ms;
-  .tile-inner {
-    transition-property: color, font-size;
-    transition-duration: 25ms, 50ms;
-    transition-delay:    25ms, 0s;
+  @if $chars > 2 {
+    .tile-inner {
+      color: rgba(0, 0, 0, 0.5);
+    }
   }
 
   @if $chars >= 2 {
@@ -15,13 +13,7 @@
     }
   }
 
-  @if $chars == 2 {
-    .tile-inner {
-      color: rgba(0, 0, 0, 0.5);
-    }
-  }
-
-  @if $chars <= 2 {
+  @if $chars < 2 {
     .tile-inner {
       font-size: 55px;
 

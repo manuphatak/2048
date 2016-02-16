@@ -3,7 +3,7 @@
 import { expect } from 'chai';
 import { fromJS } from 'immutable';
 import {
-  handleShiftDown, handleShiftLeft, handleShiftUp, handleShiftRight, handleCreateTile, handleNewGame,
+  handleShiftDown, handleShiftLeft, handleShiftUp, handleShiftRight, handleCreateTiles, handleNewGame,
 } from '../actionCreators';
 import reducer from './game';
 import { tileFactory } from '../core/utils';
@@ -138,7 +138,7 @@ describe('gameReducer', () => {
         ], // :on
         meta: { score: 0, topScore: 0, gameWon: false },
       });
-      const nextState = reducer(initialState, handleCreateTile([c.toJS()]));
+      const nextState = reducer(initialState, handleCreateTiles([c.toJS()]));
 
       const C = c.set('isNew', true);
       const expected = fromJS({
@@ -165,7 +165,7 @@ describe('gameReducer', () => {
         ], // :on
         meta: { score: 0, topScore: 0, gameWon: false },
       });
-      const nextState = reducer(initialState, handleCreateTile([c.toJS(), d.toJS()]));
+      const nextState = reducer(initialState, handleCreateTiles([c.toJS(), d.toJS()]));
 
       const [C, D] = [c, d].map(tile => tile.set('isNew', true));
       const expected = fromJS({

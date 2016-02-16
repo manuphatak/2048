@@ -1,4 +1,4 @@
 {
   "name": "Html",
-  "main": "./Html.jsx"
+  "main": "./Html.tsx"
 }

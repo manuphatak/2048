@@ -82,6 +82,8 @@
     "stylelint-config-standard": "3.0.0",
     "stylelint-loader": "0.2.3",
     "through2": "2.0.1",
+    "ts-loader": "0.8.1",
+    "typescript": "1.7.5",
     "typings": "0.6.8",
     "url-loader": "0.5.7",
     "webpack": "1.12.13",

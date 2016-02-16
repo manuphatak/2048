@@ -1,4 +1,4 @@
 {
   "name": "Game",
-  "main": "./__init__.js"
+  "main": "./__init__.ts"
 }

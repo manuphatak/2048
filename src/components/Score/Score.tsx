@@ -12,8 +12,12 @@ class Score extends PureComponent {
     const { score, topScore } = this.props;
     return (
       <div>
-        <p>Current Score: <span className="score">{score}</span></p>
-        <p>Best Score: <span className="top-score">{topScore}</span></p>
+        <p>Current Score:
+          <span className="score">{score}</span>
+        </p>
+        <p>Best Score:
+          <span className="top-score">{topScore}</span>
+        </p>
       </div>
     );
   }
