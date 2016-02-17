@@ -10,21 +10,23 @@ const actionDispatch = { // :off
   [ACTION.NEW_GAME]: createTiles(randomTileQuantity),
 }; // :on
 
-export default store => next => action => {
-  const handleAction = actionDispatch[ action.type ];
+export function createTilesMiddleware({ getState }) {
+  return next => action => {
+    const handleAction = actionDispatch[ action.type ];
 
-  // Guard, uninteresting actions.
-  if (!handleAction) {return next(action);}
+    // Guard, uninteresting actions.
+    if (!handleAction) {return next(action);}
 
-  return handleAction(store, next, action);
-};
+    return handleAction({ getState }, next, action);
+  };
+}
 
 function createTiles(n) {
-  return (store, next, action) => {
+  return ({ getState }, next, action) => {
     // setup
-    const gameState = store.getState().getIn([ 'game', 'state' ]);
+    const gameState = getState().getIn([ 'game', 'state' ]);
     const nextHandle = next(action);
-    const nextGameState = store.getState().getIn([ 'game', 'state' ]);
+    const nextGameState = getState().getIn([ 'game', 'state' ]);
 
     // Guard, no change.
     if (gameState.tileValues().equals(nextGameState.tileValues())) {

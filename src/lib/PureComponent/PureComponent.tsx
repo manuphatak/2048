@@ -1,11 +1,11 @@
-import React from 'react';
-import PureRenderMixin from 'react-addons-pure-render-mixin';
+import * as React from 'react';
+import * as PureRenderMixin from 'react-addons-pure-render-mixin';
 
-class PureComponent extends React.Component {
+const { Component } = React;
+
+export class PureComponent extends Component {
   constructor(props) {
     super(props);
     this.shouldComponentUpdate = PureRenderMixin.shouldComponentUpdate.bind(this);
   }
 }
-
-export default PureComponent;

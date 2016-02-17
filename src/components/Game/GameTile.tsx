@@ -1,13 +1,14 @@
-import React, { PropTypes } from 'react';
+import * as React from 'react';
+const { PropTypes } = React;
 import { Motion, spring } from 'react-motion';
-import ImmutablePropTypes from 'react-immutable-proptypes';
+import * as ImmutablePropTypes from 'react-immutable-proptypes';
 import classNames from 'classnames';
 import merge from 'lodash.merge';
 
-import PureComponent from '../../lib/PureComponent';
+import {PureComponent} from '../../lib/PureComponent';
 import { CELL_SPACE, tileSlideConfig, tileNewConfig } from './constants';
 
-class GameTile extends PureComponent {
+export class GameTile extends PureComponent {
   static propTypes = {
     tile: ImmutablePropTypes.contains({
       value: PropTypes.number.isRequired,
@@ -63,5 +64,3 @@ class GameTile extends PureComponent {
     return value <= 2048 ? value : 'super';
   }
 }
-
-export default GameTile;

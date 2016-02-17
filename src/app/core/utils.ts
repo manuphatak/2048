@@ -1,5 +1,5 @@
 import { fromJS, Stack, List } from 'immutable';
-import uuid from 'node-uuid';
+import * as uuid from 'node-uuid';
 
 export function tileFactory(value, col = 0, row = 0, id = undefined) {
   return fromJS({ value, col, row, fromValue: value, id: id || uuid.v4() });

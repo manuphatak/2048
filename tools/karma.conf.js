@@ -77,14 +77,14 @@ module.exports = function karmaConfig(config) {
           },
 
           {
-            exclude: /node_modules/, loader: 'babel?cacheDirectory!ts', test: /\.tsx?$/,
+            exclude: /node_modules/, loader: 'awesome-typescript?instanceName=test', test: /\.tsx?$/,
           },
 
         ],
       },
 
       resolve: {
-        extensions: ['', '.webpack.js', '.web.js', '.js', '.jsx'],
+        extensions: ['', '.webpack.js', '.web.js', '.js', '.tsx', '.ts'],
       },
 
       plugins: [

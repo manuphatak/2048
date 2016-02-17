@@ -1,5 +1,5 @@
-import sampleSize from 'lodash.samplesize';
-import merge from 'lodash.merge';
+import * as sampleSize from 'lodash.samplesize';
+import * as merge from 'lodash.merge';
 import { handleCreateTiles } from '../../actionCreators';
 
 export function createRandomTileAction(gameState, quantity = 1) {

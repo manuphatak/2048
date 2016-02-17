@@ -1,8 +1,9 @@
-import React, { PropTypes }from 'react';
+import * as React from 'react';
+const { Component, PropTypes } = React;
 
-import PureComponent from '../../lib/PureComponent';
+import { PureComponent } from '../../lib/PureComponent';
 
-class Score extends PureComponent {
+export class Score extends PureComponent {
   static propTypes = { // :off
     score: PropTypes.number.isRequired,
     topScore: PropTypes.number.isRequired,
@@ -22,5 +23,3 @@ class Score extends PureComponent {
     );
   }
 }
-
-export default Score;

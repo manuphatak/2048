@@ -1,8 +1,16 @@
-import createLogger from 'redux-logger';
-export default createLogger({
-  stateTransformer(state) { return state.toJS();},
+import * as createLogger from 'redux-logger';
+export const loggerMiddleware = createLogger({
+  stateTransformer(state) {
+    return state.set('(tiles)', tiles(state))
+                .toJS();
+  },
 
   duration: true,
 
-  collapsed: true,
+  collapsed: false,
 });
+
+function tiles(state) {
+  return state.getIn([ 'game', 'state' ])
+               .toTileSet()
+}

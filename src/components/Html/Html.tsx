@@ -1,9 +1,9 @@
-import React, { Component, PropTypes } from 'react';
-import GoogleAnalytics from '../GoogleAnalytics';
-import config from '../../config';
-const { title, description } = config;
+import * as React from 'react';
+const { Component, PropTypes } = React;
+import { GoogleAnalytics } from '../GoogleAnalytics';
+import { title, description } from '../../config.ts';
 
-class Html extends Component {
+export class Html extends Component {
 
   static propTypes = {
     title: PropTypes.string,
@@ -61,5 +61,3 @@ class Html extends Component {
   }
 
 }
-
-export default Html;

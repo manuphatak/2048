@@ -27,15 +27,15 @@
 ├── /lib/                       # Libraries and utilities
 ├── /pages/                     # React.js-based web pages
 │   ├── /blog/                  # Blog post entries example
-│   ├── /404.jsx                 # Not Found page
-│   ├── /500.jsx                 # Error page
-│   ├── /about.jsx               # About Us page
-│   └── /index.jsx               # Home page
+│   ├── /404.tsx                 # Not Found page
+│   ├── /500.tsx                 # Error page
+│   ├── /about.tsx               # About Us page
+│   └── /index.tsx               # Home page
 ├── /static/                    # Static files such as favicon.ico etc.
 ├── /test/                      # Unit and integration tests
 ├── /tools/                     # Build automation scripts and utilities
 │── app.tsx                      # The main JavaScript file (entry point)
-│── config.js                   # Website configuration / settings
+│── config.ts                   # Website configuration / settings
 │── LICENSE.txt                 # License file
 │── package.json                # Dev dependencies and NPM scripts
 └── README.md                   # Project overview

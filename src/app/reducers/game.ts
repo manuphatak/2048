@@ -13,9 +13,7 @@ import { INITIAL_STATE } from '../core/constants';
 import * as ACTION from '../actions';
 import { tileFactory } from '../core/utils';
 
-const INITIAL_GAME_STATE = INITIAL_STATE.get('game');
-
-export default function gameReducer(game = INITIAL_GAME_STATE, action) {
+export function gameReducer(game, action) {
   switch (action.type) {
     case ACTION.NEW_GAME:
       return game.update('state', newGame)

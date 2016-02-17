@@ -1,8 +1,10 @@
-import React, { Component, PropTypes } from 'react';
-import Location from '../../lib/Location';
+import * as React from 'react';
+const { Component, PropTypes } = React;
+
+import {Location} from '../../lib/Location';
 import './Link.scss';
 
-class Link extends Component {
+export class Link extends Component {
   static propTypes = {
     to: PropTypes.string.isRequired,
     children: PropTypes.element.isRequired,
@@ -55,5 +57,3 @@ function isModifiedEvent(event) {
   // noinspection OverlyComplexBooleanExpressionJS
   return !!(event.metaKey || event.altKey || event.ctrlKey || event.shiftKey);
 }
-
-export default Link;

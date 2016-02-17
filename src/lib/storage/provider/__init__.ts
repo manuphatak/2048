@@ -1,8 +1,10 @@
 import { canUseDOM } from 'fbjs/lib/ExecutionEnvironment';
-
+let provider;
 if (canUseDOM) {
-  module.exports = require('./localforage');
+  provider = require('./localforage');
 }
 else {
-  module.exports = require('./memoryStorage').default;
+  provider = require('./memoryStorage');
 }
+const { getItem, setItem } = provider;
+export { getItem, setItem }

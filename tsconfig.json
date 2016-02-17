@@ -1,16 +1,30 @@
 {
   "compilerOptions": {
-    "module": "es2015",
-    "target": "es2015",
+    "module": "commonjs",
+    "declaration": true,
+    "target": "es6",
     "noImplicitAny": false,
-    "outDir": "build",
     "sourceMap": true,
     "rootDir": ".",
     "jsx": "react",
+    "outDir": "build/out",
     "moduleResolution": "node"
   },
   "exclude": [
-    "node_modules",
-    "typings/browser"
-  ]
+    "typings/main.d.ts",
+    "typings/main",
+    "node_modules"
+  ],
+  "files": [
+    "src/app.tsx",
+    "src/pages/index.tsx"
+  ],
+  "awesomeTypescriptLoaderOptions": {
+    "useBabel": true,
+    "useWebpackText": true,
+    "forkChecker": true,
+    "library": "es6",
+    "forkCheckerSilent": true,
+    "doTypeCheck": false
+  }
 }

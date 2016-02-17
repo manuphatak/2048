@@ -1,30 +1,33 @@
-import React from 'react';
+import * as React from 'react';
+const { Component, PropTypes } = React;
 
-export default () => (
-  <div className="grid-container">
-    <div className="grid-row">
-      <div className="grid-cell"></div>
-      <div className="grid-cell"></div>
-      <div className="grid-cell"></div>
-      <div className="grid-cell"></div>
+export function GameGrid() {
+  return (
+    <div className="grid-container">
+      <div className="grid-row">
+        <div className="grid-cell"></div>
+        <div className="grid-cell"></div>
+        <div className="grid-cell"></div>
+        <div className="grid-cell"></div>
+      </div>
+      <div className="grid-row">
+        <div className="grid-cell"></div>
+        <div className="grid-cell"></div>
+        <div className="grid-cell"></div>
+        <div className="grid-cell"></div>
+      </div>
+      <div className="grid-row">
+        <div className="grid-cell"></div>
+        <div className="grid-cell"></div>
+        <div className="grid-cell"></div>
+        <div className="grid-cell"></div>
+      </div>
+      <div className="grid-row">
+        <div className="grid-cell"></div>
+        <div className="grid-cell"></div>
+        <div className="grid-cell"></div>
+        <div className="grid-cell"></div>
+      </div>
     </div>
-    <div className="grid-row">
-      <div className="grid-cell"></div>
-      <div className="grid-cell"></div>
-      <div className="grid-cell"></div>
-      <div className="grid-cell"></div>
-    </div>
-    <div className="grid-row">
-      <div className="grid-cell"></div>
-      <div className="grid-cell"></div>
-      <div className="grid-cell"></div>
-      <div className="grid-cell"></div>
-    </div>
-    <div className="grid-row">
-      <div className="grid-cell"></div>
-      <div className="grid-cell"></div>
-      <div className="grid-cell"></div>
-      <div className="grid-cell"></div>
-    </div>
-  </div>
-);
+  )
+}

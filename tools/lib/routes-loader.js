@@ -10,7 +10,7 @@ module.exports = function routesLoader(source) {
     source = source.replace('import \'babel/polyfill\';', ''); // eslint-disable-line no-param-reassign
   }
 
-  glob('**/*.{js,jsx}', { cwd: join(__dirname, '../../src/pages') }, (err, files) => {
+  glob('**/*.{ts,tsx}', { cwd: join(__dirname, '../../src/pages') }, (err, files) => {
     if (err) {
       return callback(err);
     }
@@ -19,19 +19,19 @@ module.exports = function routesLoader(source) {
       let path = `/${file}`;
 
       // noinspection IfStatementWithTooManyBranchesJS
-      if (path === '/index.js' || path === '/index.jsx') {
+      if (path === '/index.ts' || path === '/index.tsx') {
         path = '/';
       }
-      else if (path.endsWith('/index.js')) {
+      else if (path.endsWith('/index.ts')) {
         path = path.substr(0, path.length - 9);
       }
-      else if (path.endsWith('/index.jsx')) {
+      else if (path.endsWith('/index.tsx')) {
         path = path.substr(0, path.length - 10);
       }
-      else if (path.endsWith('.js')) {
+      else if (path.endsWith('.ts')) {
         path = path.substr(0, path.length - 3);
       }
-      else if (path.endsWith('.jsx')) {
+      else if (path.endsWith('.tsx')) {
         path = path.substr(0, path.length - 4);
       }
 

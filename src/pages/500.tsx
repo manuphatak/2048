@@ -1,6 +1,7 @@
-import React, { Component, PropTypes } from 'react';
+import * as React from 'react';
+const { Component, PropTypes } = React;
 
-class Page extends Component {
+export class Page extends Component {
   static propTypes = {
     error: PropTypes.instanceOf(Error),
   };

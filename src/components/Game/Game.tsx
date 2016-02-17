@@ -1,11 +1,14 @@
-import React, { PropTypes } from 'react';
-import ImmutablePropTypes from 'react-immutable-proptypes';
-import PureComponent from '../../lib/PureComponent';
+///<reference path="../../app.d.ts"/>
 
-import GameGrid from './GameGrid';
-import GameTiles from './GameTiles';
+import * as React from 'react';
+const { PropTypes } = React;
+import * as ImmutablePropTypes from 'react-immutable-proptypes';
+import { PureComponent } from '../../lib/PureComponent';
 
-class Game extends PureComponent {
+import { GameGrid } from './GameGrid';
+import { GameTiles } from './GameTiles';
+
+export class Game extends PureComponent {
   constructor(props) {
     super(props);
     this.onKeyDown = this.onKeyDown.bind(this);
@@ -55,7 +58,7 @@ class Game extends PureComponent {
         <div className="game">
           <GameGrid />
 
-          <GameTiles tiles={tiles} />
+          <GameTiles tiles={tiles}/>
 
         </div>
       </div>
@@ -75,7 +78,7 @@ class Game extends PureComponent {
   }
 
   onKeyDown(event) {
-    const handler = this.keymap[event.keyCode];
+    const handler = this.keymap[ event.keyCode ];
 
     if (!handler) { return undefined;}
 
@@ -83,5 +86,3 @@ class Game extends PureComponent {
     handler(event);
   }
 }
-
-export default Game;

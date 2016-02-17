@@ -3,7 +3,7 @@
 import React from 'react';
 import { renderIntoDocument, findRenderedDOMComponentWithClass } from 'react-addons-test-utils';
 import { expect } from 'chai';
-import Score from './Score';
+import { Score } from './Score';
 
 describe('Score', () => {
   describe('render', () => {

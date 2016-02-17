@@ -1,2 +1,3 @@
 //noinspection NodeRequireContents
-module.exports = require('localforage');
+const { getItem, setItem } = require('localforage');
+export { getItem, setItem };

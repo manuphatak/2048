@@ -14,6 +14,6 @@ Object.keys(window).forEach(key => {
 chai.use(chaiImmutable);
 chai.use(chaiSinon);
 
-const context = require.context('../src', true, /^.+\.(?:spec|helper)\.jsx?$/);
+const context = require.context('../src', true, /^.+\.(?:spec|helper)\.[jt]sx?$/);
 
 context.keys().forEach(context);

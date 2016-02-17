@@ -11,6 +11,7 @@
   "devDependencies": {
     "arrow-mocha": "1.0.1",
     "autoprefixer": "6.3.2",
+    "awesome-typescript-loader": "0.15.10",
     "babel": "6.5.1",
     "babel-cli": "6.5.1",
     "babel-core": "6.5.1",
@@ -94,6 +95,7 @@
   "dependencies": {
     "classnames": "2.2.3",
     "immutable": "3.7.6",
+    "json-loader": "0.5.4",
     "localforage": "1.4.0",
     "lodash.identity": "3.0.0",
     "lodash.merge": "4.1.0",
@@ -114,7 +116,7 @@
   "name": "2048",
   "description": "> A static website powered by [React.js](http://facebook.github.io/react/) > and [Webpack](http://webpack.github.io/).",
   "version": "0.0.1",
-  "main": "app.js",
+  "main": "src/app.js",
   "directories": {
     "test": "test"
   },

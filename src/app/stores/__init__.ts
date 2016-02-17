@@ -1,6 +1,6 @@
 if (process.env.NODE_ENV === 'production') {
-  module.exports = require('./configureStore.prod.ts');
+  module.exports = require('./makeStore.prod.ts');
 }
 else {
-  module.exports = require('./configureStore.dev.ts');
+  module.exports = require('./makeStore.dev.ts');
 }

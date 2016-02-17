@@ -1,6 +1,7 @@
 // jscs:disable disallowSpacesInsideTemplateStringPlaceholders
-import React, { Component } from 'react';
-import { googleAnalyticsId } from '../../config';
+import * as React from 'react';
+const { Component } = React;
+import { googleAnalyticsId } from '../../config.ts';
 
 const trackingCode = {
   __html: (// :off
@@ -13,10 +14,8 @@ const trackingCode = {
   ), // :on
 };
 
-class GoogleAnalytics extends Component {
+export class GoogleAnalytics extends Component {
   render() {
     return <script dangerouslySetInnerHTML={trackingCode}/>;
   }
 }
-
-export default GoogleAnalytics;

@@ -1,8 +1,9 @@
-import React, { Component, PropTypes } from 'react';
-import Navigation from '../Navigation';
+import * as React from 'react';
+const { Component, PropTypes } = React;
+import {Navigation} from '../Navigation';
 import './Layout.scss';
 
-class Layout extends Component {
+export class Layout extends Component {
 
   static propTypes = {
     children: PropTypes.element.isRequired,
@@ -19,5 +20,3 @@ class Layout extends Component {
   }
 
 }
-
-export default Layout;

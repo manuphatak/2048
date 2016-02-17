@@ -1,9 +1,9 @@
-import React from 'react';
-import Layout from '../Layout';
-
+import * as React from 'react';
 const { Component, PropTypes } = React;
+import {Layout} from '../Layout';
 
-class App extends Component {
+
+export class App extends Component {
 
   static propTypes = {
     children: PropTypes.element.isRequired,
@@ -17,10 +17,4 @@ class App extends Component {
       </Layout>
     );
   }
-
 }
-
-export default App;
-Map.prototype.updateGrid = function updateGrid(col, row) { // eslint-disable-line no-extend-native
-  return this.merge({ col, row });
-};

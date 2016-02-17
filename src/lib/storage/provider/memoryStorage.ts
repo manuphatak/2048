@@ -1,12 +1,9 @@
 import { Map } from 'immutable';
-const memoryStorage = Map();
+const dict = Map();
 
-export default {
-  async getItem(key) {
-    return await memoryStorage.get(key);
-  },
-
-  async setItem(key, value) {
-    return await memoryStorage.set(key, value);
-  },
-};
+export async function getItem(key) {
+  return await dict.get(key);
+}
+export async function setItem(key, value) {
+  return await dict.set(key, value);
+}

@@ -5,7 +5,7 @@ import { fromJS } from 'immutable';
 import {
   handleShiftDown, handleShiftLeft, handleShiftUp, handleShiftRight, handleCreateTiles, handleNewGame,
 } from '../actionCreators';
-import reducer from './game';
+import { gameReducer } from './game';
 import { tileFactory } from '../core/utils';
 
 const U = undefined;
@@ -24,7 +24,7 @@ describe('gameReducer', () => {
         ], // :on
         meta: { score: 0, topScore: 0, gameWon: false },
       });
-      const nextState = reducer(initialState, handleShiftLeft());
+      const nextState = gameReducer(initialState, handleShiftLeft());
 
       const [A, B] = [a.updateGrid(0, 1, false), b.updateGrid(0, 2, false)];
       const expected = fromJS({
@@ -52,7 +52,7 @@ describe('gameReducer', () => {
         ], // :on
         meta: { score: 0, topScore: 0, gameWon: false },
       });
-      const nextState = reducer(initialState, handleShiftRight());
+      const nextState = gameReducer(initialState, handleShiftRight());
       const [A, B] = [a.updateGrid(3, 1, false), b.updateGrid(3, 2, false)];
       const expected = fromJS({
         state: [ // :off
@@ -79,7 +79,7 @@ describe('gameReducer', () => {
         ], // :on
         meta: { score: 0, topScore: 0, gameWon: false },
       });
-      const nextState = reducer(initialState, handleShiftDown());
+      const nextState = gameReducer(initialState, handleShiftDown());
 
       const [A, B] = [a.updateGrid(3, 3, false), b.updateGrid(2, 3, false)];
       const expected = fromJS({
@@ -107,7 +107,7 @@ describe('gameReducer', () => {
         ], // :on
         meta: { score: 0, topScore: 0, gameWon: false },
       });
-      const nextState = reducer(initialState, handleShiftUp());
+      const nextState = gameReducer(initialState, handleShiftUp());
 
       const [A, B] = [a.updateGrid(3, 0, false), b.updateGrid(2, 0, false)];
       const expected = fromJS({
@@ -138,7 +138,7 @@ describe('gameReducer', () => {
         ], // :on
         meta: { score: 0, topScore: 0, gameWon: false },
       });
-      const nextState = reducer(initialState, handleCreateTiles([c.toJS()]));
+      const nextState = gameReducer(initialState, handleCreateTiles([c.toJS()]));
 
       const C = c.set('isNew', true);
       const expected = fromJS({
@@ -165,7 +165,7 @@ describe('gameReducer', () => {
         ], // :on
         meta: { score: 0, topScore: 0, gameWon: false },
       });
-      const nextState = reducer(initialState, handleCreateTiles([c.toJS(), d.toJS()]));
+      const nextState = gameReducer(initialState, handleCreateTiles([c.toJS(), d.toJS()]));
 
       const [C, D] = [c, d].map(tile => tile.set('isNew', true));
       const expected = fromJS({
@@ -193,7 +193,7 @@ describe('gameReducer', () => {
         ], // :on
         meta: { score: 0, topScore: 0, gameWon: false },
       });
-      const nextState = reducer(initialState, handleNewGame());
+      const nextState = gameReducer(initialState, handleNewGame());
 
       const expected = fromJS({
         state: [ // :off
@@ -223,7 +223,7 @@ describe('gameReducer', () => {
           ], // :on
           meta: { score: 100, topScore: 200, inProgress: false, gameWon: true, gameOver: true },
         });
-        nextState = reducer(initialState, handleNewGame());
+        nextState = gameReducer(initialState, handleNewGame());
 
         expected = fromJS({
           state: [ // :off
@@ -263,7 +263,7 @@ describe('gameReducer', () => {
           ], // :on
           meta: { score: 0, topScore: 0, inProgress: false, gameWon: true, gameOver: true },
         });
-        nextState = reducer(initialState, handleNewGame());
+        nextState = gameReducer(initialState, handleNewGame());
 
         expected = fromJS({
           state: [ // :off

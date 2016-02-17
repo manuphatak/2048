@@ -1,8 +1,10 @@
-import { combineReducers } from 'redux-immutable';
-import game from './game';
-import root from './root';
+import * as reduxImmutable from 'redux-immutable';
+import * as identity from 'lodash.identity';
+import { gameReducer } from './game';
+import { rootReducer } from './root';
 import { includeRootReducer } from './utils';
 
-const isLoading = state => state;
+const { combineReducers } = reduxImmutable;
 
-export default includeRootReducer(root, combineReducers({ game, isLoading }));
+const mainReducer = combineReducers({ game: gameReducer, isLoading: identity });
+export const reducers = includeRootReducer(rootReducer, mainReducer);

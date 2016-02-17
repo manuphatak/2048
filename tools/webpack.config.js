@@ -3,6 +3,7 @@ import webpack from 'webpack';
 import merge from 'lodash.merge';
 import webpackMerge from 'webpack-merge';
 import NpmInstallPlugin from 'npm-install-webpack-plugin';
+import { ForkCheckerPlugin } from 'awesome-typescript-loader';
 
 // import ExtractTextPlugin from 'extract-text-webpack-plugin';
 
@@ -12,7 +13,7 @@ const PATHS = {
   src: path.join(__dirname, '../src'),
   build: path.join(__dirname, '../build'),
   main: path.join(__dirname, '../src/app.tsx'),
-  config: path.join(__dirname, '../src/config.js'),
+  config: path.join(__dirname, '../src/config.ts'),
   tools: path.join(__dirname, '../tools'),
   interfaces: path.join(__dirname, '../interfaces'),
 };
@@ -46,10 +47,10 @@ const JS_LOADER_DEV = merge({}, JS_LOADER, {
   }, // :on
 });
 const TS_LOADER = {
-  test: /\.tsx?$/, include: INCLUDE_PATHS, loader: 'babel!ts',
+  test: /\.tsx?$/, include: INCLUDE_PATHS, loader: 'awesome-typescript?doTypeCheck=false&instanceName=prod',
 };
 const TS_LOADER_DEV = merge({}, TS_LOADER, {
-  loader: 'babel?cacheDirectory&presets[]=react-hmre&compact=false!ts',
+  loader: 'awesome-typescript?instanceName=dev',
 });
 
 const SCSS_LOADER = { // :off
@@ -98,11 +99,13 @@ const config = {
         save: true,
       }),
     ] : []),
-    new webpack.optimize.OccurenceOrderPlugin(),
+    new ForkCheckerPlugin(),
     new webpack.DefinePlugin({
       'process.env.NODE_ENV': DEBUG ? '"development"' : '"production"',
+      'process.env.BABEL_ENV': WATCH ? '"hmre"' : undefined,
       __DEV__: DEBUG,
     }),
+    new webpack.optimize.OccurenceOrderPlugin(),
   ],  // :on
 
   module: {

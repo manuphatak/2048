@@ -1,6 +1,7 @@
 /* eslint no-extend-native: 0 */
-import { List, Map, Iterable } from 'immutable';
-import identity from 'lodash.identity';
+import * as Immutable from 'immutable';
+import * as identity from 'lodash.identity';
+const { List, Map, Iterable } = Immutable;
 
 List.prototype.getEmptyTiles = function getEmptyTiles() {
   return this

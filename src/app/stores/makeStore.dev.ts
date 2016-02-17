@@ -1,12 +1,13 @@
 import { createStore, compose } from 'redux';
-import reducer from '../reducers';
+import * as identity from 'lodash.identity';
+import { reducers } from '../reducers';
 import { canUseDOM } from 'fbjs/lib/ExecutionEnvironment';
 import { persistState } from 'redux-devtools';
 import { INITIAL_STATE } from '../core/constants';
-import middleware from '../middleware';
-import identity from 'lodash.identity';
+import { middleware } from '../middleware';
 
-export default function makeStore(initialState = INITIAL_STATE) {
+
+export function makeStore(initialState = INITIAL_STATE) {
   const activateDevTools = canUseDOM && window.devToolsExtension // :off
     ? window.devToolsExtension()
     : identity; // :on
@@ -16,14 +17,14 @@ export default function makeStore(initialState = INITIAL_STATE) {
     persistState(getDebugSessionKey())
   ); // :on
 
-  // noinspection JSCheckFunctionSignatures
-  const store = createStore(reducer, initialState, enhancer);
+  const store = createStore(reducers, initialState, enhancer);
 
   if (module.hot) {
     // Enable Webpack hot module replacement for reducers
     module.hot.accept('../reducers', () => {
-      const nextReducer = require('../reducers').default;
-      store.replaceReducer(nextReducer());
+      const nextReducer = require('../reducers').reducers;
+      console.log('nextReducer', nextReducer);
+      store.replaceReducer(nextReducer);
     });
   }
 

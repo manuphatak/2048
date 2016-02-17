@@ -1,3 +1,6 @@
-export const includeRootReducer = (rootReducer, mainReducer) => (initialState, action) => (
-  mainReducer(rootReducer(initialState, action), action)
-);
+export function includeRootReducer(rootReducer, mainReducer) {
+  return function reducer(initialState, action) {
+    const nextState = rootReducer(initialState, action);
+    return mainReducer(nextState, action);
+  }
+}

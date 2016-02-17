@@ -1,6 +1,9 @@
-import { applyMiddleware } from 'redux';
-import thunkMiddleware from 'redux-thunk';
-import loggerMiddleware from './loggerMiddleware';
-import createTilesMiddleware from './createTilesMiddleware';
+import * as redux from 'redux';
+import * as thunkMiddleware from 'redux-thunk';
+import { loggerMiddleware } from './loggerMiddleware';
+import { createTilesMiddleware } from './createTilesMiddleware';
+const { applyMiddleware }  = redux;
 
-export default applyMiddleware.bind(null, thunkMiddleware, createTilesMiddleware, loggerMiddleware);
+export function middleware() {
+  return applyMiddleware(thunkMiddleware, createTilesMiddleware, loggerMiddleware)
+}

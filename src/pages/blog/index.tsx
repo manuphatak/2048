@@ -1,4 +1,5 @@
-import React, { Component } from 'react';
+import * as React from 'react';
+const { Component, PropTypes } = React;
 
 class Page extends Component {
   render() {

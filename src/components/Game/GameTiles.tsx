@@ -1,9 +1,9 @@
-import React from 'react';
+import * as React from 'react';
 
-import PureComponent from '../../lib/PureComponent';
-import GameTile from './GameTile';
+import {PureComponent} from '../../lib/PureComponent';
+import {GameTile} from './GameTile';
 
-class GameTiles extends PureComponent {
+export class GameTiles extends PureComponent {
   render() {
     const { tiles } = this.props;
     return (
@@ -22,5 +22,3 @@ class GameTiles extends PureComponent {
     );
   }
 }
-
-export default GameTiles;

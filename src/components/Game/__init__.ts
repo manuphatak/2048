@@ -1,10 +1,10 @@
-import Game from './Game';
+import { Game as _Game } from './Game';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import * as actionCreators from '../../app/actionCreators';
 import './Game.scss';
 
-export default connect(mapStateToProps, mapDispatchToProps)(Game);
+export const Game = connect(mapStateToProps, mapDispatchToProps)(_Game);
 
 function mapStateToProps(state) {
   return { // :off
@@ -17,3 +17,4 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
   return { actions: bindActionCreators(actionCreators, dispatch) };
 }
+
