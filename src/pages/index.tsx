@@ -5,7 +5,6 @@ import { makeStore } from '../app/stores/__init__';
 import { Provider } from 'react-redux';
 import { storage } from '../lib/storage/storage';
 import { setState } from '../app/actionCreators/__init__';
-
 const { Component } = React;
 
 const STORAGE_KEY = '2048_state';
@@ -13,9 +12,7 @@ const STORAGE_KEY = '2048_state';
 const store = makeStore();
 store.dispatch(setState(storage.get, STORAGE_KEY));
 
-store.subscribe(() => {
-  storage.set(STORAGE_KEY, store.getState().toJS());
-});
+store.subscribe(async() => await storage.set(STORAGE_KEY, store.getState().toJS()));
 
 export class Page extends Component<{}, {}> {
   constructor(props) {
@@ -26,6 +23,7 @@ export class Page extends Component<{}, {}> {
   }
 
   render() {
+    console.log('process.env.BABEL_ENV', process.env.BABEL_ENV);
     return (
       <Provider store={this.state.store}>
         <div>
@@ -33,7 +31,7 @@ export class Page extends Component<{}, {}> {
           <Score />
 
           <Game />
-        </div>
+          </div>
       </Provider>
     );
   }

@@ -1,18 +1,18 @@
-import { createStore, compose } from 'redux';
+import { createStore, compose, applyMiddleware } from 'redux';
 import * as identity from 'lodash.identity';
-import { reducers } from '../reducers';
 import { canUseDOM } from 'fbjs/lib/ExecutionEnvironment';
 import { persistState } from 'redux-devtools';
 import { INITIAL_STATE } from '../core/constants';
+import { reducers } from '../reducers';
 import { middleware } from '../middleware';
 
-
 export function makeStore(initialState = INITIAL_STATE) {
+
   const activateDevTools = canUseDOM && window.devToolsExtension // :off
     ? window.devToolsExtension()
     : identity; // :on
   const enhancer = compose(// :off
-    middleware(),
+    applyMiddleware(...middleware),
     activateDevTools,
     persistState(getDebugSessionKey())
   ); // :on

@@ -20,7 +20,6 @@
     "src/pages/index.tsx"
   ],
   "awesomeTypescriptLoaderOptions": {
-    "useBabel": true,
     "useWebpackText": true,
     "forkChecker": true,
     "library": "es6",

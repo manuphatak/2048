@@ -3,7 +3,7 @@ import { join, dirname } from 'path';
 import React from 'react';
 import ReactDOM from 'react-dom/server';
 
-import { Html } from '../src/components/Html';
+import { Html } from '../build/html.node';
 import task from './lib/task';
 import fs from './lib/fs';
 

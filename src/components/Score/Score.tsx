@@ -1,5 +1,5 @@
 import * as React from 'react';
-const { Component, PropTypes } = React;
+const { PropTypes } = React;
 
 import { PureComponent } from '../../lib/PureComponent';
 
@@ -13,7 +13,7 @@ export class Score extends PureComponent {
     const { score, topScore } = this.props;
     return (
       <div>
-        <p>Current Score:
+        <p>Current Score!!!!:
           <span className="score">{score}</span>
         </p>
         <p>Best Score:

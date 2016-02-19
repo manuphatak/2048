@@ -16,6 +16,7 @@ const PATHS = {
   config: path.join(__dirname, '../src/config.ts'),
   tools: path.join(__dirname, '../tools'),
   interfaces: path.join(__dirname, '../interfaces'),
+  html: path.join(__dirname, '../src/components/Html/Html.tsx'),
 };
 
 const DEBUG = !process.argv.includes('release');
@@ -42,15 +43,17 @@ const JS_LOADER = {
 
 const JS_LOADER_DEV = merge({}, JS_LOADER, {
   query: { // :off
-    presets: ['react-hmre'],
     cacheDirectory: true,
   }, // :on
 });
 const TS_LOADER = {
-  test: /\.tsx?$/, include: INCLUDE_PATHS, loader: 'awesome-typescript?doTypeCheck=false&instanceName=prod',
+  test: /\.tsx?$/, include: INCLUDE_PATHS, loader: 'babel!awesome-typescript?doTypeCheck=false&instanceName=prod',
 };
 const TS_LOADER_DEV = merge({}, TS_LOADER, {
-  loader: 'awesome-typescript?instanceName=dev',
+  loader: 'babel?presets[]=react-hmre!awesome-typescript?instanceName=dev',
+});
+const TS_LOADER_PAGES = merge({}, TS_LOADER, {
+  loader: 'babel!awesome-typescript?instanceName=pages',
 });
 
 const SCSS_LOADER = { // :off
@@ -74,6 +77,8 @@ const config = {
     publicPath: '/',
     sourcePrefix: '  ',
   },  // :on
+
+  progress: true,
 
   cache: WATCH,
 
@@ -148,28 +153,23 @@ const appConfig = merge({}, config, {
 
   devtool: DEBUG ? 'eval-source-map' : false,
 
-  plugins: [ // :off
+  plugins: [
+    ...(WATCH ? [new webpack.HotModuleReplacementPlugin()] : []),
+
     new webpack.optimize.CommonsChunkPlugin({
       names: ['vendor', 'manifest'],
     }),
-    ...(DEBUG
-      ? [
-      ] : [
-        new webpack.optimize.DedupePlugin(),
-        new webpack.optimize.UglifyJsPlugin({
-          compress: { warnings: VERBOSE },
-        }),
-        new webpack.optimize.AggressiveMergingPlugin(),
-      ]
-    ),
-    ...(WATCH
-      ? [
-        new webpack.HotModuleReplacementPlugin(),
 
-        // new webpack.NoErrorsPlugin(),
-      ] : []
-    ),
-  ],  // :on
+    ...(DEBUG ? [] : [ // :off
+      new webpack.optimize.DedupePlugin(),
+      new webpack.optimize.UglifyJsPlugin({
+        compress: { warnings: VERBOSE },
+      }),
+      new webpack.optimize.AggressiveMergingPlugin(),
+    ]
+    ), // :on
+
+  ],
 
   module: {
     preLoaders: [
@@ -197,9 +197,10 @@ const appConfig = merge({}, config, {
 
 // Configuration for server-side pre-rendering bundle
 const pagesConfig = webpackMerge(config, {
-  entry: {
+  entry: { // :off
     'app.node': [PATHS.main],
-  },
+    'html.node': [PATHS.html],
+  }, // :on
 
   output: { libraryTarget: 'commonjs2' },
 
@@ -223,7 +224,7 @@ const pagesConfig = webpackMerge(config, {
   module: {
     loaders: [// :off
       JS_LOADER,
-      TS_LOADER,
+      TS_LOADER_PAGES,
       {
         test: /\.scss$/,
         loader: 'null',

@@ -2,10 +2,10 @@ import * as React from 'react';
 const { PropTypes } = React;
 import { Motion, spring } from 'react-motion';
 import * as ImmutablePropTypes from 'react-immutable-proptypes';
-import classNames from 'classnames';
-import merge from 'lodash.merge';
+import * as classNames from 'classnames';
+import * as merge from 'lodash.merge';
 
-import {PureComponent} from '../../lib/PureComponent';
+import { PureComponent } from '../../lib/PureComponent';
 import { CELL_SPACE, tileSlideConfig, tileNewConfig } from './constants';
 
 export class GameTile extends PureComponent {

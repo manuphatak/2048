@@ -5,10 +5,16 @@ import * as ReactDOM from 'react-dom';
 import { canUseDOM } from 'fbjs/lib/ExecutionEnvironment';
 import { Location } from './lib/Location/Location';
 import { App } from './components/App/App';
+import { titlePrefix } from './config';
 
 import './lib/immutable';
 
 const routes = {}; // Auto-generated on build. See tools/lib/routes-loader.js
+
+function getTitle(path) {
+  const titleSuffix = path === '/' ? '' : path.split('/').join(' - ');
+  return titlePrefix + titleSuffix;
+}
 
 const route = async(path: string, callback) => {
   if (path !== '/' && path.endsWith('/')) {
@@ -17,12 +23,11 @@ const route = async(path: string, callback) => {
 
   const handler = routes[ path ] || routes[ '/404' ];
   const componentHandler = await handler();
-  // TODO fix this.
   const component = typeof componentHandler === 'function' // :off
     ? componentHandler
     : componentHandler.default;  // :on
 
-  await callback(<App>{React.createElement(component)}</App>);
+  await callback(<App title={getTitle(path)}>{React.createElement(component)}</App>);
 };
 
 function run(): void {

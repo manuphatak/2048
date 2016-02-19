@@ -1,4 +1,5 @@
 import { randomTileQuantity, createRandomTileAction } from './utils';
+import * as identity from 'lodash.identity';
 
 import * as ACTION from '../../actions';
 
@@ -28,10 +29,14 @@ function createTiles(n) {
     const nextHandle = next(action);
     const nextGameState = getState().getIn([ 'game', 'state' ]);
 
-    // Guard, no change.
-    if (gameState.tileValues().equals(nextGameState.tileValues())) {
+    // Guard, no change and grid has tiles
+    const nextGameStateTiles = nextGameState.tileValues();
+    const hasNotChanged = () => gameState.tileValues().equals(nextGameStateTiles);
+    const hasTiles = () => nextGameStateTiles.filter(identity).size;
+    if (hasNotChanged() && hasTiles()) {
       return nextHandle;
     }
+
 
     const newTileAction = createRandomTileAction(nextGameState, n());
 

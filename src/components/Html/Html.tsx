@@ -1,12 +1,11 @@
 import * as React from 'react';
 const { Component, PropTypes } = React;
 import { GoogleAnalytics } from '../GoogleAnalytics';
-import { title, description } from '../../config.ts';
+import { description } from '../../config';
 
 export class Html extends Component {
 
   static propTypes = {
-    title: PropTypes.string,
     description: PropTypes.string,
     body: PropTypes.string.isRequired,
     debug: PropTypes.bool.isRequired,
@@ -24,7 +23,6 @@ export class Html extends Component {
             httpEquiv="X-UA-Compatible"
             content="IE=edge"
           />
-          <title>{this.props.title || title}</title>
           <meta
             name="description"
             content={this.props.description || description}
@@ -47,7 +45,7 @@ export class Html extends Component {
           />
           <script src="./manifest.js"></script>
           <script src="./vendor.js"></script>
-          <script src={`./app.js?${new Date().getTime()}`}></script>
+          <script src={`./app.js`}></script>
         </head>
         <body>
           <div
