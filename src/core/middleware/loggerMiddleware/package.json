@@ -1,0 +1,4 @@
+{
+  "name": "loggerMiddleware",
+  "main": "./loggerMiddleware.js"
+}

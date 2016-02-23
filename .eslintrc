@@ -1,9 +1,10 @@
 {
   "root": true,
   "extends": "airbnb",
+  "parser": "babel-eslint",
   "globals": {
     "__DEV__": true,
-    "__DEVTOOLS__": true,
+    "__DEVTOOLS__": true
   },
   "env": {
     "browser": true,
@@ -44,6 +45,8 @@
       2,
       "nofunc"
     ],
-    "spaced-comment": 0
+    "spaced-comment": 0,
+    "no-unused-vars": 1,
+    "semi": 1
   }
 }
