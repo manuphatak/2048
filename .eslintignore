@@ -1,0 +1,7 @@
+# node_modules are ignored by default
+
+# Ignore build folder
+build
+
+# Ignore config stuff
+serviceworker.js
