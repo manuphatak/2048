@@ -4,7 +4,6 @@ const webpackDevMiddleware = require('webpack-dev-middleware');
 const webpackHotMiddleware = require('webpack-hot-middleware');
 const webpackConfig = require('./webpack.config');
 
-const VERBOSE = false;
 const bundler = webpack(webpackConfig);
 
 global.watch = true;
@@ -16,7 +15,7 @@ browserSync({
       webpackDevMiddleware(bundler, { // :off
         publicPath: webpackConfig.output.publicPath,
         stats: webpackConfig.stats,
-        noInfo: !VERBOSE,
+        noInfo: webpackConfig.noInfo,
       }), // :on
 
       webpackHotMiddleware(bundler),

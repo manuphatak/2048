@@ -1,6 +1,8 @@
 {
   "scripts": {
-    "start": "node start.js"
+    "start": "node start.js",
+    "test": "karma start",
+    "test:watch": "karma start  --auto-watch --no-single-run"
   },
   "devDependencies": {
     "autoprefixer": "6.3.3",
@@ -23,11 +25,21 @@
     "extract-text-webpack-plugin": "1.0.1",
     "html-webpack-plugin": "2.9.0",
     "html-webpack-template": "4.0.0",
+    "jasmine": "2.4.1",
+    "jasmine-core": "2.4.1",
     "jscs": "2.10.1",
     "jscs-loader": "0.2.0",
+    "karma": "0.13.21",
+    "karma-coverage": "0.5.3",
+    "karma-jasmine": "0.3.7",
+    "karma-jasmine-diff-reporter": "0.3.4",
+    "karma-phantomjs-launcher": "1.0.0",
+    "karma-sourcemap-loader": "0.3.7",
+    "karma-webpack": "1.7.0",
     "lodash": "4.5.1",
     "node-sass": "3.4.2",
     "npm-install-webpack-plugin": "2.0.2",
+    "phantomjs-prebuilt": "2.1.4",
     "postcss": "5.0.16",
     "postcss-import": "8.0.2",
     "postcss-loader": "0.8.1",
@@ -41,6 +53,7 @@
     "webpack-hot-middleware": "2.7.1"
   },
   "dependencies": {
+    "babel-istanbul-loader": "0.0.3",
     "classnames": "2.2.3",
     "immutable": "3.7.6",
     "localforage": "1.4.0",

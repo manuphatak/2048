@@ -1,4 +1,5 @@
 /* eslint prefer-rest-params:0, default-case:0 */
+/* jscs:disable requireCamelCaseOrUpperCaseIdentifiers */
 require('babel-polyfill');
 const webpack = require('webpack');
 const path = require('path');
@@ -6,15 +7,17 @@ const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const NPMInstallPlugin = require('npm-install-webpack-plugin');
 const HTMLPlugin = require('html-webpack-plugin');
 
+const TARGET = process.env.npm_lifecycle_event;
+
+// ENV Setup
 const DEVELOPMENT = 'development';
 const PRODUCTION = 'production';
+const TEST = 'test';
+const ENV = getEnv(TARGET);
 
-// const TEST = 'test'; // TODO setup
-
-const ENV = DEVELOPMENT; // TODO make this more programmatic
 const DEBUG = !process.argv.includes('release');
 const VERBOSE = process.argv.includes('verbose');
-const WATCH = global.watch;
+const WATCH = global.watch || process.argv.includes('watch') || process.argv.includes('--auto-watch');
 
 const unipath = base => function _unipath(/*paths*/) {
   return path.resolve(path.join.apply(null, [base].concat(Array.from(arguments))));
@@ -24,8 +27,9 @@ const PATHS = { // :off
   src: unipath('src'),
   build: unipath('build'),
   modules: unipath('node_modules'),
-  base: unipath(),
+  base: unipath('.'),
 }; // :on
+const LOADER_INCLUDES = [PATHS.src(), PATHS.base('tests.webpack.js')];
 
 module.exports = {
   entry: getEntry(ENV),
@@ -39,6 +43,8 @@ module.exports = {
   }, // :on
 
   module: {
+    preLoaders: getPreLoaders(ENV),
+
     loaders: getLoaders(ENV),
   },
 
@@ -50,7 +56,7 @@ module.exports = {
 
   debug: DEBUG,
 
-  devtool: PRODUCTION ? 'source-map' : 'inline-source-map',
+  devtool: getDevtool(ENV),
 
   plugins: getPlugins(ENV),
 
@@ -59,6 +65,8 @@ module.exports = {
   progress: true,
 
   watch: WATCH,
+
+  noInfo: !VERBOSE,
 
   stats: {
     colors: true,
@@ -81,6 +89,162 @@ module.exports = {
     ];
   },
 };
+
+function getEntry(env) {
+  const entry = [];
+
+  switch (env) {
+    case DEVELOPMENT:
+      entry.push('babel-polyfill');
+      entry.push('webpack-hot-middleware/client?http://localhost:3000');
+      entry.push('webpack/hot/only-dev-server'); // TODO ??
+      entry.push(PATHS.src('index.jsx'));
+      break;
+    case PRODUCTION:
+      entry.push(PATHS.src('index.jsx'));
+      break;
+    case TEST:
+      break;
+  }
+
+  return entry;
+}
+
+function getPreLoaders(env) {
+  const preLoaders = [];
+
+  switch (env) {
+    case PRODUCTION:
+      preLoaders.push({
+        test: /\.jsx?$/, include: LOADER_INCLUDES, loaders: ['eslint', 'jscs'],
+      });
+      break;
+
+    case DEVELOPMENT:
+      preLoaders.push({
+        test: /\.jsx?$/, include: LOADER_INCLUDES, loaders: ['eslint', 'jscs'],
+      });
+      break;
+
+    case TEST:
+      preLoaders.push({
+        test: /\.jsx?$/, include: LOADER_INCLUDES, loader: 'babel-istanbul',
+      });
+      break;
+  }
+  return preLoaders;
+}
+
+function getDevtool(env) {
+  switch (env) {
+    case PRODUCTION:
+      return 'source-map';
+    case DEVELOPMENT:
+      return 'inline-source-map';
+    case TEST:
+      return 'inline-source-map';
+    default:
+      return false;
+  }
+}
+
+function getLoaders(env) {
+  const loaders = [
+    {
+      test: /\.jsx?$/,
+      include: LOADER_INCLUDES,
+      loaders: ['babel?cacheDirectory'],
+    },
+    {
+      test: /\.json$/,
+      include: LOADER_INCLUDES,
+      loader: 'json',
+    },
+    {
+      test: /\.woff(\?v=\d+\.\d+\.\d+)?$/,
+      include: LOADER_INCLUDES,
+      loader: 'url?limit=10000&mimetype=application/font-woff',
+    },
+    {
+      test: /\.woff2(\?v=\d+\.\d+\.\d+)?$/,
+      include: LOADER_INCLUDES,
+      loader: 'url?limit=10000&mimetype=application/font-woff',
+    },
+    {
+      test: /\.ttf(\?v=\d+\.\d+\.\d+)?$/,
+      include: LOADER_INCLUDES,
+      loader: 'url?limit=10000&mimetype=application/octet-stream',
+    },
+    {
+      test: /\.eot(\?v=\d+\.\d+\.\d+)?$/,
+      include: LOADER_INCLUDES,
+      loader: 'file',
+    },
+    {
+      test: /\.svg(\?v=\d+\.\d+\.\d+)?$/,
+      include: LOADER_INCLUDES,
+      loader: 'url?limit=10000&mimetype=image/svg+xml',
+    },
+    {
+      test: /\.(png|jpg|jpeg|gif)$/,
+      include: LOADER_INCLUDES,
+      loader: 'url?limit=10000',
+    },
+    {
+      test: /\.(wav|mp3)$/,
+      include: LOADER_INCLUDES,
+      loader: 'file',
+    },
+  ];
+
+  switch (env) {
+    case PRODUCTION:
+      loaders.push({// :off
+        test: /\.s?css$/,
+        include: LOADER_INCLUDES,
+        loader: ExtractTextPlugin.extract((
+          'css'
+          + '?minimize'
+          + '&sourceMap'
+          + '&modules'
+          + '&localIdentName=[hash:base64:4]'
+          + '&importLoaders=2'
+          + '!'
+          + 'postcss'
+          + '?sourceMap'
+          + '&parser=postcss-scss'
+        )),
+      });// :on
+      break;
+    case DEVELOPMENT:
+      loaders.push({ // :off
+        test: /\.s?css$/,
+        includes: LOADER_INCLUDES,
+        loaders: [
+          'style'
+          + '?sourceMap',
+          'css'
+          + '?sourceMap'
+          + '&modules'
+          + '&localIdentName=[name]__[local]__[hash:base64:3]'
+          + '&importLoaders=2',
+          'postcss'
+          + '?sourceMap'
+          + '&parser=postcss-scss',
+        ],
+      }); // :on
+      break;
+    case TEST:
+      loaders.push({ // :off
+        test: /\.s?css$/,
+        include: LOADER_INCLUDES,
+        loader: 'null',
+      }); // :on
+      break;
+  }
+
+  return loaders;
+}
 
 function getPlugins(env) {
   const plugins = [ // :off
@@ -112,106 +276,13 @@ function getPlugins(env) {
   return plugins;
 }
 
-function getEntry(env) {
-  const entry = [];
-
-  switch (env) {
-    case DEVELOPMENT:
-      entry.push('babel-polyfill');
-      entry.push('webpack-hot-middleware/client?http://localhost:3000');
-      entry.push('webpack/hot/only-dev-server'); // TODO ??
-      break;
+function getEnv(target) {
+  switch (target) {
+    case 'test':
+      return TEST;
+    case 'start':
+      return DEVELOPMENT;
+    default:
+      return DEVELOPMENT;
   }
-
-  entry.push(PATHS.src('index.jsx'));
-  return entry;
-}
-
-function getLoaders(env) {
-  const loaders = [
-    {
-      test: /\.jsx?$/,
-      include: PATHS.src(),
-      loaders: ['babel?cacheDirectory', 'eslint', 'jscs'],
-    },
-    {
-      test: /\.json$/,
-      include: [PATHS.src()],
-      loader: 'json',
-    },
-    {
-      test: /\.woff(\?v=\d+\.\d+\.\d+)?$/,
-      include: [PATHS.src()],
-      loader: 'url?limit=10000&mimetype=application/font-woff',
-    },
-    {
-      test: /\.woff2(\?v=\d+\.\d+\.\d+)?$/,
-      include: [PATHS.src()],
-      loader: 'url?limit=10000&mimetype=application/font-woff',
-    },
-    {
-      test: /\.ttf(\?v=\d+\.\d+\.\d+)?$/,
-      include: [PATHS.src()],
-      loader: 'url?limit=10000&mimetype=application/octet-stream',
-    },
-    {
-      test: /\.eot(\?v=\d+\.\d+\.\d+)?$/,
-      include: [PATHS.src()],
-      loader: 'file',
-    },
-    {
-      test: /\.svg(\?v=\d+\.\d+\.\d+)?$/,
-      include: [PATHS.src()],
-      loader: 'url?limit=10000&mimetype=image/svg+xml',
-    },
-    {
-      test: /\.(png|jpg|jpeg|gif)$/,
-      loader: 'url?limit=10000',
-    },
-    {
-      test: /\.(wav|mp3)$/,
-      loader: 'file',
-    },
-  ];
-
-  switch (env) {
-    case PRODUCTION:
-      loaders.push({// :off
-        test: /\.s?css$/,
-        include: PATHS.src(),
-        loader: ExtractTextPlugin.extract((
-          'css'
-          + '?minimize'
-          + '&sourceMap'
-          + '&modules'
-          + '&localIdentName=[hash:base64:4]'
-          + '&importLoaders=2'
-          + '!'
-          + 'postcss'
-          + '?sourceMap'
-          + '&parser=postcss-scss'
-        )),
-      });// :on
-      break;
-    case DEVELOPMENT:
-      loaders.push({ // :off
-        test: /\.s?css$/,
-        include: PATHS.src(),
-        loaders: [
-          'style'
-          + '?sourceMap',
-          'css'
-          + '?sourceMap'
-          + '&modules'
-          + '&localIdentName=[name]__[local]__[hash:base64:3]'
-          + '&importLoaders=2',
-          'postcss'
-          + '?sourceMap'
-          + '&parser=postcss-scss',
-        ],
-      }); // :on
-      break;
-  }
-
-  return loaders;
 }
