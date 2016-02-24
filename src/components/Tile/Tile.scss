@@ -1,0 +1,139 @@
+@import "../../variables.scss";
+
+@mixin inner($chars) {
+  @if $chars > 2 {
+    .inner {
+      color: rgba(0, 0, 0, 0.5);
+    }
+  }
+
+  @if $chars >= 2 {
+    .inner {
+      color: rgba(256, 256, 256, 0.8);
+    }
+  }
+
+  @if $chars < 2 {
+    .inner {
+      font-size: 55px;
+
+      @media screen and (max-width: $screen-sm-min) {
+        font-size: 35px;
+      }
+    }
+  }
+
+  @if $chars == 3 {
+    .inner {
+      font-size: 45px;
+
+      @media screen and (max-width: $screen-sm-min) {
+        font-size: 25px;
+      }
+    }
+  }
+
+  @if $chars == 4 {
+    .inner {
+      font-size: 35px;
+
+      @media screen and (max-width: $screen-sm-min) {
+        font-size: 15px;
+      }
+    }
+  }
+
+  @if $chars == 5 {
+    .inner {
+      font-size: 30px;
+
+      @media screen and (max-width: $screen-sm-min) {
+        font-size: 10px;
+      }
+    }
+  }
+}
+
+@mixin tile-shadow($a, $b) {
+  .inner {
+    box-shadow: 0 0 30px 10px rgba(243, 215, 116, $a), inset 0 0 0 1px rgba(255, 255, 255, $b);
+  }
+}
+.container {
+  height:        107px;
+  width:         107px;
+  line-height:   107px;
+  position:      absolute;
+  border-radius: 3px;
+
+  .inner {
+    text-align:  center;
+    font-weight: bold;
+    font-size:   55px;
+  }
+}
+
+.value-2 {
+  @include inner(1);
+  background-color: hsl(27, 37%, 89%);
+}
+
+.value-4 {
+  @include inner(1);
+  background-color: hsl(27, 50%, 85%);
+}
+
+.value-8 {
+  @include inner(2);
+  background-color: hsl(27, 89%, 66%);
+}
+
+.value-16 {
+  @include inner(2);
+  background-color: hsl(20, 89%, 66%);
+}
+
+.value-32 {
+  @include inner(2);
+  background-color: hsl(11, 89%, 66%);
+}
+
+.value-64 {
+  @include inner(2);
+  background-color: hsl(11, 91%, 59%);
+}
+
+.value-128 {
+  @include tile-shadow(0.24, 0.14);
+  @include inner(3);
+  background-color: hsl(45, 75%, 70%);
+}
+
+.value-256 {
+  @include tile-shadow(0.32, 0.19);
+  @include inner(3);
+  background-color: hsl(45, 80%, 65%);
+}
+
+.value-512 {
+  @include tile-shadow(0.4, 0.23);
+  @include inner(3);
+  background-color: hsl(45, 85%, 60%);
+}
+
+.value-1024 {
+  @include tile-shadow(0.48, 0.29);
+  @include inner(4);
+  background-color: hsl(45, 90%, 55%);
+}
+
+.value-2048 {
+  @include tile-shadow(0.56, 0.33);
+  @include inner(4);
+  background-color: hsl(40, 90%, 55%);
+}
+
+.value-super {
+  @include inner(5);
+  background-color: hsl(45, 9%, 21%);
+}

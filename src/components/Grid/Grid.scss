@@ -1,0 +1,30 @@
+.container {
+  position: absolute;
+  z-index:  1;
+  padding:          15px;
+  background-color: hsl(28, 16%, 68%);
+  width:            500px;
+  height:           500px;
+  border-radius:    6px;
+  box-sizing:       border-box;
+}
+
+.row {
+  height:        106.25px;
+  margin-bottom: 15px;
+  &:last-child {
+    margin-bottom: 0;
+  }
+}
+
+.cell {
+  float:            left;
+  width:            106.25px;
+  height:           106.25px;
+  background-color: hsla(0, 0%, 100%, 0.2);
+  border-radius:    3px;
+  margin-right:     15px;
+  &:last-child {
+    margin-right: 0;
+  }
+}

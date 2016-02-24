@@ -3,7 +3,7 @@ import rootReducer from './root';
 import game from './game';
 import { fromJS } from 'immutable';
 import { pipe } from './utils';
-import identity from 'lodash';
+import { identity } from 'lodash';
 import { INITIAL_STATE } from '../constants';
 
 /**

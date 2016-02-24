@@ -3,6 +3,7 @@ import { Provider } from 'react-redux';
 import DocumentTitle from 'react-document-title';
 import './App.scss';
 import { titlePrefix } from '../../config';
+import Game from '../Game';
 
 export function App({ store, title }) {
   return (
@@ -10,7 +11,7 @@ export function App({ store, title }) {
 
       <DocumentTitle title={title || titlePrefix}>
 
-        <h1>Hello world!!!</h1>
+        <Game />
 
       </DocumentTitle>
 

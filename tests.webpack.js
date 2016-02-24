@@ -1,13 +1,23 @@
 /* eslint-env jasmine */
-import { Iterable, is } from 'immutable';
+/* global beforeEach, jasmine, JSON */
+
+Object.keys(window).forEach(key => {
+  if (!(key in global)) {
+    global[key] = window[key];
+  }
+});
+
+require('./src/lib/immutable');
 
 beforeEach(() => {
   jasmine.addCustomEqualityTester(immutableEquality);
   jasmine.addMatchers(getImmutableMatcher());
 });
 
-const context = require.context('./src', true, /\.spec\.jsx?$/);
+const context = require.context('./src', true, /^.+\.(?:spec|helper)\.[jt]sx?$/);
 context.keys().forEach(context);
+
+import { Iterable, is } from 'immutable';
 
 /**
  * Use immutable equality when left and right are immutable.
@@ -30,7 +40,7 @@ function getImmutableMatcher() {
      * Custom matcher factory.
      *
      * @param {object} util
-     * @param {object} customEqualityTesters
+     * @param {object} [customEqualityTesters]
      * @returns {object} custom matcher
      */
     toEqualImmutable(util, customEqualityTesters) {
@@ -38,6 +48,7 @@ function getImmutableMatcher() {
 
         /**
          * Compare immutable objects and describe cause for failure.
+         *
          * @param {immutable.Iterable} actual
          * @param {immutable.Iterable} expected
          * @returns {{pattern: RegExp, message: string, pass: boolean}}

@@ -1,3 +1,4 @@
+global.test = true;
 const webpackConfig = require('./webpack.config');
 
 module.exports = function karmaConfig(config) {
@@ -12,6 +13,7 @@ module.exports = function karmaConfig(config) {
 
     // list of files / patterns to load in the browser
     files: [
+      './node_modules/phantomjs-polyfill/bind-polyfill.js',
       'tests.webpack.js',
     ],
 

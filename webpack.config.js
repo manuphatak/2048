@@ -1,4 +1,4 @@
-/* eslint prefer-rest-params:0, default-case:0 */
+/* eslint prefer-rest-params:0, default-case:0, no-console: 0 */
 /* jscs:disable requireCamelCaseOrUpperCaseIdentifiers */
 require('babel-polyfill');
 const webpack = require('webpack');
@@ -14,6 +14,7 @@ const DEVELOPMENT = 'development';
 const PRODUCTION = 'production';
 const TEST = 'test';
 const ENV = getEnv(TARGET);
+console.log('ENV', ENV);
 
 const DEBUG = !process.argv.includes('release');
 const VERBOSE = process.argv.includes('verbose');
@@ -104,6 +105,7 @@ function getEntry(env) {
       entry.push(PATHS.src('index.jsx'));
       break;
     case TEST:
+      entry.push('babel-polyfill');
       break;
   }
 
@@ -149,12 +151,17 @@ function getDevtool(env) {
 }
 
 function getLoaders(env) {
-  const loaders = [
-    {
-      test: /\.jsx?$/,
-      include: LOADER_INCLUDES,
-      loaders: ['babel?cacheDirectory'],
+  const JS_LOADER = { // :off
+    test: /\.jsx?$/,
+    include: LOADER_INCLUDES,
+    loader: 'babel',
+    query: {
+      cacheDirectory: true,
+      presets: [],
     },
+  }; // :on
+  const loaders = [
+    JS_LOADER,
     {
       test: /\.json$/,
       include: LOADER_INCLUDES,
@@ -203,7 +210,8 @@ function getLoaders(env) {
         test: /\.s?css$/,
         include: LOADER_INCLUDES,
         loader: ExtractTextPlugin.extract((
-          'css'
+          ''
+          + 'css'
           + '?minimize'
           + '&sourceMap'
           + '&modules'
@@ -213,6 +221,9 @@ function getLoaders(env) {
           + 'postcss'
           + '?sourceMap'
           + '&parser=postcss-scss'
+          + '!'
+          + 'sass'
+          + '?sourceMap'
         )),
       });// :on
       break;
@@ -226,19 +237,33 @@ function getLoaders(env) {
           'css'
           + '?sourceMap'
           + '&modules'
-          + '&localIdentName=[name]__[local]__[hash:base64:3]'
+          + '&localIdentName=[name]__[local]__[hash:base64:5]'
           + '&importLoaders=2',
           'postcss'
           + '?sourceMap'
           + '&parser=postcss-scss',
+          'sass'
+          + '?sourceMap',
         ],
       }); // :on
+      JS_LOADER.query.presets.push('react-hmre');
       break;
     case TEST:
       loaders.push({ // :off
         test: /\.s?css$/,
         include: LOADER_INCLUDES,
-        loader: 'null',
+        loaders: [
+          'style'
+          + '?sourceMap',
+          'css'
+          + '?sourceMap'
+          + '&modules'
+          + '&localIdentName=[name]__[local]__[hash:base64:5]'
+          + '&importLoaders=2',
+          'postcss'
+          + '?sourceMap'
+          + '&parser=postcss-scss',
+        ],
       }); // :on
       break;
   }
@@ -277,12 +302,14 @@ function getPlugins(env) {
 }
 
 function getEnv(target) {
+  if (global.test) {return TEST;}
+
   switch (target) {
     case 'test':
       return TEST;
     case 'start':
       return DEVELOPMENT;
     default:
-      return DEVELOPMENT;
+      throw Error(`unknown target ${target}`);
   }
 }
