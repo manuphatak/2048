@@ -1,4 +1,0 @@
---compilers js:babel-register
---colors
---watch-extensions jsx
-./build/test/testBundle.js

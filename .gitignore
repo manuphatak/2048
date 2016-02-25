@@ -16,6 +16,4 @@ build/
 # Dependency directory
 node_modules
 
-old
-
 stats.json
