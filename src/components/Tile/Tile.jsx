@@ -1,8 +1,7 @@
 import React, { PropTypes } from 'react';
-import ImmutablePropTypes from 'react-immutable-proptypes';
 import { Motion, spring } from 'react-motion';
 import classNames from 'classnames';
-import { merge } from 'lodash';
+import _ from 'lodash';
 import styles from './Tile.scss';
 
 // TODO find a place for these
@@ -11,7 +10,7 @@ const tileSlideConfig = { stiffness: 210, damping: 18 };
 const tileNewConfig = { stiffness: 210, damping: 15 };
 
 export function Tile({ tile }) {
-  const { value, row, col, id, isNew } = tile;
+  const { value, row, col, id } = tile;
 
   const tileClass = classNames(// :off
     styles.container,
@@ -51,7 +50,7 @@ Tile.propTypes = {  // TODO real props
 };
 
 function renderTile(style, { tileClass, value, id }) {
-  const nextStyle = merge({}, style, { transform: `scale(${style.scale})` });
+  const nextStyle = _.merge({}, style, { transform: `scale(${style.scale})` });
 
   return (
     <div

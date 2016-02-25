@@ -2,7 +2,7 @@ import createLogger from 'redux-logger';
 
 export const loggerMiddleware = createLogger({
   stateTransformer(state) {
-    return state/*.set('(tiles)', tiles(state))*/
+    return state.set('(tiles)', tiles(state))
                 .toJS();
   },
 

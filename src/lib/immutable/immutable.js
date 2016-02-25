@@ -1,6 +1,6 @@
 /* eslint no-extend-native: 0 */
 import { List, Map, Iterable } from 'immutable';
-import { identity } from 'lodash';
+import _ from 'lodash';
 
 List.prototype.getEmptyTiles = function getEmptyTiles() {
   return this
@@ -9,14 +9,14 @@ List.prototype.getEmptyTiles = function getEmptyTiles() {
         cell ? undefined : Map({ row: rowIndex, col: colIndex })
       ))))
     .flatten(true)
-    .filter(identity);
+    .filter(_.identity);
 };
 
 List.prototype.toTileSet = function toTileSet() {
   return this
     .flatten(true)
     .toSet()
-    .filter(identity);
+    .filter(_.identity);
 };
 
 Map.prototype.updateGrid = function updateGrid(col, row, isNew = undefined) {

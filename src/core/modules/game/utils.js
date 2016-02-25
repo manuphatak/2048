@@ -1,6 +1,6 @@
 import { fromJS, List, Stack } from 'immutable';
 import uuid from 'node-uuid';
-import { range } from 'lodash';
+import _ from 'lodash';
 
 export function tileFactory(value, col = 0, row = 0, id = undefined) {
   return fromJS({ value, col, row, fromValue: value, id: id || uuid.v4() });
@@ -52,8 +52,8 @@ export function shift(state = List()) {
 }
 
 export function* tileNeighbors(size) {
-  for (const x of range(size - 1)) {
-    for (const y of range(size - 1)) {
+  for (const x of _.range(size - 1)) {
+    for (const y of _.range(size - 1)) {
       yield [[x, y], [x + 1, y], [x, y + 1]];
     }
   }

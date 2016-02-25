@@ -3,7 +3,7 @@ import rootReducer from './root';
 import game from './game';
 import { fromJS } from 'immutable';
 import { pipe } from './utils';
-import { identity } from 'lodash';
+import _ from 'lodash';
 import { INITIAL_STATE } from '../constants';
 
 /**
@@ -14,7 +14,7 @@ export const reducer = pipe(// :off
   INITIAL_STATE,                        // initial state
   toImmutable,                          // ...reducers
   rootReducer,
-  combineReducers({ game, isLoading: identity })
+  combineReducers({ game, isLoading: _.identity })
 ); // :on
 
 /**

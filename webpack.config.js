@@ -1,28 +1,17 @@
-/* eslint prefer-rest-params:0, default-case:0, no-console: 0 */
+/* eslint prefer-rest-params:0, default-case:0, no-console: 0 func-names:0 */
 /* jscs:disable requireCamelCaseOrUpperCaseIdentifiers */
+require('babel-register');
 require('babel-polyfill');
 const webpack = require('webpack');
 const path = require('path');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const NPMInstallPlugin = require('npm-install-webpack-plugin');
 const HTMLPlugin = require('html-webpack-plugin');
+const chalk = require('chalk');
 
-const TARGET = process.env.npm_lifecycle_event;
-
-// ENV Setup
-const DEVELOPMENT = 'development';
-const PRODUCTION = 'production';
-const TEST = 'test';
-const ENV = getEnv(TARGET);
-console.error('ENV', ENV);
-
-const DEBUG = !process.argv.includes('release') && TARGET !== 'stats';
-const VERBOSE = process.argv.includes('verbose');
-const WATCH = global.watch || process.argv.includes('watch') || process.argv.includes('--auto-watch');
-
-const unipath = base => function _unipath(/*paths*/) {
-  return path.resolve(path.join.apply(null, [base].concat(Array.from(arguments))));
-};
+// ===========================================================================
+// CONSTANTS
+// ===========================================================================
 
 const PATHS = { // :off
   src: unipath('src'),
@@ -32,13 +21,40 @@ const PATHS = { // :off
 }; // :on
 const LOADER_INCLUDES = [PATHS.src(), PATHS.base('tests.webpack.js')];
 
+const DEVELOPMENT = 'development';
+const PRODUCTION = 'production';
+const TEST = 'test';
+
+// ===========================================================================
+// SETUP ENV
+// ===========================================================================
+
+const TARGET = process.env.npm_lifecycle_event;
+const ENV = getEnv(TARGET);
+const DEBUG = !process.argv.includes('release') && TARGET !== 'stats';
+const VERBOSE = process.argv.includes('verbose');
+const WATCH = global.watch || process.argv.includes('watch') || process.argv.includes('--auto-watch');
+
+// ===========================================================================
+// NOTIFY
+// ===========================================================================
+
+log('ENV', ENV);
+log('DEBUG', DEBUG);
+log('VERBOSE', VERBOSE);
+log('WATCH', WATCH);
+
+// ===========================================================================
+// CONFIG EXPORT
+// ===========================================================================
+
 module.exports = {
   entry: getEntry(ENV),
 
   output: { // :off
     path: PATHS.build(),
     publicPath: DEBUG ? '/' : '/2048/',
-    filename: DEBUG ? '[name].js?[chunkhash]' : '[name].[chunkhash].js',
+    filename: DEBUG ? '[name].js?[hash]' : '[name].[chunkhash].js',
     chunkFilename: DEBUG ? '[name].js?[chunkhash]' : '[name].[chunkhash].js',
     sourceMapFilename: '[file].map',
     sourcePrefix: '  ',
@@ -92,6 +108,10 @@ module.exports = {
   },
 };
 
+// ===========================================================================
+// CONFIG ENV DEFINITIONS
+// ===========================================================================
+
 function getEntry(env) {
   const entry = { main: [] };
 
@@ -102,13 +122,16 @@ function getEntry(env) {
       entry.main.push('webpack/hot/only-dev-server'); // TODO ??
       entry.main.push(PATHS.src('index.jsx'));
       break;
+
     case PRODUCTION:
       entry.main.push('babel-polyfill');
       entry.main.push(PATHS.src('index.jsx'));
       entry.vendor = Object.keys(require('./package.json').dependencies);
       break;
+
     case TEST:
       break;
+
   }
 
   return entry;
@@ -135,6 +158,7 @@ function getPreLoaders(env) {
         test: /\.jsx?$/, include: LOADER_INCLUDES, loader: 'babel-istanbul',
       });
       break;
+
   }
   return preLoaders;
 }
@@ -143,10 +167,13 @@ function getDevtool(env) {
   switch (env) {
     case PRODUCTION:
       return 'source-map';
+
     case DEVELOPMENT:
       return 'inline-source-map';
+
     case TEST:
       return 'inline-source-map';
+
     default:
       return false;
   }
@@ -228,6 +255,7 @@ function getLoaders(env) {
         )),
       });// :on
       break;
+
     case DEVELOPMENT:
       loaders.push({ // :off
         test: /\.s?css$/,
@@ -248,6 +276,7 @@ function getLoaders(env) {
       }); // :on
       JS_LOADER.query.presets.push('react-hmre');
       break;
+
     case TEST:
       loaders.push({ // :off
         test: /\.s?css$/,
@@ -267,6 +296,7 @@ function getLoaders(env) {
         ],
       }); // :on
       break;
+
   }
 
   return loaders;
@@ -274,7 +304,6 @@ function getLoaders(env) {
 
 function getPlugins(env) {
   const plugins = [ // :off
-    new NPMInstallPlugin({ save: true }),
     new HTMLPlugin({
       inject: false,
       template: PATHS.modules('html-webpack-template', 'index.ejs'),
@@ -313,27 +342,80 @@ function getPlugins(env) {
         compress: { warnings: false },
       }));
       break;
+
     case DEVELOPMENT:
+      plugins.push(new NPMInstallPlugin({ save: true }));
       plugins.push(new webpack.HotModuleReplacementPlugin());
       plugins.push(new webpack.NoErrorsPlugin());
       break;
+
+    case TEST:
+      plugins.push(new NPMInstallPlugin({ save: true }));
+      break;
+
   }
   return plugins;
 }
 
+// ===========================================================================
+// UTILS
+// ===========================================================================
+
+/**
+ * Get env from npm script target.
+ *
+ * @param {string} target
+ * @returns {string}
+ */
 function getEnv(target) {
   if (global.test) {return TEST;}
 
   switch (target) {
     case 'test':
       return TEST;
+
     case 'start':
       return DEVELOPMENT;
+
     case 'build':
       return PRODUCTION;
+
     case 'stats':
       return PRODUCTION;
+
     default:
       throw Error('unknown target', target);
+  }
+}
+
+/**
+ * Log a colorful message to the console.
+ *
+ * @param {string} description - Name of the variable to log
+ * @param {*} data - Variable
+ * @returns {void}
+ */
+function log(description, data) {
+  console.error(chalk.bold.white.bgBlue(` ${description}: %s `), data);
+}
+
+/**
+ * Create a path -> resolve -> join partial.
+ *
+ * @param {string} base - Base path
+ * @returns {Function}
+ */
+function unipath(base) {
+  return join;
+
+  /**
+   * Get fully resolved path from arguments.
+   *
+   * @param {...string} paths - Paths to join
+   * @returns {*|{extensions}|{filePath}|{filePath, configName}}
+   */
+  function join(paths/* ...paths */) { // eslint-disable-line no-unused-vars
+    const _paths = [base].concat(Array.from(arguments));
+    return path.resolve(path.join.apply(null, _paths));
   }
 }

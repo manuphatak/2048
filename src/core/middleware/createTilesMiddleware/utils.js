@@ -1,4 +1,4 @@
-import { sampleSize, merge } from 'lodash';
+import _ from 'lodash';
 import { handleCreateTiles } from '../../modules/game';
 export function createRandomTileAction(gameState, quantity = 1) {
   // get empty tiles
@@ -10,11 +10,11 @@ export function createRandomTileAction(gameState, quantity = 1) {
   }
 
   // choose random tiles from the grid
-  const randomTileSample = sampleSize(emptyTiles, Math.min(quantity, emptyTiles.length));
+  const randomTileSample = _.sampleSize(emptyTiles, Math.min(quantity, emptyTiles.length));
 
   // create tiles
   const newTiles = randomTileSample.map(tile => (
-    merge(tile, { value: randomTileValue() })
+    _.merge(tile, { value: randomTileValue() })
   ));
 
   return handleCreateTiles(newTiles);

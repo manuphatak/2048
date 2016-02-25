@@ -1,3 +1,5 @@
+global.watch = true;
+
 const browserSync = require('browser-sync');
 const webpack = require('webpack');
 const webpackDevMiddleware = require('webpack-dev-middleware');
@@ -6,7 +8,6 @@ const webpackConfig = require('./webpack.config');
 
 const bundler = webpack(webpackConfig);
 
-global.watch = true;
 browserSync({
   server: {
     baseDir: 'src',

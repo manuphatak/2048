@@ -1,5 +1,5 @@
 import { randomTileQuantity, createRandomTileAction } from './utils';
-import { identity } from 'lodash';
+import _ from 'lodash';
 import * as ACTION from '../../modules/game';
 
 const actionDispatch = { // :off
@@ -31,7 +31,7 @@ function createTiles(n) {
     // Guard, no change and grid has tiles
     const nextGameStateTiles = nextGameState.tileValues();
     const hasNotChanged = () => gameState.tileValues().equals(nextGameStateTiles);
-    const hasTiles = () => nextGameStateTiles.filter(identity).size;
+    const hasTiles = () => nextGameStateTiles.filter(_.identity).size;
     if (hasNotChanged() && hasTiles()) {
       return nextHandle;
     }

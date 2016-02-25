@@ -1,5 +1,5 @@
 import { createStore, compose, applyMiddleware } from 'redux';
-import { identity } from 'lodash';
+import _ from 'lodash';
 import { reducer } from './modules';
 import { INITIAL_STATE } from './constants';
 import { middleware } from './middleware';
@@ -32,7 +32,7 @@ function getEnhancer() {
   }
 
   // Use redux chrome extension when it's available.
-  const devTools = (__DEVTOOLS__ && window.devToolsExtension) ? window.devToolsExtension() : identity;
+  const devTools = (__DEVTOOLS__ && window.devToolsExtension) ? window.devToolsExtension() : _.identity;
 
   const { persistState } = require('redux-devtools');
   return compose(// :off
