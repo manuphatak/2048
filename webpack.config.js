@@ -14,9 +14,9 @@ const DEVELOPMENT = 'development';
 const PRODUCTION = 'production';
 const TEST = 'test';
 const ENV = getEnv(TARGET);
-console.log('ENV', ENV);
+console.error('ENV', ENV);
 
-const DEBUG = !process.argv.includes('release');
+const DEBUG = !process.argv.includes('release') && TARGET !== 'stats';
 const VERBOSE = process.argv.includes('verbose');
 const WATCH = global.watch || process.argv.includes('watch') || process.argv.includes('--auto-watch');
 
@@ -37,8 +37,9 @@ module.exports = {
 
   output: { // :off
     path: PATHS.build(),
-    publicPath: '/',
-    filename: '[name].js',
+    publicPath: DEBUG ? '/' : '/2048/',
+    filename: DEBUG ? '[name].js?[chunkhash]' : '[name].[chunkhash].js',
+    chunkFilename: DEBUG ? '[name].js?[chunkhash]' : '[name].[chunkhash].js',
     sourceMapFilename: '[file].map',
     sourcePrefix: '  ',
   }, // :on
@@ -92,18 +93,19 @@ module.exports = {
 };
 
 function getEntry(env) {
-  const entry = [];
+  const entry = { main: [] };
 
   switch (env) {
     case DEVELOPMENT:
-      entry.push('babel-polyfill');
-      entry.push('webpack-hot-middleware/client?http://localhost:3000');
-      entry.push('webpack/hot/only-dev-server'); // TODO ??
-      entry.push(PATHS.src('index.jsx'));
+      entry.main.push('babel-polyfill');
+      entry.main.push('webpack-hot-middleware/client?http://localhost:3000');
+      entry.main.push('webpack/hot/only-dev-server'); // TODO ??
+      entry.main.push(PATHS.src('index.jsx'));
       break;
     case PRODUCTION:
-      entry.push('babel-polyfill');
-      entry.push(PATHS.src('index.jsx'));
+      entry.main.push('babel-polyfill');
+      entry.main.push(PATHS.src('index.jsx'));
+      entry.vendor = Object.keys(require('./package.json').dependencies);
       break;
     case TEST:
       break;
@@ -215,7 +217,7 @@ function getLoaders(env) {
           + '?minimize'
           + '&sourceMap'
           + '&modules'
-          + '&localIdentName=[hash:base64:4]'
+          + '&localIdentName=[hash:base64]'
           + '&importLoaders=2'
           + '!'
           + 'postcss'
@@ -236,7 +238,7 @@ function getLoaders(env) {
           'css'
           + '?sourceMap'
           + '&modules'
-          + '&localIdentName=[name]__[local]__[hash:base64:5]'
+          + '&localIdentName=[name]__[local]__[hash:base64:3]'
           + '&importLoaders=2',
           'postcss'
           + '?sourceMap',
@@ -277,6 +279,20 @@ function getPlugins(env) {
       inject: false,
       template: PATHS.modules('html-webpack-template', 'index.ejs'),
       appMountId: 'app',
+      minify: DEBUG ? false : {
+        removeComments: true,
+        collapseWhitespace: true,
+        conservativeCollapse: true,
+        collapseInlineTagWhitespace: true,
+        collapseBooleanAttributes: true,
+        removeTagWhitespace: true,
+        removeAttributeQuotes: true,
+        useShortDoctype: true,
+        removeScriptTypeAttributes: true,
+        removeStyleLinkTypeAttributes: true,
+        keepClosingSlash: true,
+        caseSensitive: true,
+      },
     }),
     new webpack.optimize.OccurenceOrderPlugin(),
     new webpack.DefinePlugin({
@@ -288,9 +304,14 @@ function getPlugins(env) {
 
   switch (env) {
     case PRODUCTION:
-      plugins.push(new ExtractTextPlugin('main.css'));
+      plugins.push(new ExtractTextPlugin(DEBUG ? 'main.css?[chunkhash]' : 'main.[chunkhash].css'));
+      plugins.push(new webpack.optimize.CommonsChunkPlugin({
+        names: ['vendor', 'manifest'],
+      }));
       plugins.push(new webpack.optimize.DedupePlugin());
-      plugins.push(new webpack.optimize.UglifyJsPlugin({ compress: { warnings: false } }));
+      plugins.push(new webpack.optimize.UglifyJsPlugin({
+        compress: { warnings: false },
+      }));
       break;
     case DEVELOPMENT:
       plugins.push(new webpack.HotModuleReplacementPlugin());
@@ -308,7 +329,11 @@ function getEnv(target) {
       return TEST;
     case 'start':
       return DEVELOPMENT;
+    case 'build':
+      return PRODUCTION;
+    case 'stats':
+      return PRODUCTION;
     default:
-      throw Error(`unknown target ${target}`);
+      throw Error('unknown target', target);
   }
 }

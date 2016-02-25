@@ -11,6 +11,7 @@ import { storage } from './lib/storage';
 
 const store = configureStore();
 
+// TODO deal with game not in progress.
 store.dispatch(setState(storage.get(STORAGE_KEY)));
 
 store.subscribe(async() => await storage.set(STORAGE_KEY, store.getState().toJS()));

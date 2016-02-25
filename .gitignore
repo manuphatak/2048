@@ -17,3 +17,5 @@ build/
 node_modules
 
 old
+
+stats.json
