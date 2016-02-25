@@ -1,11 +1,11 @@
 /* eslint-env jasmine */
 /* global describe, it */
-import { tileFactory, shift, transpose } from './utils';
+import { tileFactory, shift, transpose, tileNeighbors } from './utils';
 import { fromJS, List } from 'immutable';
 
 const U = undefined;
 
-describe('app utilities', () => {
+describe('GAME UTILS', () => {
   describe('tileFactory', () => {
     it('creates a tile', () => {
       expect(tileFactory(2, 0, 0, 1)).toEqualImmutable(fromJS({ value: 2, fromValue: 2, col: 0, row: 0, id: 1 }));
@@ -148,6 +148,25 @@ describe('app utilities', () => {
       ])); // :on
 
       expect(transpose(nextState)).toEqualImmutable(state);
+    });
+  });
+
+  describe('tileNeighbors', () => {
+    it('yields all permutations of adjacent tiles', () => {
+      const tiles = tileNeighbors(4);
+
+      expect(tiles.next().value).toEqual([[0, 0], [1, 0], [0, 1]]);
+      expect(tiles.next().value).toEqual([[0, 1], [1, 1], [0, 2]]);
+      expect(tiles.next().value).toEqual([[0, 2], [1, 2], [0, 3]]);
+      expect(tiles.next().value).toEqual([[1, 0], [2, 0], [1, 1]]);
+      expect(tiles.next().value).toEqual([[1, 1], [2, 1], [1, 2]]);
+      expect(tiles.next().value).toEqual([[1, 2], [2, 2], [1, 3]]);
+      expect(tiles.next().value).toEqual([[2, 0], [3, 0], [2, 1]]);
+      expect(tiles.next().value).toEqual([[2, 1], [3, 1], [2, 2]]);
+      expect(tiles.next().value).toEqual([[2, 2], [3, 2], [2, 3]]);
+
+      // edge case
+      expect(tiles.next().value).toEqual([[3, 3], [2, 3], [3, 2]]);
     });
   });
 });

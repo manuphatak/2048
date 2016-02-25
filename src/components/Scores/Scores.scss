@@ -1,0 +1,44 @@
+.container {
+  float:      right;
+  text-align: right;
+}
+
+.currentScore, .topScore {
+  position:         relative;
+  display:          inline-block;
+  background-color: #bbada0;
+  padding:          15px 25px;
+  font-size:        25px;
+  height:           25px;
+  line-height:      47px;
+  font-weight:      bold;
+  border-radius:    3px;
+  color:            #ffffff;
+  margin-top:       8px;
+  text-align:       center;
+
+  &:after {
+    position:       absolute;
+    width:          100%;
+    top:            10px;
+    left:           0;
+    text-transform: uppercase;
+    font-size:      13px;
+    line-height:    13px;
+    text-align:     center;
+    color:          #eee4da;
+  }
+}
+
+.currentScore {
+  margin-right: 8px;
+  &:after {
+    content: 'Score';
+  }
+}
+
+.topScore {
+  &:after {
+    content: 'Top';
+  }
+}

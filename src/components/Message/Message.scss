@@ -1,0 +1,35 @@
+.container {
+  position:         absolute;
+  top:              0;
+  right:            0;
+  bottom:           0;
+  left:             0;
+  background-color: rgba(238, 228, 218, 0.73);
+  z-index:          100;
+  padding-top:      40px;
+  text-align:       center;
+  border-radius:    6px;
+
+  & > h1 {
+    font-size:   60px;
+    font-weight: bold;
+    height:      60px;
+  }
+
+  .lower {
+    display:    block;
+    margin-top: 29px;
+  }
+
+  .tryAgain {
+    display:          inline-block;
+    background-color: #8f7a66;
+    border-radius:    3px;
+    padding:          0 20px;
+    text-decoration:  none;
+    color:            #f9f6f2;
+    height:           40px;
+    line-height:      42px;
+    border:           0 none;
+  }
+}

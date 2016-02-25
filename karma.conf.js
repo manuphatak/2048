@@ -13,6 +13,7 @@ module.exports = function karmaConfig(config) {
 
     // list of files / patterns to load in the browser
     files: [
+      './node_modules/babel-polyfill/browser.js',
       './node_modules/phantomjs-polyfill/bind-polyfill.js',
       'tests.webpack.js',
     ],
@@ -29,7 +30,7 @@ module.exports = function karmaConfig(config) {
     // test results reporter to use
     // possible values: 'dots', 'progress'
     // available reporters: https://npmjs.org/browse/keyword/karma-reporter
-    reporters: ['jasmine-diff', 'progress', 'coverage'],
+    reporters: ['jasmine-diff', 'kjhtml', 'mocha', 'coverage'],
 
     // web server port
     port: 9876,

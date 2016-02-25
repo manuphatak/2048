@@ -1,3 +1,5 @@
+import { INITIAL_STATE } from '../../constants';
+
 const SET_STATE_INIT = '2048/root/SET_STATE_INIT';
 const SET_STATE_COMPLETE = '2048/root/SET_STATE_COMPLETE';
 
@@ -23,7 +25,7 @@ function setStateComplete(payload) {
 
 export function setState(payload) {
   return async(dispatch) => {
-    await dispatch(setStateInit());
-    await dispatch(setStateComplete(payload));
+    dispatch(setStateInit());
+    dispatch(setStateComplete(INITIAL_STATE.merge(await payload).toJS()));
   };
 }

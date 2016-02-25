@@ -83,7 +83,7 @@ module.exports = {
 
   postcss(bundler) {
     return [
-      require('colorguard')(),
+      /*require('colorguard')(),*/
       require('postcss-import')({ addDependencyTo: bundler }),
       require('precss')(),
       require('autoprefixer')({ browsers: ['last 2 versions'] }),
@@ -102,10 +102,10 @@ function getEntry(env) {
       entry.push(PATHS.src('index.jsx'));
       break;
     case PRODUCTION:
+      entry.push('babel-polyfill');
       entry.push(PATHS.src('index.jsx'));
       break;
     case TEST:
-      entry.push('babel-polyfill');
       break;
   }
 
@@ -220,7 +220,6 @@ function getLoaders(env) {
           + '!'
           + 'postcss'
           + '?sourceMap'
-          + '&parser=postcss-scss'
           + '!'
           + 'sass'
           + '?sourceMap'
@@ -240,8 +239,7 @@ function getLoaders(env) {
           + '&localIdentName=[name]__[local]__[hash:base64:5]'
           + '&importLoaders=2',
           'postcss'
-          + '?sourceMap'
-          + '&parser=postcss-scss',
+          + '?sourceMap',
           'sass'
           + '?sourceMap',
         ],
@@ -261,8 +259,9 @@ function getLoaders(env) {
           + '&localIdentName=[name]__[local]__[hash:base64:5]'
           + '&importLoaders=2',
           'postcss'
-          + '?sourceMap'
-          + '&parser=postcss-scss',
+          + '?sourceMap',
+          'sass'
+          + '?sourceMap',
         ],
       }); // :on
       break;

@@ -28,3 +28,4 @@ export const INITIAL_STATE = fromJS({
 });
 
 export const GAME_WON_TILE = 2048;
+export const STORAGE_KEY = '2048_state';

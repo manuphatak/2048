@@ -8,7 +8,7 @@ import { tileFactory } from './utils';
 
 const U = undefined;
 
-describe('app core logic', () => {
+describe('GAME MODEL', () => {
   describe('shiftLeft', () => {
     it('shifts values left', () => {
       const [a, b] = [tileFactory(2), tileFactory(4)];
@@ -325,7 +325,7 @@ describe('app core logic', () => {
   });
 
   describe('updateMeta', () => {
-    it('it 0 points when nothing changes', () => {
+    it('adds 0 points when nothing changes', () => {
       const [a, b] = [tileFactory(2, 3, 1), tileFactory(4, 2, 2)];
       const state = fromJS({
         state: [ // :off
@@ -335,7 +335,7 @@ describe('app core logic', () => {
           [U, U, U, U],
         ],  // :on
 
-        meta: { score: 0, topScore: 0, gameWon: false },
+        meta: { score: 0, topScore: 0, gameWon: false, gameOver: false },
       });
       const nextState = updateMeta(state);
 
@@ -366,7 +366,7 @@ describe('app core logic', () => {
           [U, U, U, U],
         ],  // :on
 
-        meta: { score: 12, topScore: 12, gameWon: false },
+        meta: { score: 12, topScore: 12, gameWon: false, gameOver: false },
       });
 
       expect(nextState).toEqualImmutable(expected);
@@ -396,13 +396,13 @@ describe('app core logic', () => {
           [U, U, U, U],
         ],  // :on
 
-        meta: { score: 16, topScore: 22, gameWon: false },
+        meta: { score: 16, topScore: 22, gameWon: false, gameOver: false },
       });
 
       expect(nextState).toEqualImmutable(expected);
     });
 
-    describe('setting gameWon', () => {
+    describe('gameWon', () => {
       it('sets gameWon to true when a 2048 is on the board', () => {
         const [a, b] = [tileFactory(2048, 3, 1), tileFactory(4, 2, 2)];
         const state = fromJS({
@@ -424,7 +424,7 @@ describe('app core logic', () => {
             [U, U, U, U],
           ],  // :on
 
-          meta: { score: 0, topScore: 0, gameWon: true },
+          meta: { score: 0, topScore: 0, gameWon: true, gameOver: false },
         });
 
         expect(nextState).toEqualImmutable(expected);
@@ -450,7 +450,87 @@ describe('app core logic', () => {
             [U, U, U, U],
           ],  // :on
 
-          meta: { score: 0, topScore: 0, gameWon: true },
+          meta: { score: 0, topScore: 0, gameWon: true, gameOver: false },
+        });
+
+        expect(nextState).toEqualImmutable(expected);
+      });
+    });
+
+    describe('gameOver', () => {
+      it('sets gameOver to true when no more tiles can move', () => {
+        const [a, b, c, d] = [
+          tileFactory(2, 0, 0), tileFactory(4, 1, 0), tileFactory(128, 2, 0), tileFactory(64, 3, 0),
+        ];
+        const [e, f, g, h] = [
+          tileFactory(32, 0, 1), tileFactory(128, 1, 1), tileFactory(32, 2, 1), tileFactory(16, 3, 1),
+        ];
+        const [i, j, k, l] = [
+          tileFactory(8, 0, 2), tileFactory(16, 1, 2), tileFactory(64, 2, 2), tileFactory(4, 3, 2),
+        ];
+        const [m, n, o, p] = [
+          tileFactory(4, 0, 3), tileFactory(8, 1, 3), tileFactory(4, 2, 3), tileFactory(2, 3, 3),
+        ];
+        const state = fromJS({
+          state: [ // :off
+            [a, b, c, d],
+            [e, f, g, h],
+            [i, j, k, l],
+            [m, n, o, p],
+          ],  // :on
+
+          meta: { score: 2280, topScore: 2280, gameWon: false },
+        });
+        const nextState = updateMeta(state);
+        const expected = fromJS({
+
+          state: [ // :off
+            [a, b, c, d],
+            [e, f, g, h],
+            [i, j, k, l],
+            [m, n, o, p],
+          ],  // :on
+
+          meta: { score: 2280, topScore: 2280, gameWon: false, gameOver: true },
+        });
+
+        expect(nextState).toEqualImmutable(expected);
+      });
+
+      it('does not set gameOver to true when there are moves available', () => {
+        const [a, b, c, d] = [
+          tileFactory(2, 0, 0), tileFactory(4, 1, 0), tileFactory(128, 2, 0), tileFactory(64, 3, 0),
+        ];
+        const [e, f, g, h] = [
+          tileFactory(32, 0, 1), tileFactory(128, 1, 1), tileFactory(32, 2, 1), tileFactory(16, 3, 1),
+        ];
+        const [i, j, k, l] = [
+          tileFactory(8, 0, 2), tileFactory(16, 1, 2), tileFactory(64, 2, 2), tileFactory(4, 3, 2),
+        ];
+        const [m, n, o, p] = [
+          tileFactory(4, 0, 3), tileFactory(8, 1, 3), tileFactory(2, 2, 3), tileFactory(2, 3, 3),
+        ];
+        const state = fromJS({
+          state: [ // :off
+            [a, b, c, d],
+            [e, f, g, h],
+            [i, j, k, l],
+            [m, n, o, p],
+          ],  // :on
+
+          meta: { score: 2280, topScore: 2280, gameWon: false },
+        });
+        const nextState = updateMeta(state);
+        const expected = fromJS({
+
+          state: [ // :off
+            [a, b, c, d],
+            [e, f, g, h],
+            [i, j, k, l],
+            [m, n, o, p],
+          ],  // :on
+
+          meta: { score: 2280, topScore: 2280, gameWon: false, gameOver: false },
         });
 
         expect(nextState).toEqualImmutable(expected);

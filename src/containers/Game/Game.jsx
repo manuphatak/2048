@@ -2,25 +2,14 @@ import React, { PropTypes, Component } from 'react';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 import { Grid } from '../../components/Grid';
 import { Tiles } from '../../components/Tiles';
+import { Scores } from '../../components/Scores';
+import { Message } from '../../components/Message';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import * as actionCreators from '../../core/modules/game';
+import styles from './Game.scss';
 
 export class Game extends Component {
-  static propTypes = {
-    actions: PropTypes.shape({
-      handleShiftLeft: PropTypes.func.isRequired,
-      handleShiftRight: PropTypes.func.isRequired,
-      handleShiftDown: PropTypes.func.isRequired,
-      handleShiftUp: PropTypes.func.isRequired,
-      handleNewGame: PropTypes.func.isRequired,
-    }),
-
-    value: PropTypes.number.isRequired,
-
-    tiles: ImmutablePropTypes.setOf(ImmutablePropTypes.map).isRequired,
-  }
-
   constructor(props) {
     super(props);
     this.keymap = {
@@ -51,34 +40,64 @@ export class Game extends Component {
   }
 
   render() {
-    const { tiles, actions } = this.props;
+    const { tiles, actions, score, topScore, gameOver } = this.props;
+
+    const message = !gameOver ? null : (<Message handleNewGame={actions.handleNewGame} />);
+
     return (
-      <div>
-        <h1>2048</h1>
-        <p>
+      <div className={styles.Game}>
+        <div className={styles.header}>
+          <h1 className={styles.title}>2048</h1>
+          <Scores {...{ score, topScore }} />
+        </div>
+        <div className={styles.description}>
+          <p>Join the tiles to get a <b>2048 tile!</b></p>
           <button
-            className="new-game"
+            className={styles.newGame}
             onClick={actions.handleNewGame}
           >
             New Game
           </button>
-        </p>
-        <Grid />
+        </div>
+        <div className={styles.container}>
+          <Grid />
 
-        <Tiles tiles={tiles} />
+          <Tiles tiles={tiles} />
+
+          {message}
+        </div>
 
       </div>
     );
   }
 }
+Game.propTypes = {
+  actions: PropTypes.shape({
+    handleShiftLeft: PropTypes.func.isRequired,
+    handleShiftRight: PropTypes.func.isRequired,
+    handleShiftDown: PropTypes.func.isRequired,
+    handleShiftUp: PropTypes.func.isRequired,
+    handleNewGame: PropTypes.func.isRequired,
+  }),
 
+  tiles: ImmutablePropTypes.setOf(ImmutablePropTypes.map).isRequired,
+
+  score: PropTypes.number.isRequired,
+
+  topScore: PropTypes.number.isRequired,
+
+  gameOver: PropTypes.bool.isRequired,
+};
 export default connect(mapStateToProps, mapDispatchToProps)(Game);
 
 function mapStateToProps(state) {
+  const gameMeta = state.getIn(['game', 'meta']);
   return { // :off
-    value: state.get('value', 0),
     tiles: state.getIn(['game', 'state']).toTileSet(),
     isLoading: state.get('isLoading'),
+    score: gameMeta.get('score', 0),
+    topScore: gameMeta.get('topScore', 0),
+    gameOver: gameMeta.get('gameOver'),
   }; // :on
 }
 

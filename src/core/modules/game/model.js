@@ -1,5 +1,5 @@
 import { List } from 'immutable';
-import { transpose, shift } from './utils';
+import { transpose, shift, tileNeighbors } from './utils';
 import { INITIAL_STATE, GAME_WON_TILE } from '../../constants';
 
 export function shiftLeft(gameState = List()) {
@@ -77,15 +77,29 @@ export function updateMeta(game) {
         Math.max(topScore, gameMeta.get('score'))
       ))
     ))
-    .update(_game => _game.setIn(['meta', 'gameWon'], gameIsOver(_game)));
+    .update(_game => _game.setIn(['meta', 'gameWon'], gameIsWon(_game.get('state'))))
+    .update(_game => _game.setIn(['meta', 'gameOver'], gameIsOver(_game.get('state'))));
 
-  function gameIsOver(_game) {
-    const largestTile = _game.get('state')
-                             .tileValues()
-                             .reduce((left, right) => (
-                               right ? Math.max(left, right) : left
-                             ), 0);
+  function gameIsWon(gameState) {
+    const largestTile = gameState.tileValues()
+                                 .reduce((left, right) => (
+                                   right ? Math.max(left, right) : left
+                                 ), 0);
     return largestTile >= GAME_WON_TILE;
+  }
+
+  function gameIsOver(gameState) {
+    if (gameState.getEmptyTiles().size) {return false;}
+
+    for (const [cell, down, right] of tileNeighbors(gameState.size)) {
+      const cellValue = gameState.getIn([...cell, 'value']);
+
+      if (cellValue === gameState.getIn([...down, 'value'])) {return false;}
+
+      if (cellValue === gameState.getIn([...right, 'value'])) {return false;}
+    }
+
+    return true;
   }
 
   function sumPoints(left, right) {
