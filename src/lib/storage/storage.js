@@ -3,7 +3,7 @@ import { storageProvider } from './provider';
 export const storage = {
   async get(key) {
     try {
-      return JSON.parse(await storageProvider.getItem(key) || {});
+      return JSON.parse(await storageProvider.getItem(key) || '{}');
     }
     catch (error) {
       console.error('unknown error', error);
