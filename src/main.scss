@@ -1,7 +1,6 @@
-@import "../../variables.scss";
+@import "./variables.scss";
 
 :global {
-  @import "../../../node_modules/normalize.css/normalize.css";
   html {
     color:       #222222;
     font-weight: 100;
@@ -71,7 +70,7 @@
    * ========================================================================== */
 
   //noinspection CssInvalidPseudoSelector
-  :global(.browserupgrade) {
+  .browserupgrade {
     margin:     0.2em 0;
     background: #cccccc;
     color:      #000000;

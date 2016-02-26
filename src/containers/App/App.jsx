@@ -1,7 +1,6 @@
 import React, { PropTypes } from 'react';
 import { Provider } from 'react-redux';
 import DocumentTitle from 'react-document-title';
-import './App.scss';
 import { titlePrefix } from '../../config';
 import Game from '../Game';
 

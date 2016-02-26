@@ -7,6 +7,7 @@ const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const NPMInstallPlugin = require('npm-install-webpack-plugin');
 const HTMLPlugin = require('html-webpack-plugin');
 const chalk = require('chalk');
+const _ = require('lodash');
 
 // ===========================================================================
 // CONSTANTS
@@ -119,6 +120,7 @@ function getEntry(env) {
   switch (env) {
     case DEVELOPMENT:
       entry.main.push('babel-polyfill');
+      entry.main.push('normalize.css');
       entry.main.push('webpack-hot-middleware/client?http://localhost:3000');
       entry.main.push('webpack/hot/only-dev-server'); // TODO ??
       entry.main.push(PATHS.src('index.jsx'));
@@ -126,6 +128,7 @@ function getEntry(env) {
 
     case PRODUCTION:
       entry.main.push('babel-polyfill');
+      entry.main.push('normalize.css');
       entry.main.push(PATHS.src('index.jsx'));
       entry.vendor = Object.keys(require('./package.json').dependencies);
       break;
@@ -187,7 +190,6 @@ function getLoaders(env) {
     loader: 'babel',
     query: {
       cacheDirectory: true,
-      presets: [],
     },
   }; // :on
   const loaders = [
@@ -275,7 +277,8 @@ function getLoaders(env) {
           + '?sourceMap',
         ],
       }); // :on
-      JS_LOADER.query.presets.push('react-hmre');
+      JS_LOADER.loader = 'react-hot!babel?cacheDirectory';
+      delete JS_LOADER.query;
       break;
 
     case TEST:
@@ -400,7 +403,8 @@ function getEnv(target) {
  * @returns {void}
  */
 function log(description, data) {
-  console.error(chalk.bold.white.bgBlue(` ${description}: %s `), data);
+  const message = _.padEnd(` ${_.padEnd(`${description}:`, 8)} ${data} `, process.stdout.columns);
+  console.error(chalk.bold.white.bgBlue(message));
 }
 
 /**
