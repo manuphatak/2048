@@ -1,6 +1,5 @@
 /* eslint prefer-rest-params:0, default-case:0, no-console: 0 func-names:0 */
 /* jscs:disable requireCamelCaseOrUpperCaseIdentifiers */
-require('babel-register');
 require('babel-polyfill');
 const webpack = require('webpack');
 const path = require('path');
@@ -31,9 +30,9 @@ const TEST = 'test';
 
 const TARGET = process.env.npm_lifecycle_event;
 const ENV = getEnv(TARGET);
-const DEBUG = !process.argv.includes('release') && TARGET !== 'stats';
+const DEBUG = !process.argv.includes('release');
 const VERBOSE = process.argv.includes('verbose');
-const WATCH = global.watch || process.argv.includes('watch') || process.argv.includes('--auto-watch');
+const WATCH = global.watch || process.argv.includes('--auto-watch');
 
 // ===========================================================================
 // NOTIFY
@@ -96,6 +95,7 @@ module.exports = {
     chunkModules: VERBOSE,
     cached: VERBOSE,
     cachedAssets: VERBOSE,
+    children: VERBOSE,
   },
 
   postcss(bundler) {
@@ -333,14 +333,14 @@ function getPlugins(env) {
 
   switch (env) {
     case PRODUCTION:
+      plugins.push(new webpack.optimize.UglifyJsPlugin({
+        compress: { warnings: false },
+      }));
       plugins.push(new ExtractTextPlugin(DEBUG ? 'main.css?[chunkhash]' : 'main.[chunkhash].css'));
       plugins.push(new webpack.optimize.CommonsChunkPlugin({
         names: ['vendor', 'manifest'],
       }));
       plugins.push(new webpack.optimize.DedupePlugin());
-      plugins.push(new webpack.optimize.UglifyJsPlugin({
-        compress: { warnings: false },
-      }));
       break;
 
     case DEVELOPMENT:
@@ -352,8 +352,10 @@ function getPlugins(env) {
     case TEST:
       plugins.push(new NPMInstallPlugin({ save: true }));
       break;
-
   }
+
+  plugins.push(new webpack.PrefetchPlugin('lodash/merge'));
+
   return plugins;
 }
 
