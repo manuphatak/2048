@@ -16,6 +16,7 @@ const PATHS = { // :off
   src: unipath('src'),
   build: unipath('build'),
   modules: unipath('node_modules'),
+  static: unipath('static'),
   base: unipath('.'),
 }; // :on
 const LOADER_INCLUDES = [PATHS.src(), PATHS.base('tests.webpack.js')];
@@ -308,6 +309,7 @@ function getPlugins(env) {
       inject: false,
       template: PATHS.modules('html-webpack-template', 'index.ejs'),
       appMountId: 'app',
+      favicon: PATHS.static('favicon.ico'),
       minify: DEBUG ? false : {
         removeComments: true,
         collapseWhitespace: true,
