@@ -6,7 +6,8 @@ export const storage = {
       return JSON.parse(await storageProvider.getItem(key) || '{}');
     }
     catch (error) {
-      console.error('unknown error', error);
+      // TODO handle this
+      console.error('unknown error', error); // eslint-disable-line no-console
       return {};
     }
   },

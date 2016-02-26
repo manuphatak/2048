@@ -2,7 +2,8 @@ import React, { PropTypes } from 'react';
 import { Provider } from 'react-redux';
 import DocumentTitle from 'react-document-title';
 import { titlePrefix } from '../../config';
-import Game from '../Game';
+
+import { Layout } from '../../components/Layout';
 
 export function App({ store, title }) {
   return (
@@ -10,7 +11,7 @@ export function App({ store, title }) {
 
       <DocumentTitle title={title || titlePrefix}>
 
-        <Game />
+        <Layout />
 
       </DocumentTitle>
 

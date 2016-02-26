@@ -1,0 +1,25 @@
+@mixin clear-after {
+  &:after {
+    content: "";
+    display: block;
+    clear:   both;
+  }
+}
+.container {
+  width:  500px;
+  margin: 0 auto;
+}
+
+.description {
+  @include clear-after;
+
+  color:     #776e65;
+  font-size: 18px;
+  > p {
+    line-height:   42px;
+    margin-bottom: 0;
+    float:         left;
+  }
+
+  button { float: right; }
+}

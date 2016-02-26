@@ -1,5 +1,6 @@
 @import "./variables.scss";
 
+//noinspection CssInvalidPseudoSelector
 :global {
   html {
     color:       #222222;
@@ -9,14 +10,9 @@
     line-height: 1.375; /* ~22px */
   }
 
-  ::-moz-selection {
-    background:  #b3d4fc;
-    text-shadow: none;
-  }
-
-  ::selection {
-    background:  #b3d4fc;
-    text-shadow: none;
+  @include selection {
+    background-color: #b3d4fc;
+    text-shadow:      none;
   }
 
   /*
