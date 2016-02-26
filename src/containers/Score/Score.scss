@@ -1,9 +1,9 @@
-.container {
+.Score {
   float:      right;
   text-align: right;
 }
 
-.currentScore, .topScore {
+.score, .topScore {
   position:         relative;
   display:          inline-block;
   background-color: #bbada0;
@@ -30,7 +30,7 @@
   }
 }
 
-.currentScore {
+.score {
   margin-right: 8px;
   &:after {
     content: 'Score';

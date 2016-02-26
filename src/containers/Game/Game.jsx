@@ -8,7 +8,7 @@ import styles from './Game.scss';
 
 export function Game({ tiles }) {
   return (
-    <div className={styles.container}>
+    <div className={styles.Game}>
       <Grid />
 
       <Tiles tiles={tiles} />

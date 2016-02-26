@@ -1,10 +1,11 @@
-import React, { PropTypes } from 'react';
+import React from 'react';
+import ImmutablePropTypes from 'react-immutable-proptypes';
 import { Tile } from '../Tile';
 import styles from './Tiles.scss';
 
 export function Tiles({ tiles }) {
   return (
-    <div className={styles.container}>
+    <div className={styles.Tiles}>
       {tiles.map(tile => (
         <Tile
           tile={tile.toObject()}
@@ -16,5 +17,5 @@ export function Tiles({ tiles }) {
 }
 
 Tiles.propTypes = {
-  tiles: PropTypes.any, // TODO real props
+  tiles: ImmutablePropTypes.setOf(ImmutablePropTypes.map).isRequired,
 };

@@ -128,7 +128,7 @@ function getEntry(env) {
 
     case PRODUCTION:
       entry.main.push('babel-polyfill');
-      entry.main.push('normalize.css');
+      entry.main.push('css!normalize.css');
       entry.main.push(PATHS.src('index.jsx'));
       entry.vendor = Object.keys(require('./package.json').dependencies);
       break;

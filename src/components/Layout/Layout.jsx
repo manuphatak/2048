@@ -1,13 +1,13 @@
 import React from 'react';
-import { Title } from '../Title';
-import { Description } from '../Description';
 import Game from '../../containers/Game';
 import KeyboardControls from '../../containers/KeyboardControls';
 import styles from './Layout.scss';
+import Score from '../../containers/Score';
+import NewGameButton from '../../containers/NewGameButton';
 
 export function Layout() {
   return (
-    <div className={styles.container}>
+    <div className={styles.Layout}>
 
       <Title />
 
@@ -20,3 +20,27 @@ export function Layout() {
     </div>
   );
 }
+
+export function Title() {
+  return (
+    <div className={styles.Title}>
+      <h1>2048</h1>
+      <div className={styles.scores}>
+        <Score name="score" />
+
+        <Score name="topScore" />
+      </div>
+    </div>
+  );
+}
+
+export function Description() {
+  return (
+    <div className={styles.Description}>
+      <p>Join the tiles to get a <b>2048 tile!</b></p>
+
+      <NewGameButton>New Game</NewGameButton>
+    </div>
+  );
+}
+

@@ -31,7 +31,7 @@ function renderGameOver() {
 
 function renderGameWon() {
   return (
-    <div className={styles.container}>
+    <div className={styles.Message}>
       <h1>Game Won!</h1>
       <div className={styles.lower}>
         <NewGameButton>Try Again</NewGameButton>

@@ -5,14 +5,14 @@
     clear:   both;
   }
 }
-.container {
+
+.Layout {
   width:  500px;
   margin: 0 auto;
 }
 
-.description {
+.Description {
   @include clear-after;
-
   color:     #776e65;
   font-size: 18px;
   > p {
@@ -22,4 +22,21 @@
   }
 
   button { float: right; }
+}
+
+.Title {
+  @include clear-after;
+
+  > h1 {
+    font-size:   80px;
+    font-weight: bold;
+    margin:      0;
+    display:     block;
+    float:       left;
+  }
+
+  .scores {
+    float:      right;
+    text-align: right;
+  }
 }

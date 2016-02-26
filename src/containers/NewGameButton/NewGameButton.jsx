@@ -7,7 +7,7 @@ import * as actionCreators from '../../core/modules/game';
 export function NewGameButton({ handleNewGame, children }) {
   return (
     <button
-      className={styles.newGame}
+      className={styles.NewGameButton}
       onClick={handleNewGame}
     >
       {children}

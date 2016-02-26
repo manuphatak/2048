@@ -1,27 +1,26 @@
 import React, { PropTypes } from 'react';
-import styles from './Scores.scss';
+import styles from './Score.scss';
 import { connect } from 'react-redux';
 
-export function Scores({ score, topScore }) {
+export function Score(props) {
+  const { name } = props;
+
   return (
-    <div className={styles.container}>
-      <div className={styles.currentScore}>
-        {score}
-      </div>
-      <div className={styles.topScore}>
-        {topScore}
-      </div>
+    <div className={styles[name]}>
+      {props[name]}
     </div>
   );
 }
 
-Scores.propTypes = {
+Score.propTypes = {
   score: PropTypes.number.isRequired,
 
   topScore: PropTypes.number.isRequired,
+
+  name: PropTypes.string.isRequired,
 };
 
-export default connect(mapStateToProps)(Scores);
+export default connect(mapStateToProps)(Score);
 
 function mapStateToProps(state) {
   const gameMeta = state.getIn(['game', 'meta']);
