@@ -32,58 +32,59 @@
 }
 
 .value-2 {
-  @include inner-color($color-text-secondary-dark);
   @include inner-font-size(65px);
-  background-color: $md-blue-100;
-}
-
-.value-4 {
   @include inner-color($color-text-primary);
-  @include inner-font-size(65px);
   background-color: $md-blue-300;
 }
 
-.value-8 {
-  @include inner-color($color-text-primary);
+.value-4 {
   @include inner-font-size(65px);
+  @include inner-color($color-text-primary);
   background-color: $md-blue-500;
 }
 
-.value-16 {
-  @include inner-font-size(55px);
-  background-color: $md-blue-700;
-}
-
-.value-32 {
-  @include inner-font-size(55px);
+.value-8 {
+  @include inner-font-size(65px);
   @include inner-color($color-text-primary);
   background-color: $md-orange-400;
 }
 
-.value-64 {
+.value-16 {
   @include inner-font-size(55px);
   background-color: $md-orange-600;
 }
 
+.value-32 {
+  @include inner-font-size(55px);
+  background-color: $md-orange-800;
+}
+
+.value-64 {
+  @include inner-font-size(55px);
+  @include inner-color($color-text-primary);
+  background-color: $md-purple-400;
+}
+
 .value-128 {
   @include inner-font-size(45px);
-  background-color: $md-orange-800;
+  background-color: $md-purple-600;
 }
 
 .value-256 {
   @include inner-font-size(45px);
-  @include inner-color($color-text-primary);
-  background-color: $md-deep-purple-500;
+  background-color: $md-purple-800;
 }
 
 .value-512 {
   @include inner-font-size(45px);
-  background-color: $md-deep-purple-700;
+  @include inner-color($color-text-primary);
+  background-color: $md-light-green-500;
 }
 
 .value-1024 {
   @include inner-font-size(35px);
-  background-color: $md-deep-purple-900;
+  @include inner-color($color-text-primary);
+  background-color: $md-light-green-500;
 }
 
 .value-2048 {
@@ -92,12 +93,8 @@
   background-color: $md-pink-500;
 }
 
-.value-4096 {
-  @include inner-font-size(35px);
-  background-color: $md-pink-700;
-}
-
 .value-super {
   @include inner-font-size(30px);
-  background-color: $md-pink-900;
+  @include inner-color($color-text-primary);
+  background-color: $md-lime-500;
 }
