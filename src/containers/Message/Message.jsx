@@ -20,11 +20,9 @@ Message.propTypes = { // :off
 
 function renderGameOver() {
   return (
-    <div className={styles.container}>
+    <div className={styles.Message}>
       <h1>Game Over!</h1>
-      <div className={styles.lower}>
-        <NewGameButton>Try Again</NewGameButton>
-      </div>
+      <NewGameButton>Try Again</NewGameButton>
     </div>
   );
 }
@@ -33,9 +31,7 @@ function renderGameWon() {
   return (
     <div className={styles.Message}>
       <h1>Game Won!</h1>
-      <div className={styles.lower}>
-        <NewGameButton>Try Again</NewGameButton>
-      </div>
+      <NewGameButton>Play Again</NewGameButton>
     </div>
   );
 }
