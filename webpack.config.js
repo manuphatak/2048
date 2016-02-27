@@ -360,6 +360,10 @@ function getPlugins(env) {
   }
 
   plugins.push(new webpack.PrefetchPlugin('lodash/merge'));
+  plugins.push(new webpack.PrefetchPlugin('lodash/range'));
+  plugins.push(new webpack.PrefetchPlugin('./src/components/Layout/Layout.jsx'));
+  plugins.push(new webpack.PrefetchPlugin('./src/containers/Game/Game.jsx'));
+  plugins.push(new webpack.PrefetchPlugin('./src/core/middleware/middleware.js'));
 
   return plugins;
 }

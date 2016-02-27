@@ -3,6 +3,7 @@
     "start": "node start.js",
     "build": "babel-node build.js",
     "build:serve": "npm run build serve",
+    "build:serve:release": "npm run build:serve release",
     "build:release": "npm run build release",
     "test": "karma start",
     "test:watch": "npm run test --  --auto-watch --no-single-run",
