@@ -164,6 +164,8 @@ function runWebpack(webpackConfig) {
   // terminal width
   const WIDTH = process.stdout.columns - 11;
   const barTemplate = ':message → :bar :elapseds';
+  let _percentage = 0;
+  let _message = '';
 
   // create a ProgressBar object handle
   const progress = new ProgressBar(barTemplate, { // :off
@@ -179,10 +181,16 @@ function runWebpack(webpackConfig) {
     // subscribe to webpack progress
     bundler.apply(new ProgressPlugin(updateProgress));
 
+    // hackery
+    // resend last status to update clock.
+    const intervalHandle = setInterval(tickStatus, 100);
+
     // run the build;
     bundler.run((error, stats) => {
       // use progress callback to resolve promise
       progress.callback = () => error ? reject(error) : resolve(stats);
+
+      clearInterval(intervalHandle);
 
       // complete progress bar
       updateProgress(1, 'Complete');
@@ -198,6 +206,15 @@ function runWebpack(webpackConfig) {
    */
   function updateProgress(percentage, message) {
     progress.width = WIDTH - message.length;
+    _percentage = percentage;
+    _message = message;
     progress.update(percentage, { message });
+  }
+
+  /**
+   * Resend last update to keep the clock ticking on large chunks.
+   */
+  function tickStatus() {
+    progress.update(_percentage, { _message });
   }
 }
