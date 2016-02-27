@@ -7,10 +7,10 @@ export const INITIAL_STATE = fromJS({
 
   game: {
     state: [ // :off
-          [U, U, U, U],
-          [U, U, U, U],
-          [U, U, U, U],
-          [U, U, U, U],
+      [U, U, U, U],
+      [U, U, U, U],
+      [U, U, U, U],
+      [U, U, U, U],
     ], // :on
 
     meta: {

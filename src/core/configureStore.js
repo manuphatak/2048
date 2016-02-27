@@ -2,7 +2,9 @@ import { createStore, compose, applyMiddleware } from 'redux';
 import _ from 'lodash';
 import { reducer } from './modules';
 import { INITIAL_STATE } from './constants';
+import { DEBUG_GAME_OVER, DEBUG_GAME_WON } from './constants.dev';
 import { middleware } from './middleware';
+import { setState } from './modules/root';
 
 /**
  * Create a redux store for the running environment.
@@ -16,6 +18,22 @@ export function configureStore(initialState = INITIAL_STATE) {
     module.hot.accept('./modules', () => {
       store.replaceReducer(require('./modules').reducer);
     });
+  }
+
+  if (__DEV__) {
+    /**
+     * Debug function, set state to an impending game loss.
+     * */
+    window.gameOver = function gameOver() {
+      store.dispatch(setState(DEBUG_GAME_OVER));
+    };
+
+    /**
+     * Same, but for a game won and a 4096 tile.
+     * */
+    window.gameWon = function gameWon() {
+      store.dispatch(setState(DEBUG_GAME_WON));
+    };
   }
 
   return store;
