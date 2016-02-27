@@ -84,7 +84,7 @@
 .value-1024 {
   @include inner-font-size(35px);
   @include inner-color($color-text-primary);
-  background-color: $md-light-green-500;
+  background-color: $md-green-500;
 }
 
 .value-2048 {
