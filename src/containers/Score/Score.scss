@@ -1,44 +1,41 @@
+@import "../../variables.scss";
+
+@mixin score-children {
+  margin:          0;
+  justify-content: center;
+  text-align:      center;
+}
+
 .Score {
-  float:      right;
-  text-align: right;
-}
+  @include md-shadow(2);
+  padding: 8px 16px;
+  flex-flow:        column nowrap;
+  justify-content:  center;
+  align-content:    space-around;
+  background-color: $color-primary-lighter;
 
-.score, .topScore {
-  position:         relative;
-  display:          inline-block;
-  background-color: #bbada0;
-  padding:          15px 25px;
-  font-size:        25px;
-  height:           25px;
-  line-height:      47px;
-  font-weight:      bold;
-  border-radius:    3px;
-  color:            #ffffff;
-  margin-top:       8px;
-  text-align:       center;
+  .title, .value {
+    margin:          0;
+    justify-content: center;
+    text-align:      center;
+  }
 
-  &:after {
-    position:       absolute;
-    width:          100%;
-    top:            10px;
-    left:           0;
+  .title {
+    @include score-children;
+    @include font-size(13px);
+    font-weight:    500;
+    color:          $color-text-secondary;
     text-transform: uppercase;
-    font-size:      13px;
-    line-height:    13px;
-    text-align:     center;
-    color:          #eee4da;
+    margin-bottom:  4px;
   }
-}
 
-.score {
-  margin-right: 8px;
-  &:after {
-    content: 'Score';
+  .value {
+    @include score-children;
+    @include md-display-1;
+    @include font-size(25px);
   }
-}
 
-.topScore {
-  &:after {
-    content: 'Top';
+  & + .Score {
+    margin-left: 8px;
   }
 }

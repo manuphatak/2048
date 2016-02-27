@@ -51,6 +51,7 @@
     "karma-sourcemap-loader": "0.3.7",
     "karma-webpack": "1.7.0",
     "lodash": "4.5.1",
+    "material-colors": "1.0.0",
     "node-sass": "3.4.2",
     "normalize.css": "3.0.3",
     "npm-install-webpack-plugin": "2.0.2",

@@ -1,4 +1,8 @@
+@import "../../variables.scss";
+
 .Tiles {
+  @include grid-size($grid, $space);
+  padding:  8px;
   position: absolute;
   z-index:  2;
 }

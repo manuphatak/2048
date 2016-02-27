@@ -1,11 +1,8 @@
+@import "../../variables.scss";
+
 .NewGameButton {
-  background-color: #8f7a66;
-  border-radius:    3px;
-  border:           0 none;
-  padding:          0 20px;
-  text-decoration:  none;
-  color:            #f9f6f2;
-  height:           40px;
-  display:          inline-block;
-  text-align:       center;
+  @include md-button-raised-dark($color-accent);
+  text-decoration: none;
+  color:           $color-text-secondary;
+  text-align:      center;
 }

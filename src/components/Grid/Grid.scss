@@ -1,25 +1,24 @@
+@import "../../variables.scss";
+
 .Grid {
-  position: absolute;
-  z-index:  1;
+  position:        absolute;
+  z-index:         1;
+  display:         flex;
+  flex-flow:       column nowrap;
+  justify-content: space-between;
+  @include grid-size($grid, $space);
 
   .row {
-    height:        106.25px;
-    margin-bottom: 15px;
-    &:last-child {
-      margin-bottom: 0;
-    }
+    display:         flex;
+    flex-flow:       row nowrap;
+    justify-content: space-between;
+    align-items:     center;
   }
 
   .cell {
-    float:            left;
-    width:            106.25px;
-    height:           106.25px;
+    @include cell-size($dimensions, $grid, $space);
+    border-radius:    1px;
     background-color: hsla(0, 0%, 100%, 0.2);
-    border-radius:    3px;
-    margin-right:     15px;
-    &:last-child {
-      margin-right: 0;
-    }
   }
 }
 

@@ -1,22 +1,40 @@
+@import "../node_modules/material-colors/dist/colors.scss";
 @import "../node_modules/bourbon/app/assets/stylesheets/_bourbon.scss";
+
 $modular-scale-ratio: $golden;
 
 /*
  * Colors
  * ========================================================================== */
 
-$white-base: hsl(255, 255, 255);
-$gray-darker: #222222;
-$gray-dark: #404040;
-$gray: #555555;
-$gray-light: #777777;
-$gray-lighter: #eeeeee;
+$color-primary: $md-blue-500;
+$color-primary-lighter: $md-blue-300;
+$color-primary-darker: $md-blue-700;
+$color-accent: $md-orange-a400;
+$color-accent-lighter: $md-orange-a200;
+$color-accent-darker: $md-orange-a700;
+
+$color-bg-status: $md-black;
+$color-bg-app: $md-grey-900;
+$color-bg-main: #303030;
+$color-bg-card: $md-grey-800;
 
 /*
  * Typography
  * ========================================================================== */
 
-$font-family-base: 'Segoe UI', 'HelveticaNeue-Light', sans-serif;
+$font-family: 'Roboto', sans-serif;
+$color-text-primary: rgba(255, 255, 255, 1);
+$color-text-secondary: rgba(255, 255, 255, .85);
+$color-text-hint: rgba(255, 255, 255, .5);
+$color-icon: rgba(255, 255, 255, .38);
+$color-text-disabled: rgba(255, 255, 255, .3);
+
+$color-text-primary-dark: rgba(0, 0, 0, .87);
+$color-text-secondary-dark: rgba(0, 0, 0, .54);
+$color-text-hint-dark: rgba(0, 0, 0, .54);
+$color-icon-dark: rgba(0, 0, 0, .38);
+$color-text-disabled-dark: rgba(0, 0, 0, .12);
 
 /*
  * Layout
@@ -27,9 +45,205 @@ $max-content-width: 1000px;
 /*
  * Media queries breakpoints
  * ========================================================================== */
+// smart phones, iPhone, portrait 480x320 phones
+$screen-xxs-min: 320px;
 
-$screen-xs-min: 480px; /* Extra small screen / phone */
-$screen-sm-min: 768px; /* Small screen / tablet */
-$screen-md-min: 992px; /* Medium screen / desktop */
-$screen-lg-min: 1200px; /* Large screen / wide desktop */
+// portrait e-readers (Nook/Kindle), smaller tablets @ 600 or @ 640 wide.
+$screen-xs-min: 481px;
+// portrait tablets, portrait iPad, landscape e-readers, landscape 800x480 or 854x480 phones
+$screen-sm-min: 641px;
+// tablet, landscape iPad, lo-res laptops ands desktops
+$screen-md-min: 961px;
+// big landscape tablets, laptops, and desktops
+$screen-lg-min: 1025px;
+// hi-res laptops and desktops
+$screen-xl-min: 1281px;
 
+/* ==========================================================================
+ * Mixins
+ * ========================================================================== */
+
+/*
+ * Shadows
+ * ========================================================================== */
+@mixin md-shadow($depth) {
+  @if $depth == 1 {
+    box-shadow: 0 1px 3px rgba(0, 0, 0, .12), 0 1px 2px rgba(0, 0, 0, .24);
+  }
+
+  @if $depth == 2 {
+    box-shadow: 0 3px 6px rgba(0, 0, 0, .16), 0 3px 6px rgba(0, 0, 0, .23);
+  }
+
+  @if $depth == 3 {
+    box-shadow: 0 10px 20px rgba(0, 0, 0, .19), 0 6px 6px rgba(0, 0, 0, .23);
+  }
+
+  @if $depth == 4 {
+    box-shadow: 0 14px 28px rgba(0, 0, 0, .25), 0 10px 10px rgba(0, 0, 0, .22);
+  }
+
+  @if $depth == 5 {
+    box-shadow: 0 19px 38px rgba(0, 0, 0, .30), 0 15px 12px rgba(0, 0, 0, .22);
+  }
+}
+
+/*
+ * Card
+ * ========================================================================== */
+
+@mixin md-card {
+  background-color: $color-bg-card;
+  border-radius:    2px;
+  display:          block;
+  //margin:           1rem;
+}
+
+/*
+ * Buttons
+ * ========================================================================== */
+@mixin md-button {
+  height:         36px;
+  font-size:      14px;
+  border:         0 none;
+  text-align:     center;
+  font-weight:    500;
+  text-transform: uppercase;
+  @include padding(null 16px null 16px);
+}
+
+@mixin md-button-flat-dark {
+  @include md-button;
+  min-width: 88px;
+
+  &:disabled {
+    color: $color-text-disabled
+  }
+  &:focus, &:hover {
+    background-color: rgba(204, 204, 204, .15);
+  }
+  &:active {
+    background-color: rgba(204, 204, 204, .3);
+  }
+}
+
+@mixin md-button-raised-dark($color) {
+  @include md-button;
+  min-width:        88px;
+  @include md-shadow(2);
+
+  &:disabled {
+    color:            $color-text-disabled;
+    background-color: rgba(255, 255, 255, .12);
+  }
+
+  background-color: $color;
+  &:focus {
+    background-color: shade($color, 6%);
+  }
+  &:hover {
+    background-color: shade($color, 12%);
+  }
+  &:active {
+    @include md-shadow(3);
+    background-color: shade($color, 18%);
+  }
+}
+
+/*
+ * Typography
+ * ========================================================================== */
+@mixin font-size($size) {
+  font-size:   $size;
+  line-height: $size;
+}
+
+@mixin md-display-4 {
+  font-weight: 300;
+  @include font-size(112px);
+}
+
+@mixin md-display-3 {
+  font-weight: 400;
+  @include font-size(56px);
+}
+
+@mixin md-display-2 {
+  font-weight: 400;
+  @include font-size(45px);
+}
+
+@mixin md-display-1 {
+  font-weight: 400;
+  @include font-size(34px);
+}
+
+@mixin md-headline {
+  font-weight: 500;
+  @include font-size(20px);
+}
+
+@mixin md-subheading {
+  font-weight: 400;
+  @media (min-width: $screen-md-min) {
+    @include font-size(16px);
+  }
+  @media not (min-width: $screen-md-min) {
+    @include font-size(15px);
+  }
+}
+
+@mixin md-body-2 {
+  font-weight: 500;
+  @media (min-width: $screen-md-min) {
+    @include font-size(14px);
+  }
+  @media not (min-width: $screen-md-min) {
+    @include font-size(13px);
+  }
+}
+
+@mixin md-body-1 {
+  font-weight: 400;
+  @media (min-width: $screen-md-min) {
+    @include font-size(14px);
+  }
+  @media not (min-width: $screen-md-min) {
+    @include font-size(13px);
+  }
+}
+
+@mixin md-caption {
+  font-weight: 400;
+  @include font-size(12px);
+}
+
+@mixin description {
+  font-weight: 300;
+  @include font-size(18px);
+  &, > p {
+    > b, > strong {
+      font-weight: 500;
+    }
+  }
+}
+
+$grid: 500px;
+$dimensions: 4;
+
+$space: 8px;
+
+@mixin grid-size($container, $space) {
+  $size-of-spaces: $space * 2;
+  $grid-size: $container - $size-of-spaces;
+  @include size($grid-size $grid-size);
+  margin: $space;
+}
+
+@mixin cell-size($count, $container, $space) {
+  $number-of-spaces: $count + 1;
+  $size-of-spaces: $space * $number-of-spaces;
+  $container-space: $container - $size-of-spaces;
+  $tile-size: $container-space / $count;
+  @include size($tile-size $tile-size);
+}

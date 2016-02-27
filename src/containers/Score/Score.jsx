@@ -3,11 +3,10 @@ import styles from './Score.scss';
 import { connect } from 'react-redux';
 
 export function Score(props) {
-  const { name } = props;
-
   return (
-    <div className={styles[name]}>
-      {props[name]}
+    <div className={styles.Score}>
+      <p className={styles.title}>{props.children}</p>
+      <p className={styles.value}>{props[props.name]}</p>
     </div>
   );
 }
@@ -18,6 +17,8 @@ Score.propTypes = {
   topScore: PropTypes.number.isRequired,
 
   name: PropTypes.string.isRequired,
+
+  children: PropTypes.string.isRequired,
 };
 
 export default connect(mapStateToProps)(Score);

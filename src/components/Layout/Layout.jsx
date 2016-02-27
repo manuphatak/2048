@@ -26,9 +26,9 @@ export function Title() {
     <div className={styles.Title}>
       <h1>2048</h1>
       <div className={styles.scores}>
-        <Score name="score" />
+        <Score name="score">Score</Score>
 
-        <Score name="topScore" />
+        <Score name="topScore">Top</Score>
       </div>
     </div>
   );
